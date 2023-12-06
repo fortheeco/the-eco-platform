@@ -1,4 +1,4 @@
-#!C:\Users\DELL\Documents\GitHub\Fortheeco-version2\venv\Scripts\python.exe
+#!C:\Users\DELL\Documents\GitHub\the-eco-platform\venv\Scripts\python.exe
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 
