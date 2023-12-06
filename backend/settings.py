@@ -30,7 +30,7 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG", cast=bool)
 
 ALLOWED_HOSTS = [
-    "https://the-eco-platform.onrender.com"
+    'the-eco-platform.onrender.com'
 ]
 
 
