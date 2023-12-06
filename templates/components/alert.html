@@ -1,0 +1,81 @@
+<style>
+    .alert {
+        position: fixed;
+        top: 80%;
+        right: 0; /* Set the alert to the right side */
+        padding: 20px;
+        color: white;
+        border-radius: 7px;
+        width: 35%; 
+        text-align: center;
+        transition: 0.5s;
+        transform: translateY(0);
+        z-index: 1000;
+      }
+
+      .alert-success {
+        background-color: green;
+        color: white;
+    }
+    
+    .alert-danger {
+        background-color: red;
+        color: white;
+    }
+      
+    
+    .closebtn {
+      margin-left: 15px;
+      color: white;
+      font-weight: bold;
+      float: right;
+      font-size: 22px;
+      line-height: 20px;
+      cursor: pointer;
+    }
+    
+    .closebtn:hover {
+      color: black;
+    }
+
+        /* Styling for mobile devices (small screens) */
+    @media (max-width: 767px) {
+        .alert {
+            width: 100%; /* Set the maximum width to 100% on smaller screens */
+        }
+    }
+    </style>
+
+    
+        <!-- Add an ID to the alert div for easier access in JavaScript -->
+        <div class="alert" id="myAlert" style="background-color: {% if messages %}{% if 'success' in messages.tags %}red{% else %}#32d272{% endif %}{% endif %};">
+            <span class="closebtn" onclick="closeAlert();">&times;</span>
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert-dismissible">
+                        <strong>{{ message.tags }}</strong> {{ message }}
+                     
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+
+
+
+
+    
+    <script>
+    // Function to close the alert with animation
+    function closeAlert() {
+      var alert = document.getElementById("myAlert");
+      alert.style.transform = "translateY(100%)"; // Move the alert downward
+      alert.style.opacity = 0; // Fade out the alert
+      setTimeout(function() {
+        alert.style.display = "none"; // Hide the alert after the animation
+      }, 500); // Adjust the time (in milliseconds) for the animation duration
+    }
+    
+    // Automatically close the alert after 5 seconds
+    setTimeout(closeAlert, 3000); // Adjust the time (in milliseconds) for the timeout
+    </script>

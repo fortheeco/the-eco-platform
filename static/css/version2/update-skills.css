@@ -1,0 +1,97 @@
+@import url('/static/css/main.css');
+
+*{
+    margin: 0;
+    padding: 0;
+}
+.container{
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.current-container{
+    border:2px solid lightgreen;
+    padding: 20px;
+    border-radius: 10px;
+}
+.skills{
+    display: flex;
+    gap:10px;
+    padding-top: 10px;
+    flex-wrap: wrap;
+}
+
+.skill-item{
+    color: green;
+    background-color: rgb(209, 247, 209);
+    padding: 8px;
+    border-radius: 5px;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+    font-weight: 400;
+}
+
+.skill-item i{
+    cursor: pointer;
+}
+fieldset{
+    border:none;
+    display:flex;
+    flex-direction: column;
+    padding-top: 20px;
+    gap: 10px;
+
+}
+input{
+    height: 40px;
+    padding: 0px 10px;
+    border: none;
+    background-color: rgb(209, 247, 209);
+    border-radius: 5px;
+
+}
+
+.input-holder{
+    display: flex;
+    gap: 5px;
+}
+
+button{
+    background-color: green;
+    border:none;
+    padding: 10px;
+    color:white;
+    border-radius: 5px;
+}
+
+.add-skill{
+    color: white;
+}
+
+.new-skills{
+    padding: 20px 0;
+    display: flex;
+    gap: 5px;
+}
+
+.remove-added{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.remove-added svg{
+    cursor: pointer;
+}
+
+.profile-btn{
+    background-color: rgb(209, 247, 209);
+    color: green;
+}

@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&family=Montserrat:wght@600;700&family=Nunito+Sans:wght@300;400&display=swap');
+
+
+:root{
+    --primary-green: #1DB559;
+    --secondary-green: #EEFCF4;
+    --primary-blue: #2EA2CF;
+    --secondary-blue: #F1FAFE;
+    --primary-orange: #F67218;
+    --secondary-orange: #FFF3ED;
+    --dark-green: #263238;
+    --highlight-green: #F9FFFB;
+    --main-text: black;
+    --sub-text: #3D433F;
+    --default-font: 'Montserrat', sans-serif;
+    --nunito-font: 'Nunito Sans', sans-serif;
+    --inter-font: 'Inter', sans-serif;
+}
+
+body{
+    font-family: var(--nunito-font);
+}
+a{
+    text-decoration: none;
+}
+/* p{
+    margin: 0 !important;
+} *//* commented it out because it affects my work (Alani did this) */
+nav{
+    position: sticky;
+    top: 1%;
+    z-index: 999;
+}
+
+@media (max-width: 480px) {
+    nav{
+        top: 0;
+    }
+}

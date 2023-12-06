@@ -1,0 +1,174 @@
+{%load static%}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ECO - Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="{%static '/css/main.css'%}">
+    <link rel="stylesheet" href="{%static '/css/version2/form.css'%}">
+  </head>
+  <body>
+    <nav>
+        <nav-bar></nav-bar>
+    </nav>
+    {% include "components/alert.html" %}
+
+    <section class="form-content d-flex justify-content-around mt-5 align-items-center">
+        <div class="form">
+            <div class="form-wrapper">
+                <div class="form-switch">
+                    <button class="active" id="loginBtn">Log In</button>
+                    <button class="" id="signUpBtn">Sign Up</button>
+                </div>
+                <hr>
+
+                <div class="form-variables d-show" id="Login">
+                    <p class="form-switch">continue to your account using</p>
+                    <div class="options">
+                        <a href=""><img src="{%static 'assets/icons/linkedin-icon.png'%}" alt="sign in with linked-in"></a>
+                        <a href=""><img src="{%static 'assets/icons/Google-logo.png'%}" alt="sign in with google"></a>
+                        <a href=""><img src="{%static 'assets/icons/Twitter-icon.png'%}" alt=" sign in with twitter"></a>
+                    </div>
+                    <form action="{%url 'login'%}" method='post'>
+                    {% csrf_token %}
+                        <label for="Email">Email Address</label>
+                        <div class="var-input">
+                            <img src="{%static 'assets/icons/sms.png'%}" alt="">
+                            <input type="text" name="email" id="Email" placeholder="email@gmail.com" required>
+                        </div>
+
+                        <label for="Password">Password</label> <br>
+                        <div class="var-input">
+                            <img src="{%static 'assets/icons/security-safe.png'%}" alt="">
+                            <input type="password" name="password" id="pwrdHASHED" placeholder="* * * * * * *" required>
+                            <span class="password-icon">
+                                <img class="icon-img" src="{%static 'assets/icons/eye.png'%}" alt="">
+                            </span>
+                        </div>
+
+                        <span class="pswd-reveal--toggle"><i class="ri-eye-line"></i></span>
+
+                        <input type="checkbox" name="Remember" id="Remember">
+                        <label for="Remember">Remember me</label>
+
+                        <div class="submit-btn">
+                            <button type='submit'>Log In</button>
+                            <a href="">Forgot Password</a>
+                        </div>
+                    </form>
+
+                    <p>Don't have an account yet? <a href="">Register for free.</a></p>
+                </div>
+                <div class="form-variables d-none" id="Register">
+                    <h5 class="form-switch">Create an Account</h5>
+                    <div class="d-flex justify-content-around mt-5 mb-5">
+                        <button class="sign-up-options-btn" id="single-signup-btn">
+                            <div class="d-flex flex-column align-items-center">
+                                <div class="sign-up-options-icon w-50  d-flex align-self-center">
+                                    <img src="{% static '/assets/icons/user-octagon.png' %}" alt="" class="img-fluid">
+                                </div>
+                                <h6 class="m-0 color-black">INDIVIDUAL</h6>
+                                <p class="m-0 color-black">Free</p>
+                            </div>
+                        </button>
+                        <a href="{%url 'org_reg'%}" class="sign-up-options-btn" id="company-signup-btn">
+                            <div class="d-flex flex-column align-items-center">
+                                <div class="sign-up-options-icon w-50  d-flex align-self-center">
+                                    <img src="{% static 'assets/icons/fluent_organization-20-filled.png' %}" alt class="img-fluid">
+                                </div>
+                                <h6 class="m-0 color-black">ORGANIZATION</h6>
+                                <p class="m-0 color-black">19,999</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="d-flex flex-column align-items-center m-5">
+                        <p class="eco-partners-text">Organization accounts become ECO Partners</p>
+                        <a href="" class="">Learn more about Eco Partners</a>
+                    </div>
+                </div>
+
+                <div class="form-variables d-none" id="individual">
+                    <form action="{% url 'reg' %}" method='post'>
+
+                        {% csrf_token %}
+                        <label for="firstName">Full Name</label>
+                        <div class="var-input">
+                            <img src="assets/icons/profile.png" alt="">
+                            <input type="text" name="full_name" id="firstName" placeholder="John Doe" required>
+                        </div>
+                        <div class=" gender">
+                            <label for="user-gender" class="form-label">Gender</label>
+                            <div class="var-input">
+                                <div class=" ">
+                                    <img src="{% static 'assets/icons/gender.png' %}" alt="gender icon" class="img-fluid">
+                                </div>
+                                <select class="form-select form-control gender-select" name="gender" aria-label="gender"
+                                formControlName="gender" id="user-gender">
+                                    <option selected>Custom</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <label for="Email">Email Address</label>
+                        <div class="var-input">
+                            <img src="{%static 'assets/icons/sms.png'%}" alt="">
+                            <input type="text" name="email" id="Email" placeholder="Email@gmail.com" required>
+                        </div>
+
+                        <label for="Password">Password</label> <br>
+                        <div class="var-input">
+                            <img src="{%static 'assets/icons/security-safe.png'%}" alt="">
+                            <input type="password" name="password" id="pwrdHASHED" placeholder="* * * * * * *" required>
+                            <span class="password-icon">
+                                <img class="icon-img" src="{%static 'assets/icons/eye.png'%}" alt="">
+                            </span>
+                        </div>
+
+                        <p class="d-flex align-items-center m-3">Already have an account? <a href="">Login to your portal.</a></p>
+
+                        <div class="submit-btn">
+                            <button type="submit" class="testing">
+                                Create Account
+                            </button>
+                        </div>
+
+                        <!-- <div class="submit-btn">
+                            <button>Create Account</button>
+                        </div> -->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="carousel-img d-flex justify-content-center">
+            <img src="{% static 'assets\images\form-img.png' %}" alt="hero image for eco website" class="img-fluid">
+        </div>
+
+    </section>
+ 
+
+    {% comment %} <div class="modal" id="errorModal" tabindex="-1" role="dialog" >
+        <div class="modal-dialog" >
+          <div class=" alert alert-danger" role="alert">
+            <div>
+                <h5 class="modal-title">Error</h5>
+            </div>
+            <div class="modal-body">
+            <!-- Error message goes here -->
+            </div>
+        </div>
+      </div>
+    </div> {% endcomment %}
+
+    <script src="{%static 'js/modal.js'%}"></script>
+    <script src="{%static '/js/form.js'%}"></script>
+    <script type="module" src="{%static '/js/app.js'%}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+  </body>
+</html>

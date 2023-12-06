@@ -1,0 +1,203 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Profile</title>
+		<link rel="stylesheet" href="{%static 'css/version2/profile-page.css'%}" />
+		<link rel="stylesheet" href="{%static 'css/version2/edit-profile.css'%}" />
+	</head>
+	<body>
+	<nav>
+        <nav-bar></nav-bar>
+    </nav>
+	{% include "components/alert.html" %}
+		<section class="container">
+			<aside class="profile-info display-on-desktop">
+				<div class="profile--card">
+					<img
+						class="profile__img"
+						src="{{request.user.user_profile.profile_image.url}}"
+						alt="user profile image"
+					/>
+					<div class="user--info">
+						<h4 class="user__name" id="name">{{request.user.user_profile.full_name}}</h4>
+
+						<p class="user__role" id="role">community ambassador</p>
+					</div>
+					<div class="user-contact">
+						<p class="user-email" id="email">{{request.user.user_profile.email}}</p>
+						<p class="user-mobile" id="mobile">{{request.user.user_profile.phone}}</p>
+					</div>
+					<a href="{%url 'profile'%}" class="edit-profile">
+
+						<span>View profile</span>
+					</a>
+				</div>
+				<button class="ambassador-btn primary-btn">
+					<img
+						src="{%static '/assets/icons/star.svg'%}"
+						class="icon"
+						alt=""
+						aria-hidden="true"
+					/>
+					<span>Become an ambassador</span>
+				</button>
+				<div class="account-action">
+					<a href="change-pswd.html" class="change-pswd">change password</a>
+					<button type="button" class="logout-btn danger">Log Out</button>
+				</div>
+			</aside>
+			<main class="main-card">
+				<section class="profile--nav">
+					<p class="profile--nav-link">Edit Profile</p>
+				</section>
+				<section class="profile-edit--container">
+					<form action=" " method='post' enctype='multipart/form-data' class="card edit-form">
+					{% csrf_token %}
+						<label class="user-avatar--container">
+							<img
+								class="user-avatar--img img-fluid"
+								src="{{request.user.user_profile.profile_image.url}}"
+								alt="profile avatar"
+								aria-hidden="true"
+							/>
+							<span class="user-avatar">
+								<input
+									class="user-avatar--input"
+									type="file"
+									name="image"
+									accept="image/*"
+									id="fileInput"
+								/>
+								<img
+									class="user-avatar--icon"
+									src="{%static '/assets/icons/edit-no-bg.svg'%}"
+									alt=""
+								/>
+							</span>
+						</label>
+
+						<label for="Email">Email Address</label>
+						<div class="var-input">
+							<img class="input-icon icon" src="{%static 'assets/icons/sms.png'%}" alt="" />
+							<input
+								type="text"
+								name="email"
+								id="Email"
+								value="{{request.user.user_profile.email}}"
+								required
+							/>
+						</div>
+
+						<label for="fullName">Full Name</label>
+						<div class="var-input">
+							<img class="input-icon icon" src="{%static 'assets/icons/user.svg'%}" alt="" />
+							<input
+								type="text"
+								name="full_name"
+								id="fullName"
+								value="{{request.user.user_profile.full_name}}"
+								required
+							/>
+						</div>
+
+						<label for="phoneNumber">Phone Number</label> <br />
+						<div class="var-input">
+							<img class="input-icon icon" src="{%static 'assets/icons/call.png'%}" alt="" />
+							<input
+								type="tel"
+								value="{{request.user.user_profile.phone}}"
+								name="phone"
+								id="number"
+								required
+							/>
+						</div>
+						<label for="location">Location</label> <br />
+
+						<div class="var-input">
+							<img
+								class="input-icon icon"
+								src="{%static 'assets/icons/location.png'%}"
+								alt=""
+							/>
+							<input
+								type="text"
+								name="location"
+								id="location"
+								value="{{request.user.user_profile.location}}"
+								required
+							/>
+						</div>
+
+						<button type="submit" class="submit-btn primary-btn">
+							Save Changes
+						</button>
+						<button type="submit" class="submit-btn secondary-btn">
+							<a href="{%url 'edit-skills'%}">Edit Skills</a>
+						</button>
+					</form>
+
+				</section>
+			</main>
+			<aside class="sidebar display-on-desktop"></aside>
+		</section>
+		<!-- success popup modal -->
+		<div class="popup success hidden" id="profile-update-modal" role="alert">
+			<img
+				src="{%static 'assets/icons/white-checkmark.png'%}"
+				alt=""
+				aria-hidden="true"
+				class="icon popup__icon"
+			/>
+			<p class="paragraph popup__txt">
+				You have successfully updated your profile
+			</p>
+		</div>
+
+		<!-- error popup modal -->
+		<div class="popup error hidden" id="membership" role="alert">
+			<!-- <img
+				src="assets/icons/white-checkmark.png"
+				alt=""
+				aria-hidden="true"
+				class="icon popup__icon"
+			/> -->
+			<p class="paragraph popup__txt">Oops... Something went wrong!</p>
+		</div>
+
+		<!-- logout popup modal -->
+		<dialog class="modal__wrapper hidden">
+			<div class="modal" id="logout-modal" role="alert">
+				<p class="paragraph modal__txt">Are you sure you want to log out?</p>
+				<div class="modal__btn--wrapper">
+					<button class="primary-btn">Yes</button>
+					<button class="danger-btn" id="cancel-logout">No</button>
+				</div>
+			</div>
+		</dialog>
+		<script src="{%static 'js/pswd.js'%}"></script>
+		<script src="{%static 'js/upload.js'%}"></script>
+		<script type="module" src="{%static '/js/app.js'%}"></script>
+
+		<!-- TEMPLATE FOR CLREATING A POPUP -->
+		<!-- popup: basic popup styles;  success|error: type of popup  -->
+		<template>
+			<!-- popup modal -->
+			<div class="popup hidden" id="template" role="alert">
+				<!-- popup message icon -->
+				<img
+					src="assets/icons/white-checkmark.png"
+					alt=""
+					aria-hidden="true"
+					class="icon popup__icon"
+				/>
+				<!-- only change this text -->
+				<p class="paragraph popup__txt">
+					You have successfully updated your profile
+				</p>
+			</div>
+		</template>
+	</body>
+</html>

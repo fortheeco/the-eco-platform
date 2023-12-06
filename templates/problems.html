@@ -1,0 +1,348 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>ECO Problems</title>
+		<!-- <link rel="stylesheet" href="css/version2/pro-page.css" /> -->
+		<link rel="stylesheet" href="{% static 'css/version2/projects-page.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/version2/problems.css' %}" />
+		<link rel="stylesheet" href="{% static 'components/fullscreen-img/full-screen.css' %}" />
+		<script src="{% static 'components/navbar/navbar.js' %}" defer></script>
+	</head>
+	<body>
+		<nav>
+			<nav-bar></nav-bar>
+		</nav>
+		{% include "components/alert.html" %}
+		<section class="container">
+			<nav class="tab">
+				<a href="{%url 'projects' %}" role="heading" class="tab__item">projects</a>
+				<a href="{%url 'problems'%}" role="heading" class="tab__item active"
+					>problems</a
+				>
+			</nav>
+
+			<main class="main">
+				<section class="problems__wrapper">
+					<aside class="top-bar">
+						<form class="form" method='post' action=''>
+							<img
+								src="{% static 'assets/icons/search.png' %}"
+								alt="search projects"
+								class="form__search toggle-form"
+								title="Search projects"
+							/>
+							<label class="form__label hidden">
+								<span class="form__close" title="hide form">x</span>
+								<input
+									type="search"
+									placeholder="search..."
+									name="search"
+									class="form__input"
+								/>
+							</label>
+						</form>
+						<button type="button" role="link" class="toggle-sidebar">
+							top projects
+						</button>
+					</aside>
+					<form
+						class="card add-problem display-on-desktop"
+						aria-roledescription="add ECO problem form input"
+						method='post'
+						action=''
+					>
+						<select
+							name="category"
+							id="eco-cat-select"
+							class="problem-cat-select"
+							required
+						>
+							<option class="" value="eco">ECO Category</option>
+							<option class="" value="community">Community</option>
+							<option class="" value="environment">Environment</option>
+							<option class="" value="organization">Organization</option>
+						</select>
+						<textarea
+							name="description"
+							placeholder="Your ECO Problem"
+							class="new-problem-input"
+							required
+						></textarea>
+                        <div class='thumbnail-cont'>
+
+						</div>
+						<div class="add-problem-group">
+							<label class="location__label">
+								<span class="location__desc">
+									<img
+										src="{%static 'assets/icons/location.png'%}"
+										alt=""
+										aria-hidden="true"
+										class="icon"
+									/>
+									<span>location</span>
+								</span>
+								<input
+									type="text"
+									name='location'
+									autocomplete="address-level1"
+									class="location-input location"
+									required
+									placeholder="City, State"
+								/>
+							</label>
+							<div class="goal-select__wrapper">
+								<img
+									src="{%static 'assets/icons/unsdg-goals.png'%}"
+									alt=""
+									aria-hidden="true"
+									class="icon"
+								/>
+								<select
+									name="UN SDG goal"
+									id="goal-select"
+									class="goal-select"
+									required
+								>
+									<option class="goal-option" value="">
+										Select UNSDG goal
+									</option>
+								</select>
+							</div>
+
+							<div class="add-problem__upload--wrapper">
+								<label
+									class="upload-img__label"
+									aria-roledescription="Upload discriptive images for ECO problem"
+									title="Upload problem image"
+								>
+									<input
+										type="file"
+										name="Problem images"
+										id="problem-img"
+										class="upload-img__input uploader"
+										accept="image/*"
+									/>
+									<img
+										src="{%static 'assets/icons/gallery.svg'%}"
+										alt="upload image"
+										class="upload-img__avatar"
+									/>
+								</label>
+								<button type="button" class="primary-btn add-problem-btn echo">
+									EcHo
+								</button>
+							</div>
+						</div>
+					</form>
+					<!-- problem card -->
+					{% for problem in problems %}
+
+<article class="card problem-card">
+						<div class="card-header">
+							<!-- user -->
+							<p class="card-header__item card-user">
+								<img
+									src={{problem.user.user_profile.profile_image.url}}
+									alt="user avatar"
+									class="icon avatar"
+								/><span class="username">{{problem.user.user_profile.full_name}}</span>
+							</p>
+							<!-- location -->
+							<p class="card-header__item">
+								<img
+									src="{%static 'assets/icons/material-symbols_location-on.png'%}"
+									alt=""
+									aria-hidden="true"
+									class="icon location-icon"
+								/>
+								{{problem.location}}
+							</p>
+							<!-- ECO Category -->
+							<p class="card-header__item">
+								Eco Category: <span class="eco-category">{{problem.category.name}}</span>
+							</p>
+						</div>
+						<!-- card text -->
+						<a href="{%url 'problem-details' pk=problem.id%}" class="card--txt">
+                              {{problem.description}}
+						</a>
+						<!-- problem images -->
+						<section class="card__img-container">
+							<img
+								src="{{problem.img_one.url}}"
+								alt="problem description image"
+								class="card__img fullscreen-img"
+							/>
+							<img
+								src="{{problem.img_two.url}}"
+								alt="problem description image"
+								class="card__img fullscreen-img"
+							/>
+							<img
+								src="{{problem.img_three.url}}"
+								alt="problem description image"
+								class="card__img fullscreen-img"
+							/>
+						</section>
+						<div class="card__footer">
+							<p class="goal goal-tag">
+								UNSdg Goal: {{problem.goal.goal_no}}: {{problem.goal.name}}
+							</p>
+							<p class="posted-at">
+								Posted: <span class="date">{{problem.created_at}}</span>
+							</p>
+						</div>
+						<section class="card-action-group add-problem-group" role="group">
+							<!-- upvote -->
+							<div class="card__action--item">
+								<img
+									src="{%static 'assets/icons/upvote.png'%}"
+									alt="upvote"
+									class="icon upvote"
+								/>
+								<span class="upvote__count">{{problem.likes}}</span>
+							</div>
+							<!-- downvote -->
+							<div class="card__action--item">
+								<img
+									src="{%static 'assets/icons/downvote.png'%}"
+									alt="downvote"
+									class="icon downvote"
+								/>
+								<span class="downvote__count">{{problem.dislikes}}</span>
+							</div>
+							<!-- ideas -->
+							<div class="card__action--item">
+								<img
+									src="{%static 'assets/icons/ideas.png'%}"
+									alt="ideas"
+									class="icon idea"
+								/>
+								<span class="idea__count">{{problem.problem_ideas.all | length}}</span>
+							</div>
+							<!-- share -->
+							<div class="card__action--item share">
+								<img
+									src="{%static 'assets/icons/share.svg'%}"
+									alt="share"
+									class="icon share-icon"
+								/>
+							</div>
+						</section>
+					</article>
+
+
+					{% endfor %}
+				</section>
+				<aside class="sidebar">
+					<form class="search-form" role="search">
+						<img
+							src="{%static 'assets/icons/search.png'%}"
+							alt="search projects"
+							class="search-icon"
+							title="Search projects"
+						/>
+						<label class="search-form__label">
+							<input
+								type="search"
+								placeholder="Search the Eco"
+								name="search"
+								class="search-form__input"
+							/>
+						</label>
+					</form>
+					<h4 class="sidebar__heading">top projects</h4>
+					<section class="sidebar__cards--wrapper">
+						<img
+							src="assets/icons/x-lg.svg"
+							alt="close"
+							role="button"
+							class="icon hide-sidebar"
+						/>
+						<!-- CARD -->
+						<div class="sidebar__card">
+							<p class="paragraph">
+								Promoting sustainable practices in the fashion and textile
+								industry.
+							</p>
+							<p class="sidebar__card--info">
+								Posted by: <span class="card-poster">The Poster</span>
+							</p>
+						</div>
+						<!-- CARD -->
+						<div class="sidebar__card">
+							<p class="paragraph">
+								Promoting sustainable practices in the fashion and textile
+								industry.
+							</p>
+							<p class="sidebar__card--info">
+								Posted by: <span class="card-poster">The Poster</span>
+							</p>
+						</div>
+						<!-- CARD -->
+						<div class="sidebar__card">
+							<p class="paragraph">
+								Promoting sustainable practices in the fashion and textile
+								industry.
+							</p>
+							<p class="sidebar__card--info">
+								Posted by: <span class="card-poster">The Poster</span>
+							</p>
+						</div>
+						<!-- CARD -->
+						<div class="sidebar__card">
+							<p class="paragraph">
+								Promoting sustainable practices in the fashion and textile
+								industry.
+							</p>
+							<p class="sidebar__card--info">
+								Posted by: <span class="card-poster">The Poster</span>
+							</p>
+						</div>
+						<!-- CARD -->
+						<div class="sidebar__card">
+							<p class="paragraph">
+								Promoting sustainable practices in the fashion and textile
+								industry.
+							</p>
+							<p class="sidebar__card--info">
+								Posted by: <span class="card-poster">The Poster</span>
+							</p>
+						</div>
+						<!-- CARD -->
+						<div class="sidebar__card">
+							<p class="paragraph">
+								Promoting sustainable practices in the fashion and textile
+								industry.
+							</p>
+							<p class="sidebar__card--info">
+								Posted by: <span class="card-poster">The Poster</span>
+							</p>
+						</div>
+					</section>
+				</aside>
+			</main>
+		</section>
+		<footer class="footer">
+			<p class="copyright">&copy; 2023 Eco Africa. All rights reserved</p>
+		</footer>
+		<!-- template for displaying image fullscreen -->
+		<!-- [add 'fullscreen-img' to the class of all images to display fullscreen] -->
+		<template class="featured__item--template">
+			<div class="featured__item">
+				<img src="" alt="" class="featured-img" />
+			</div>
+		</template>
+
+		<script type="module" src="{% static 'js/app.js' %}"></script>
+		<script src="{% static 'js/problems.js' %}" type="module"></script>
+		<script src="{% static 'js/post-problem.js' %}" type="module"></script>
+		<script src="{% static 'js/projects-page.js' %}"></script>
+		<script src="{% static 'components/fullscreen-img/fullscreen-img.js' %}"></script>
+	</body>
+</html>

@@ -1,0 +1,279 @@
+body{
+    height: 100vh;
+    background-image: url("/assets/images/bg-noise.png");
+}
+button{
+    border: 0;
+    background: transparent;
+    outline: none;
+}
+.skills{
+    list-style-type: none;
+    background-color: var(--primary-green);
+    padding: 0.5rem ;
+    border-radius: 0.5rem;
+    color: white;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.form {
+    width: 35%;
+    border-radius: 0.8rem;
+    background-color: #f9fffb;
+    border-top: 4px solid #32d272;
+    box-shadow: -19px 376px 150px rgba(0, 0, 0, 0.01),
+        -10px 211px 127px rgba(0, 0, 0, 0.03), -5px 94px 94px rgba(0, 0, 0, 0.04),
+        -1px 23px 52px rgba(0, 0, 0, 0.05), 0px 0px 0px rgba(0, 0, 0, 0.05);
+}
+.carousel-img{
+    width: 35%;
+}
+
+.form-wrapper {
+    width: 100%;
+    padding: 1.5rem;
+    background-image: url("/assets/images/bg-01\ 1.png");
+    background-repeat: no-repeat;
+    background-size: 130%;
+    background-position: left center;
+}
+.form-switch {
+    width: 100% !important;
+    display: flex;
+    justify-content: center;
+    padding: 0 !important;
+}
+.form-switch button {
+    padding: 0.5rem;
+    width: 35%;
+    background-color: #e8fbee;
+    border-radius: 0.5rem;
+    margin: 0.5rem 0;
+    border: 0;
+}
+.form-switch .active {
+    background-color: #32d272;
+    transition: background-color 1.5s;
+}
+.options {
+    display: flex;
+    width: 100% !important;
+    justify-content: space-around;
+    margin: 1rem 0;
+
+}
+.options img {
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+    background-color: white;
+    border: 1px solid #32d272;
+}  
+.form-variables {
+    width: 100% !important;
+    position: relative;
+}
+.form-variables form {
+    margin: 1.5rem 0;
+}
+.form-variables a {
+    color: #32d272;
+    font-size: 0.9rem;
+}
+.pswd-reveal--toggle {
+    position: absolute;
+    right: 2%;
+    transform: translateY(-40px);
+    cursor: pointer;
+    padding: 2px;
+}
+
+.var-input {
+display: flex;
+width: 100%;
+background-color: #e8fbee;
+border-radius: 0.8rem;
+padding: 0.6rem;
+margin-bottom: 0.5rem;
+justify-content: space-between;
+border: 0;
+}
+.var-input input {
+    border: 0;
+    background: transparent;
+    width: 85%;
+    margin-left: 0.5rem;
+    outline: none;
+    flex-grow: 1;
+}
+    
+.var-input:focus {
+    outline: none;
+    background-color: #e8fbee;
+    border-color: none; /* Set border color to default */
+    box-shadow: none; /* Remove box-shadow */
+}
+.form-select{
+    border: 0;
+}
+.gender-select{
+    background-color: transparent; 
+}
+.form-select:focus{
+    border: 0;
+    outline: none;
+    border-color: transparent;
+    background-color: transparent;
+    box-shadow: none;
+}
+option{
+    background-color: #e8fbee;
+    font-family: var(--nunito-font);
+}
+.submit-btn {
+width: 40%;
+margin: 0 auto;
+display: flex;
+flex-direction: column;
+text-align: center;
+}
+.submit-btn button {
+    border: 0;
+    padding: 0.5rem;
+    margin: 1rem 0;
+    border-radius: 0.5rem;
+    background-color: #32d272;
+    color: white;
+}
+.testing {
+    border: 0;
+    padding: 0.5rem 1rem;
+    margin: 1rem 0;
+    border-radius: 0.5rem;
+    background-color: #32d272;
+    color: white !important;
+
+}
+.d-none {
+display: none;
+}
+.d-show {
+display: block;
+}
+.sign-up-options-btn{
+    width: 35%;
+    padding: 1rem;  
+    border: 0;
+    background-color: white;
+    box-shadow: -4px 2px 16px 0px #1DB5593D;
+    border-radius: 0.3rem;
+}
+.color-black{
+    color: black !important;
+}
+.sign-up-options-btn:hover{
+    background-color: var(--highlight-green);
+}
+.password-icon{
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+.welcome-card{
+    width: 85%;
+    margin: 0 auto;
+}
+.welcome-card-wrapper{
+    background-size: 70%;
+    background-position: right center;
+}
+.user-img-lg{
+    width: 15%;
+}
+.user-img-sm{
+    width: 10%;
+}
+.user-img img{
+    border-radius: 50%;
+}
+.upload-text{
+    color: var(--sub-text);
+}
+.save-btn{
+    margin-top: 2rem;
+}
+.gender-img{
+    width: 10%;
+    margin: auto;
+}
+@media (max-width: 1000px){
+    .form{
+        width: 45%;
+    }
+    .carousel-img{
+        width: 45%;
+    }
+    .sign-up-options-btn{
+        width: 45%;
+    }
+
+    .form-variables a {
+        font-size: 0.8rem;
+      }
+    .form-variables p {
+        font-size: 0.8rem;
+    }
+    .eco-partners-text{
+        text-align: center;
+    }
+
+}
+
+@media only screen and (max-width: 770px) {
+    .carousel-img {
+      display: none !important;
+    }
+    .form {
+      width: 80% !important;
+      
+    }
+    .submit-btn button {
+        font-size: 0.8rem;
+      }
+    
+      .form-variables a {
+        font-size: 0.8rem;
+      }
+      .form-variables p {
+        font-size: 0.8rem;
+      }
+    
+  }
+  @media only screen and (max-width: 480px) {
+    .form-wrapper {
+        background-image: none !important;
+    }
+    .submit-btn button {
+      font-size: 0.8rem;
+    }
+  
+    .form-variables a {
+      font-size: 0.6rem;
+    }
+    .form-variables p {
+      font-size: 0.6rem;
+    }
+  
+    
+    .form-content {
+      margin: 1rem 0;
+    }
+  
+    .form {
+      width: 100% !important;
+      border-radius: 0;
+      background: transparent;
+      background-color: transparent;
+      border-top: 0;
+      box-shadow:none;
+    }
+  }

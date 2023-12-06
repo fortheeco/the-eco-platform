@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<title>Update Password</title>
+		<link rel="stylesheet" href="css/version2/profile-page.css" />
+		<link rel="stylesheet" href="css/version2/edit-profile.css" />
+		<script src="{%static 'js/pswd.js'%}" defer></script>
+	</head>
+
+	<body>
+		<section class="container">
+			<aside class="profile-info display-on-desktop">
+				<div class="profile--card">
+					<img
+						class="profile__img"
+						src="assets/images/avatar.png"
+						alt="user profile image"
+					/>
+					<div class="user--info">
+						<h4 class="user__name" id="name">michael thomas</h4>
+
+						<p class="user__role" id="role">community ambassador</p>
+					</div>
+					<div class="user-contact">
+						<p class="user-email" id="email">samplemail@email.com</p>
+						<p class="user-mobile" id="mobile">+234 (0) 465 9834 324</p>
+					</div>
+					<a href="edit-profile.html" class="edit-profile">
+						<img
+							src="assets/icons/edit.svg"
+							class="icon"
+							alt=""
+							aria-hidden="true"
+						/>
+						<span>edit profile</span>
+					</a>
+				</div>
+				<button class="ambassador-btn primary-btn">
+					<img
+						src="assets/icons/star.svg"
+						class="icon"
+						alt=""
+						aria-hidden="true"
+					/>
+					<span>Become an ambassador</span>
+				</button>
+				<div class="account-action">
+					<a href="change-pswd.html" class="change-pswd">change password</a>
+					<a href="#" class="logout-btn danger">Log Out</a>
+				</div>
+			</aside>
+			<main class="main-card">
+				<section class="profile--nav">
+					<p class="profile--nav-link">change password</p>
+				</section>
+				<section class="profile-edit--container">
+					<form action="" class="card edit-form">
+						<label for="oldPassword">Current Password</label> <br />
+						<div class="var-input">
+							<img
+								src="assets/icons/security-safe.png"
+								aria-hidden="true"
+								class="icon"
+								alt="security"
+							/>
+							<input
+								type="password"
+								name="oldPassword"
+								id="oldPwrdHASHED"
+								class="pwsd"
+								required
+								value="12345678"
+							/>
+
+							<span class="pswd-reveal--toggle"
+								><img
+									src="assets/icons/eye.png"
+									aria-hidden="true"
+									class="icon"
+									alt="security"
+								/>
+							</span>
+						</div>
+
+						<label for="newPassword">New Password</label> <br />
+						<div class="var-input">
+							<img
+								src="assets/icons/security-safe.png"
+								aria-hidden="true"
+								class="icon"
+								alt="security"
+							/>
+							<input
+								type="password"
+								name="newPassword"
+								id="newPwrdHASHED"
+								required
+								class="pwsd"
+								value="12345678"
+							/>
+
+							<span class="pswd-reveal--toggle"
+								><img
+									src="assets/icons/eye.png"
+									aria-hidden="true"
+									class="icon"
+									alt="security"
+							/></span>
+						</div>
+
+						<button class="submit-btn primary-btn">Save Changes</button>
+					</form>
+				</section>
+			</main>
+			<aside class="sidebar display-on-desktop"></aside>
+		</section>
+
+		<!-- logout popup modal -->
+		<dialog class="modal__wrapper hidden">
+			<div class="modal" id="logout-modal" role="alert">
+				<p class="paragraph modal__txt">Are you sure you want to log out?</p>
+				<div class="modal__btn--wrapper">
+					<button class="primary-btn">Yes</button>
+					<button class="danger-btn" id="cancel-logout">No</button>
+				</div>
+			</div>
+		</dialog>
+	</body>
+</html>
