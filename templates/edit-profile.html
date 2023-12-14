@@ -16,11 +16,15 @@
 		<section class="container">
 			<aside class="profile-info display-on-desktop">
 				<div class="profile--card">
-					<img
+                   {% if request.user.user_profile.profile_image %}
+				   		<img
+						src="{{ request.user.user_profile.profile_image.url }}"
+						alt="Profile Image"
 						class="profile__img"
-						src="{{request.user.user_profile.profile_image.url}}"
-						alt="user profile image"
 					/>
+				   {% else %}
+                       <p style="color:red;">*No image uploaded</p>
+				   {% endif %}
 					<div class="user--info">
 						<h4 class="user__name" id="name">{{request.user.user_profile.full_name}}</h4>
 
@@ -57,12 +61,15 @@
 					<form action=" " method='post' enctype='multipart/form-data' class="card edit-form">
 					{% csrf_token %}
 						<label class="user-avatar--container">
-							<img
-								class="user-avatar--img img-fluid"
-								src="{{request.user.user_profile.profile_image.url}}"
-								alt="profile avatar"
-								aria-hidden="true"
-							/>
+                   {% if request.user.user_profile.profile_image %}
+				   		<img
+						src="{{ request.user.user_profile.profile_image.url }}"
+						alt="Profile Image"
+						class="profile__img"
+					/>
+				   {% else %}
+                       <p style="color:red;">*No image uploaded</p>
+				   {% endif %}
 							<span class="user-avatar">
 								<input
 									class="user-avatar--input"

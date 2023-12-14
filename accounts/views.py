@@ -15,6 +15,8 @@ from django.contrib.auth.decorators import login_required
 from .decorators import *
 from django.contrib.auth.models import Group
 from datetime import datetime
+from django.conf import settings
+from .helper import rows
 
 # Create your views here.
 
@@ -22,6 +24,7 @@ from datetime import datetime
 # since the registration form doesnt include a username field, we generate a random username from their full name
 # with the uuid library
 def User_Registration(request):
+    print(settings.DEBUG)
     if request.user.is_authenticated:
         return redirect('profile')
     if request.method=="POST":
@@ -144,7 +147,11 @@ def Logout(request):
 @login_required(login_url='login')
 def User_Profile(request, **kwargs):
     user = request.user  # Get the current user
-    user_profile = UserProfile.objects.get(user=user)  # Get the user's profile information
+    user_profile = UserProfile.objects.filter(user=user).first()
+    # Get the user's profile information
+    if user_profile is None or user_profile.profile_image=='':
+        messages.error(request,"Update your profile")
+        return redirect('update')
     context = {
         'user_profile': user_profile,  # Pass the user profile to the template
     }
@@ -350,3 +357,19 @@ def ProjectDetails(request,pk):
     projects=Project.objects.all()
     project=Project.objects.filter(id=pk).first()
     return render(request,'project-details.html',{"projects":projects,"project":project})
+
+
+# Helper Function to automatically create the goal rows, when the need arises
+# Remove comment from function and routes path in urls.py to use
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# USE THIS FUNCTION WITH CAUTION AND STABLE INTERNET, TO AVOID DUPLICATE ROWS
+# rows is imported from the helper.py file, take a look :)
+# def AddRowsHelper(request):
+#     for row in rows:
+#         # Goal.objects.create(
+#         #     goal_no=row['number'],
+#         #     name=row['name'],
+#         #     category=Category.objects.filter(name=row['category'])[0]
+#         # )
+#         print(len(rows))
+#     return JsonResponse({'status':"success"},safe=False)

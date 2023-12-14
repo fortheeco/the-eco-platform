@@ -12,10 +12,13 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import environ
 from decouple import Config, RepositoryEnv
 import dj_database_url
 
-config = Config(RepositoryEnv(".env"))
+# new env loader, please avoid that decouple package
+env=environ.Env()
+environ.Env().read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = config("SECRET_KEY")
 
-SECRET_KEY = os.environ.get("SECRET_KEY", config("SECRET_KEY"))
+SECRET_KEY = env("SECRET_KEY")
 
 
 
@@ -34,7 +37,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", config("SECRET_KEY"))
 # SECURITY WARNING: don't run with debug turned on in production!
 
 # DEBUG = config("DEBUG", cast=bool)
-DEBUG = os.environ.get('DEBUG', 'True')=="True"
+DEBUG = env('DEBUG')=="True"
 
 ALLOWED_HOSTS = [
     'the-eco-platform.onrender.com',
@@ -92,17 +95,17 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if not DEBUG:
-    DATABASES = {
-    'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+# if not DEBUG:
+DATABASES = {
+    'default': dj_database_url.parse(env('DATABASE_URL'))
 }
-else:
- DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# else:
+#  DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
@@ -160,12 +163,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Set the email backend to SMTP (for example, using Gmail as the email service)
 # Email Settings
-EMAIL_BACKEND = config("EMAIL_BACKEND")
-EMAIL_HOST = config("EMAIL_HOST")
-EMAIL_PORT = config("EMAIL_PORT", cast=int)
-EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
-EMAIL_HOST_USER = config("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+EMAIL_BACKEND = env("EMAIL_BACKEND")
+EMAIL_HOST = env("EMAIL_HOST")
+EMAIL_PORT = env("EMAIL_PORT")
+EMAIL_USE_TLS = env("EMAIL_USE_TLS")
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 
 SITE_ID =1
 
