@@ -275,7 +275,7 @@ def DeleteSkill(request):
 
 
 
-@login_required(login_url='login')
+
 def Problems(request):
     problems=Problem.objects.all().order_by('-created_at')
     if request.method=='POST':
@@ -303,7 +303,7 @@ def Projects(request):
     projects=Project.objects.all()
     return render(request, "projects.html",{"projects":projects})
 
-@login_required(login_url='login')
+
 def AddProjects(request):
     if request.method=="POST":
         data=request.POST
@@ -373,3 +373,11 @@ def ProjectDetails(request,pk):
 #         # )
 #         print(len(rows))
 #     return JsonResponse({'status':"success"},safe=False)
+
+def get_problem_count(request):
+    problem_count = Problem.objects.count()
+    return JsonResponse({'problem_count': problem_count})
+
+def get_project_count(request):
+    project_count = Project.objects.count()
+    return JsonResponse({'project_count': project_count})

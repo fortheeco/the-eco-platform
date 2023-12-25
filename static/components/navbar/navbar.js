@@ -7,6 +7,11 @@ template.innerHTML = `
 <link rel="stylesheet" href="/static/components/navbar/navbar.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<style>
+ a{
+    text-decoration: none;
+ }
+</style>
 
 <nav class="main-nav d-flex justify-content-between align-items-center">
     <div class="right-side__nav d-flex align-items-center hidden">
@@ -20,8 +25,8 @@ template.innerHTML = `
               ECO
             </a>
             <ul class=" drop-content" >
-              <li><a class="dropdown-item" href="#">Echo Problem</a></li>
-              <li><a class="dropdown-item" href="#">Echo Project</a></li>
+              <li><a class="dropdown-item" href="accounts/user/problems">Echo Problem</a></li>
+              <li><a class="dropdown-item" href="accounts/user/projects">Echo Project</a></li>
               <li><a class="dropdown-item" href="#">Need help?</a></li>
             </ul>
             <a href="#">PAls</a>
@@ -31,8 +36,8 @@ template.innerHTML = `
     </div>
     <div class="nav-profile  justify-content-around text-align-center align-items-center">
         <div class="d-flex user-contribution d-flex align-items-center">
-          <p>Problems<span>24</span></p>
-          <p>Projects<span>24</span></p>
+        <p><a href="accounts/user/problems">Problems<span id="problemCount">24</span></a></p>
+        <p><a href="accounts/user/projects">Projects<span id="projectCount">24</span></a></p>
         </div>
         <button class="user-profile-btn d-flex align-items-center">
           <div class="user-img">
@@ -113,8 +118,8 @@ Logout</a>
                       ECO
                     </a>
                     <ul class=" drop-content-sm" >
-                      <li><a class="dropdown-item" href="#">Echo Problem</a></li>
-                      <li><a class="dropdown-item" href="#">Echo Project</a></li>
+                      <li><a class="dropdown-item" href="accounts/user/problems">Echo Problem</a></li>
+                      <li><a class="dropdown-item" href="accounts/user/projects">Echo Project</a></li>
                       <li><a class="dropdown-item" href="#">Need help?</a></li>
                     </ul>
                     <a href="#">PAls</a>
@@ -123,8 +128,8 @@ Logout</a>
                 </div>
             </div>
             <div class="d-flex user-contribution d-flex align-items-center">
-            <p>Problems<span>24</span></p>
-            <p>Projects<span>24</span></p>
+            <p><a href="accounts/user/problems">Problems<span id="problemCount">24</span></a></p>
+            <p><a href="accounts/user/projects">Projects<span id="projectCount">24</span></a></p>
           </div>
             <div class="connect w-50 toggler gap-2 skew d-flex flex-column align-items-center">
                 <a href="form.html" id="login1" class="login-btn">Log In</a>
@@ -187,6 +192,39 @@ class navBar extends HTMLElement {
         smallNav.setAttribute("data-visible", "false");
       }
     });
+
+    /// Fetch problem count
+    fetch('/get_problem_count/')
+    .then(response => response.json())
+    .then(data => {
+        const problemCountSpan = this.shadowRoot.querySelector('#problemCount');
+        const problemsLink = this.shadowRoot.querySelector('.user-contribution p:first-child a');
+
+        problemCountSpan.textContent = data.problem_count;
+
+        problemsLink.href = '/accounts/user/problems';
+        problemsLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.location.href = '/accounts/user/problems';
+        });
+    });
+
+// Fetch project count
+  fetch('/get_project_count/')
+    .then(response => response.json())
+    .then(data => {
+        const projectCountSpan = this.shadowRoot.querySelector('#projectCount');
+        const projectsLink = this.shadowRoot.querySelector('.user-contribution p:last-child a');
+
+        projectCountSpan.textContent = data.project_count;
+
+        projectsLink.href = '/accounts/user/projects';
+        projectsLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.location.href = '/accounts/user/projects';
+        });
+    });
+
   }
 }
 
