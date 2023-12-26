@@ -1,7 +1,9 @@
 const template = document.createElement("template");
 
+
 const home_url=window.location.href
 console.log(home_url);
+const is_authenticated = window.is_authenticated || false;
 
 template.innerHTML = `
 <link rel="stylesheet" href="/static/components/navbar/navbar.css">
@@ -53,20 +55,24 @@ template.innerHTML = `
             <div class="user-img">
               <img src="/static/assets/icons/avatar.png" class="img-fluid">
             </div>
-            <p class="ms-2 mt-1">Solomon Daniels</p>
+     
+            
           </div>
           <div class="profile-func">
-            <a href=${home_url.split("/")[0]}//${
-  home_url.split("/")[2]
-}/accounts/user/profile>View Profile</a>
+        ${is_authenticated ? `
+            <p class="ms-2 mt-1">Solomon Daniels</p>
+            <a href="${home_url}/accounts/user/profile">View Profile</a>
             <a href="">Settings & Privacy</a>
             <a href="">Help & Support</a>
             <a href="">Give Feedback</a>
-            <a href=${home_url.split("/")[0]}//${
-  home_url.split("/")[2]
-}/accounts/logout>
-Logout</a>
-          </div>
+            <a href="${home_url}/accounts/logout">Logout</a>
+        ` : `
+            <a href="">Settings & Privacy</a>
+            <a href="">Help & Support</a>
+            <a href="">Give Feedback</a>
+            <a href="${home_url}/accounts/login">Login</a>
+        `}
+    </div>
         </div>
 
     </div>
