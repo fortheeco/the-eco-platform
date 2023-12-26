@@ -61,16 +61,16 @@ template.innerHTML = `
           <div class="profile-func">
         ${is_authenticated ? `
             <p class="ms-2 mt-1">Solomon Daniels</p>
-            <a href="${home_url}/accounts/user/profile">View Profile</a>
+            <a href="${home_url}accounts/user/profile">View Profile</a>
             <a href="">Settings & Privacy</a>
             <a href="">Help & Support</a>
             <a href="">Give Feedback</a>
-            <a href="${home_url}/accounts/logout">Logout</a>
+            <a href="${home_url}accounts/logout">Logout</a>
         ` : `
             <a href="">Settings & Privacy</a>
             <a href="">Help & Support</a>
             <a href="">Give Feedback</a>
-            <a href="${home_url}/accounts/login">Login</a>
+            <a href="${home_url}accounts/login">Login</a>
         `}
     </div>
         </div>
