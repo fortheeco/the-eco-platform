@@ -144,8 +144,8 @@ template.innerHTML = `
                 </div>
             </div>
             <div class="d-flex user-contribution d-flex align-items-center">
-            <p><a href="accounts/user/problems">Problems<span id="problemCount">24</span></a></p>
-            <p><a href="accounts/user/projects">Projects<span id="projectCount">24</span></a></p>
+            <p><a href="/accounts/user/problems">Problems<span id="problemCounts">0</span></a></p>
+            <p><a href="/accounts/user/projects">Projects<span id="projectCounts">0</span></a></p>
           </div>
             <div class="connect w-50 toggler gap-2 skew d-flex flex-column align-items-center">
                 <a href="form.html" id="login1" class="login-btn">Log In</a>
@@ -196,8 +196,12 @@ class navBar extends HTMLElement {
     menuBtn.addEventListener("click", () => {
       const visibility = smallNav.getAttribute("data-visible");
       console.log(visibility);
+
+      
+      
       if (visibility === "false") {
         smallNav.setAttribute("data-visible", "true");
+        
       }
     });
     smMenuBtn.addEventListener("click", () => {
@@ -210,38 +214,85 @@ class navBar extends HTMLElement {
     });
 
      // Fetch problem count
-     fetch('/accounts/get_problem_count/')
-     .then(response => response.json())
-     .then(data => {
-       console.log('Problem count:', data.problem_count);
-       const problemCountSpan = this.shadowRoot.querySelector('#problemCount');
-       const problemsLink = this.shadowRoot.querySelector('.user-contribution p:first-child a');
+     // Fetch problem count
+    fetch('/accounts/get_problem_count/')
+    .then(response => response.json())
+    .then(data => {
+        const problemCountSpan = this.shadowRoot.querySelector('#problemCount');
+        const problemsLink = this.shadowRoot.querySelector('.user-contribution p:first-child a');
 
-       problemCountSpan.textContent = data.problem_count;
+        if (problemCountSpan) {
+            problemCountSpan.textContent = data.problem_count;
+        }
 
-       problemsLink.href = '/accounts/user/problems';
-       problemsLink.addEventListener('click', (event) => {
-         event.preventDefault();
-         window.location.href = '/accounts/user/problems';
-       });
-     });
+        if (problemsLink) {
+            problemsLink.href = '/accounts/user/problems';
+            problemsLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                window.location.href = '/accounts/user/problems';
+            });
+        }
+    });
 
-   // Fetch project count
-   fetch('/accounts/get_project_count/')
-     .then(response => response.json())
-     .then(data => {
-       const projectCountSpan = this.shadowRoot.querySelector('#projectCount');
-       const projectsLink = this.shadowRoot.querySelector('.user-contribution p:last-child a');
+// Fetch project count
+fetch('/accounts/get_project_count/')
+    .then(response => response.json())
+    .then(data => {
+        const projectCountSpan = this.shadowRoot.querySelector('#projectCount');
+        const projectsLink = this.shadowRoot.querySelector('.user-contribution p:last-child a');
 
-       projectCountSpan.textContent = data.project_count;
+        if (projectCountSpan) {
+            projectCountSpan.textContent = data.project_count;
+        }
 
-       projectsLink.href = '/accounts/user/projects';
-       projectsLink.addEventListener('click', (event) => {
-         event.preventDefault();
-         window.location.href = '/accounts/user/projects';
-       });
-     });
+        if (projectsLink) {
+            projectsLink.href = '/accounts/user/projects';
+            projectsLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                window.location.href = '/accounts/user/projects';
+            });
+        }
+    });
 
+    // Fetch problem count
+    fetch('/accounts/get_problem_count/')
+        .then(response => response.json())
+        .then(data => {
+            const problemCountSpans = this.shadowRoot.querySelector('#problemCounts');
+            const problemsLink = this.shadowRoot.querySelector('.user-contribution p:first-child a');
+
+            if (problemCountSpans) {
+                problemCountSpans.textContent = data.problem_count;
+            }
+
+            if (problemsLink) {
+                problemsLink.href = '/accounts/user/problems';
+                problemsLink.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    window.location.href = '/accounts/user/problems';
+                });
+            }
+        });
+
+    // Fetch project count
+    fetch('/accounts/get_project_count/')
+        .then(response => response.json())
+        .then(data => {
+            const projectCountSpans = this.shadowRoot.querySelector('#projectCounts');
+            const projectsLink = this.shadowRoot.querySelector('.user-contribution p:last-child a');
+
+            if (projectCountSpans) {
+                projectCountSpans.textContent = data.project_count;
+            }
+
+            if (projectsLink) {
+                projectsLink.href = '/accounts/user/projects';
+                projectsLink.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    window.location.href = '/accounts/user/projects';
+                });
+            }
+        });
   }
 }
 
