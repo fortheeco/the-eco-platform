@@ -2,8 +2,9 @@ const template = document.createElement("template");
 
 
 const home_url=window.location.href
-console.log(home_url);
+
 const is_authenticated = window.is_authenticated || false;
+const user = window.user || { profile_image: null, full_name: null };
 
 template.innerHTML = `
 <link rel="stylesheet" href="/static/components/navbar/navbar.css">
@@ -38,12 +39,19 @@ template.innerHTML = `
     </div>
     <div class="nav-profile  justify-content-around text-align-center align-items-center">
         <div class="d-flex user-contribution d-flex align-items-center">
-        <p><a href="accounts/user/problems">Problems<span id="problemCount">24</span></a></p>
-        <p><a href="accounts/user/projects">Projects<span id="projectCount">24</span></a></p>
+        <p><a href="/accounts/user/problems">Problems<span id="problemCount">0</span></a></p>
+        <p><a href="/accounts/user/projects">Projects<span id="projectCount">0</span></a></p>
         </div>
         <button class="user-profile-btn d-flex align-items-center">
           <div class="user-img">
-            <img src="/static/assets/icons/avatar.png" class="img-fluid">
+          ${is_authenticated ? `
+              <img src="${user.profile_image || '/static/assets/icons/avatar.png'}" width="50" height="50" style="border-radius: 50%" alt="Profile Image">
+
+              <!-- Other profile-related links here -->
+          ` : `
+             <img src="/static/assets/icons/avatar.png" class="img-fluid">
+          `}
+            
           </div>
           <div class="user-img">
             <img src="/static/assets/icons/arrow-down.png" class="img-fluid">
@@ -51,26 +59,20 @@ template.innerHTML = `
         </button>
 
         <div class=" user-content" style="">
-          <div class="profile-heading d-flex">
-            <div class="user-img">
-              <img src="/static/assets/icons/avatar.png" class="img-fluid">
-            </div>
-     
-            
-          </div>
+        
           <div class="profile-func">
         ${is_authenticated ? `
-            <p class="ms-2 mt-1">Solomon Daniels</p>
-            <a href="${home_url}accounts/user/profile">View Profile</a>
+            <p class="ms-2 mt-1">${user.full_name || 'Guest'}</p>
+            <a href="accounts/user/profile">View Profile</a>
             <a href="">Settings & Privacy</a>
             <a href="">Help & Support</a>
             <a href="">Give Feedback</a>
-            <a href="${home_url}accounts/logout">Logout</a>
+            <a href="accounts/logout">Logout</a>
         ` : `
             <a href="">Settings & Privacy</a>
             <a href="">Help & Support</a>
             <a href="">Give Feedback</a>
-            <a href="${home_url}accounts/login">Login</a>
+            <a href="accounts/login">Login</a>
         `}
     </div>
         </div>
@@ -80,7 +82,13 @@ template.innerHTML = `
     <div class="d-flex justify-content-between align-items-center">
       <button class="user-profile-btn user-profile-btn-sm user-sm d-flex align-items-center">
         <div class="user-img">
-          <img src="/static/assets/icons/avatar.png" class="img-fluid">
+          ${is_authenticated ? `
+          <img src="${user.profile_image || '/static/assets/icons/avatar.png'}" width="30" height="30" style="border-radius: 50%" alt="Profile Image">
+
+          <!-- Other profile-related links here -->
+          ` : `
+            <img src="/static/assets/icons/avatar.png" class="img-fluid">
+          `}
         </div>
         <div class="user-img">
           <img src="/static/assets/icons/arrow-down.png" class="img-fluid">
@@ -90,19 +98,21 @@ template.innerHTML = `
           <button><img src="/static/assets/icons/more.png" alt=""></button>
       </div>
       <div class=" user-content user-content-sm" style="">
-          <div class="profile-heading d-flex">
-            <div class="user-img">
-              <img src="/static/assets/icons/avatar.png" class="img-fluid">
-            </div>
-            <p class="ms-2 mt-1">Solomon Daniels</p>
-          </div>
+          
           <div class="profile-func">
-          <a href="accounts/login">View Profile</a>
-            <a href="">Settings & Privacy</a>
-            <a href="">Help & Support</a>
-            <a href="">Give Feedback</a>
-            <a href=${home_url.split("/")[0]}//${home_url.split("/")[2]}/accounts/logout>
-            Logout</a>
+              ${is_authenticated ? `
+                  <p class="ms-2 mt-1">${user.full_name || 'Guest'}</p>
+                  <a href="accounts/user/profile">View Profile</a>
+                  <a href="">Settings & Privacy</a>
+                  <a href="">Help & Support</a>
+                  <a href="">Give Feedback</a>
+                  <a href="accounts/logout">Logout</a>
+              ` : `
+                  <a href="">Settings & Privacy</a>
+                  <a href="">Help & Support</a>
+                  <a href="">Give Feedback</a>
+                  <a href="accounts/login">Login</a>
+              `}
           </div>
         </div>
     </div>
@@ -199,37 +209,38 @@ class navBar extends HTMLElement {
       }
     });
 
-    /// Fetch problem count
-    fetch('/get_problem_count/')
-    .then(response => response.json())
-    .then(data => {
-        const problemCountSpan = this.shadowRoot.querySelector('#problemCount');
-        const problemsLink = this.shadowRoot.querySelector('.user-contribution p:first-child a');
+     // Fetch problem count
+     fetch('/accounts/get_problem_count/')
+     .then(response => response.json())
+     .then(data => {
+       console.log('Problem count:', data.problem_count);
+       const problemCountSpan = this.shadowRoot.querySelector('#problemCount');
+       const problemsLink = this.shadowRoot.querySelector('.user-contribution p:first-child a');
 
-        problemCountSpan.textContent = data.problem_count;
+       problemCountSpan.textContent = data.problem_count;
 
-        problemsLink.href = '/accounts/user/problems';
-        problemsLink.addEventListener('click', (event) => {
-            event.preventDefault();
-            window.location.href = '/accounts/user/problems';
-        });
-    });
+       problemsLink.href = '/accounts/user/problems';
+       problemsLink.addEventListener('click', (event) => {
+         event.preventDefault();
+         window.location.href = '/accounts/user/problems';
+       });
+     });
 
-// Fetch project count
-  fetch('/get_project_count/')
-    .then(response => response.json())
-    .then(data => {
-        const projectCountSpan = this.shadowRoot.querySelector('#projectCount');
-        const projectsLink = this.shadowRoot.querySelector('.user-contribution p:last-child a');
+   // Fetch project count
+   fetch('/accounts/get_project_count/')
+     .then(response => response.json())
+     .then(data => {
+       const projectCountSpan = this.shadowRoot.querySelector('#projectCount');
+       const projectsLink = this.shadowRoot.querySelector('.user-contribution p:last-child a');
 
-        projectCountSpan.textContent = data.project_count;
+       projectCountSpan.textContent = data.project_count;
 
-        projectsLink.href = '/accounts/user/projects';
-        projectsLink.addEventListener('click', (event) => {
-            event.preventDefault();
-            window.location.href = '/accounts/user/projects';
-        });
-    });
+       projectsLink.href = '/accounts/user/projects';
+       projectsLink.addEventListener('click', (event) => {
+         event.preventDefault();
+         window.location.href = '/accounts/user/projects';
+       });
+     });
 
   }
 }

@@ -38,7 +38,4 @@ urlpatterns = [
     # This routers triggers the helper function to create the Goal rows automatically
     # path('helper',AddRowsHelper,name='helper')
 
-
-
-
 ]

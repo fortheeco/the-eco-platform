@@ -25,7 +25,8 @@
       <div class="hero-text w-45 d-flex justify-content-center align-items-center flex-column">
         <div class="hero-text-wrap">
           <h2><b>ECHO problems and projects in your local ECO</b></h2>
-          <button class="echo-btn"><a href="{%url 'problems'%}" style="color:white">EcHo</a></button>
+          <button class="echo-btn"><a href="{%url 'problems'%}" style="color:white">ECHO</a></button>
+        
         </div>
 
       </div>
@@ -413,13 +414,18 @@
     </section>
 
 
+
   </footer>
 
 
   </div>
   <script>
     // Set a JavaScript variable with the authenticated status
-    var is_authenticated = {{ is_authenticated|lower }};
+    var is_authenticated = {{ user.is_authenticated|lower }};
+    var user = {
+      profile_image: "{{ user.user_profile.profile_image.url }}" || null,
+      full_name: "{{ user.user_profile.full_name }}" || null
+    };
   </script>
 
   <script type="module" src="{%static 'js/app.js'%}"></script>

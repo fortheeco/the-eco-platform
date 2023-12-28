@@ -381,3 +381,7 @@ def get_problem_count(request):
 def get_project_count(request):
     project_count = Project.objects.count()
     return JsonResponse({'project_count': project_count})
+
+def home(request):
+    
+    return render(request,'index.html')
