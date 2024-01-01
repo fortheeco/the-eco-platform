@@ -67,39 +67,9 @@ const Addthumbnail = (file,e) => {
 let createUrl = document.querySelector(".add-problem").dataset.createUrl;
 let editUrl = document.querySelector(".add-problem").dataset.editUrl;
 
-// document.querySelector('.echo').addEventListener('click', async () => {
-//     if (image_arr.length < 3) {
-//         alert("Upload 3 images");
-//     } else {
-//         for (let i in image_arr) {
-//             form.append(`img${i}`, image_arr[i]);
-//         }
-//         form.append("category", category.value);
-//         form.append("goal", parseInt(goal.value));
-//         form.append("description", desc.value);
-//         form.append("location", locale.value);
-
-//         // Use the correct URL based on whether it's an edit or create scenario
-//         let url = "{% if problem %}" + editUrl + "{% else %}" + createUrl + "{% endif %}";
-
-//         let res = await fetch(url, {
-//             method: "POST",
-//             body: form,
-//             headers: {
-//                 "X-CSRFToken": csrfcookie(),
-//             },
-//         });
-
-//         if (res.status == 200) {
-//             // Redirect to the problems page after successful update or create
-//             window.location.href = createUrl;
-//         }
-//     }
-// });
-
-document.querySelector('#edit_form').addEventListener("submit", async (e)=>{e.preventDefault()
-  if (image_arr.length < 3) {
-    alert("Upload 3 images");
+document.querySelector('.echo').addEventListener('click', async () => {
+    if (image_arr.length < 3) {
+        alert("Upload 3 images");
     } else {
         for (let i in image_arr) {
             form.append(`img${i}`, image_arr[i]);
@@ -125,6 +95,48 @@ document.querySelector('#edit_form').addEventListener("submit", async (e)=>{e.pr
             window.location.href = createUrl;
         }
     }
+});
 
-})
+// document.querySelector('#edit_form').addEventListener("submit", async (e) => {
+//   e.preventDefault();
+
+//   if (image_arr.length < 3) {
+//       alert("Upload 3 images");
+//   } else {
+//       for (let i in image_arr) {
+//           form.append(`img${i}`, image_arr[i]);
+//       }
+//       form.append("category", category.value);
+//       form.append("goal", parseInt(goal.value));
+//       form.append("description", desc.value);
+//       form.append("location", locale.value);
+
+//       // Use the correct URL based on whether it's an edit or create scenario
+//       let url = "{% url 'edit_problem' problem.id %}";
+//       if (!url) {
+//           url = "{% url 'problems' %}";
+//       }
+
+//       // Remove the template tags from the constructed URL
+//       url = url.replace("{%", "").replace("%}", "");
+
+//       let res = await fetch(url, {
+//           method: "POST",
+//           body: form,
+//           headers: {
+//               "X-CSRFToken": csrfcookie(),
+//           },
+//       });
+
+//       if (res.status == 200) {
+//           // Redirect to the problems page after successful update or create
+//           window.location.href = "{% url 'problems' %}";
+//       } else {
+//           alert("Update failed. Please try again.");
+//       }
+//   }
+// });
+
+
+
 export default csrfcookie

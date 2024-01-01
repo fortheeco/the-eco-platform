@@ -289,6 +289,8 @@ def DeleteSkill(request):
 
 def Problems(request):
     problems=Problem.objects.all().order_by('-created_at')
+
+
     if request.method=='POST':
         # dictionary for text input
         _dict=request.POST
@@ -306,7 +308,7 @@ def Problems(request):
         )
         messages.success(request,"Problem Echoed")
         return JsonResponse({"mode":"success"},safe=False)
-    return render(request, "problems.html",{"problems":problems})
+    return render(request, "problems.html",{"problems":problems,})
 
 @csrf_exempt
 def edit_problem(request, problem_id):
@@ -325,6 +327,43 @@ def edit_problem(request, problem_id):
 
     return render(request, 'problems.html', {'problem': problem})
 
+
+def like_problem(request):
+    if request.method == 'POST':
+        problem_id = request.POST.get('problem_id')
+        problem = Problem.objects.get(id=problem_id)
+        user = request.user
+
+        if user in problem.liked_by.all():
+            problem.liked_by.remove(user)
+        else:
+            problem.liked_by.add(user)
+
+        # Update the likes count using the number of users who liked the problem
+        likes_count = problem.liked_by.count()
+        problem.likes = likes_count
+        print(likes_count)
+        problem.save()
+
+        return JsonResponse({"mode": "success", "likes": likes_count})
+
+def dislike_problem(request):
+    if request.method == 'POST':
+        problem_id = request.POST.get('problem_id')
+        problem = Problem.objects.get(id=problem_id)
+        user = request.user
+
+        if user in problem.disliked_by.all():
+            problem.disliked_by.remove(user)
+        else:
+            problem.disliked_by.add(user)
+
+        # Update the dislikes count using the number of users who disliked the problem
+        dislikes_count = problem.disliked_by.count()
+        problem.dislikes = dislikes_count
+        problem.save()
+
+        return JsonResponse({"mode": "success", "dislikes": dislikes_count})
 @login_required(login_url='login')
 def Projects(request):
     projects=Project.objects.all()
