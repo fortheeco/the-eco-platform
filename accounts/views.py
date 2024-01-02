@@ -383,5 +383,11 @@ def get_project_count(request):
     return JsonResponse({'project_count': project_count})
 
 def home(request):
-    
+
     return render(request,'index.html')
+
+def UpVote(request):
+    pass
+
+def DownVote(request):
+    pass

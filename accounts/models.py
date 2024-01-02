@@ -117,6 +117,8 @@ class Problem(models.Model):
     idea=models.PositiveIntegerField(default=0)
     likes = models.PositiveIntegerField(default=0)
     dislikes = models.PositiveIntegerField(default=0)
+    liked_by=models.ManyToManyField(User,blank=True,on_delete=models.CASCADE,null=True)
+    disliked_by=models.ManyToManyField(User,blank=True,on_delete=models.CASCADE,null=True)
     shares = models.PositiveIntegerField(default=0)
     def __str__(self):
         return self.user.user_profile.full_name + ' problems'
