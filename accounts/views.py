@@ -2,12 +2,17 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views.decorators.csrf import csrf_exempt
+
+from .forms import EditProblemForm
 import uuid
 from django.core.mail import send_mail
 from django.urls import reverse
 from django.contrib.sites.shortcuts import get_current_site
 from .models import *
 from django.contrib import messages
+
 from io import BytesIO
 from django.contrib.auth import authenticate,login, logout
 import json
@@ -146,15 +151,21 @@ def Logout(request):
 
 @login_required(login_url='login')
 def User_Profile(request, **kwargs):
-    user = request.user  # Get the current user
+    user = request.user
     user_profile = UserProfile.objects.filter(user=user).first()
-    # Get the user's profile information
-    if user_profile is None or user_profile.profile_image=='':
-        messages.error(request,"Update your profile")
+
+    if user_profile is None or user_profile.profile_image == '':
+        messages.error(request, "Update your profile")
         return redirect('update')
+
+    # Get problems associated with the user
+    user_problems = Problem.objects.filter(user=user)
+
     context = {
-        'user_profile': user_profile,  # Pass the user profile to the template
+        'user_profile': user_profile,
+        'user_problems': user_problems,  # Add user problems to the context
     }
+
     return render(request, 'profile.html', context)
 
 
@@ -278,6 +289,8 @@ def DeleteSkill(request):
 
 def Problems(request):
     problems=Problem.objects.all().order_by('-created_at')
+
+
     if request.method=='POST':
         # dictionary for text input
         _dict=request.POST
@@ -295,9 +308,62 @@ def Problems(request):
         )
         messages.success(request,"Problem Echoed")
         return JsonResponse({"mode":"success"},safe=False)
-    return render(request, "problems.html",{"problems":problems})
+    return render(request, "problems.html",{"problems":problems,})
+
+@csrf_exempt
+def edit_problem(request, problem_id):
+    problem = get_object_or_404(Problem, id=problem_id)
+
+    if request.method == 'POST':
+        print(request.POST)
+        problem.location = request.POST.get('location')
+        problem.category = Category.objects.get(name=request.POST.get('category'))
+        problem.description = request.POST.get('description')
+        problem.goal = Goal.objects.get(goal_no=int(request.POST.get('goal')))
+        problem.save()
+
+        messages.success(request, "Problem Updated")
+        return JsonResponse({"mode": "success"}, safe=False)
+
+    return render(request, 'problems.html', {'problem': problem})
 
 
+def like_problem(request):
+    if request.method == 'POST':
+        problem_id = request.POST.get('problem_id')
+        problem = Problem.objects.get(id=problem_id)
+        user = request.user
+
+        if user in problem.liked_by.all():
+            problem.liked_by.remove(user)
+        else:
+            problem.liked_by.add(user)
+
+        # Update the likes count using the number of users who liked the problem
+        likes_count = problem.liked_by.count()
+        problem.likes = likes_count
+        print(likes_count)
+        problem.save()
+
+        return JsonResponse({"mode": "success", "likes": likes_count})
+
+def dislike_problem(request):
+    if request.method == 'POST':
+        problem_id = request.POST.get('problem_id')
+        problem = Problem.objects.get(id=problem_id)
+        user = request.user
+
+        if user in problem.disliked_by.all():
+            problem.disliked_by.remove(user)
+        else:
+            problem.disliked_by.add(user)
+
+        # Update the dislikes count using the number of users who disliked the problem
+        dislikes_count = problem.disliked_by.count()
+        problem.dislikes = dislikes_count
+        problem.save()
+
+        return JsonResponse({"mode": "success", "dislikes": dislikes_count})
 @login_required(login_url='login')
 def Projects(request):
     projects=Project.objects.all()

@@ -115,10 +115,8 @@ class Problem(models.Model):
     location=models.CharField(max_length=100,null=True,blank=True)
     goal=models.ForeignKey(Goal,blank=True,on_delete=models.CASCADE,null=True)
     idea=models.PositiveIntegerField(default=0)
-    likes = models.PositiveIntegerField(default=0)
-    dislikes = models.PositiveIntegerField(default=0)
-    liked_by=models.ManyToManyField(User,blank=True,on_delete=models.CASCADE,null=True)
-    disliked_by=models.ManyToManyField(User,blank=True,on_delete=models.CASCADE,null=True)
+    liked_by = models.ManyToManyField(User, related_name='liked_problems', blank=True)
+    disliked_by = models.ManyToManyField(User, related_name='disliked_problems', blank=True)
     shares = models.PositiveIntegerField(default=0)
     def __str__(self):
         return self.user.user_profile.full_name + ' problems'

@@ -21,6 +21,7 @@
 						src="{{ request.user.user_profile.profile_image.url }}"
 						alt="Profile Image"
 						class="profile__img"
+						
 					/>
 				   {% else %}
                        <p style="color:red;">*No image uploaded</p>
@@ -66,6 +67,11 @@
 						src="{{ request.user.user_profile.profile_image.url }}"
 						alt="Profile Image"
 						class="profile__img"
+						width="150"
+						height="150"
+
+						style="border-radius: 50%;"
+
 					/>
 				   {% else %}
                        <p style="color:red;">*No image uploaded</p>

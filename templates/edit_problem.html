@@ -5,7 +5,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>ECO Problems</title>
+		<title>Edit Eco Problems</title>
 		<!-- <link rel="stylesheet" href="css/version2/pro-page.css" /> -->
 		<link rel="stylesheet" href="{% static 'css/version2/projects-page.css' %}" />
 		<link rel="stylesheet" href="{% static 'css/version2/problems.css' %}" />
@@ -49,93 +49,69 @@
 							top projects
 						</button>
 					</aside>
-					<form class="card add-problem display-on-desktop" method="post" id="edit_form" action="" data-create-url="{% url 'problems' %}" data-edit-url="{% if problem.id %}{% url 'edit_problem' problem.id %}{% endif %}">
-
-    
-						<select
-							name="category"
-							id="eco-cat-select"
-							class="problem-cat-select"
-							required
-						>
-							<option class="" value="eco">Select ECO Category</option>
-							<option class="" value="community">Community</option>
-							<option class="" value="environment">Environment</option>
-							<option class="" value="organization">Organization</option>
-						</select>
-						<textarea
-							name="description"
-							placeholder="Your ECO Problem"
-							class="new-problem-input"
-							required
-						></textarea>
-                        <div class='thumbnail-cont'>
-
-						</div>
-						<div class="add-problem-group">
-							<label class="location__label">
-								<span class="location__desc">
-									<img
-										src="{%static 'assets/icons/location.png'%}"
-										alt=""
-										aria-hidden="true"
-										class="icon"
-									/>
-									<span>location</span>
-								</span>
-								<input
-									type="text"
-									name='location'
-									autocomplete="address-level1"
-									class="location-input location"
-									required
-									placeholder="City, State"
-								/>
-							</label>
-							<div class="goal-select__wrapper">
-								<img
-									src="{%static 'assets/icons/unsdg-goals.png'%}"
-									alt=""
-									aria-hidden="true"
-									class="icon"
-								/>
-								<select
-									name="goal"
-									id="goal-select"
-									class="goal-select"
-									required
-								>
-									<option class="goal-option" value="">
-										Select UNSDG goal
-									</option>
-								</select>
-							</div>
-
-							<div class="add-problem__upload--wrapper">
-								<label
-									class="upload-img__label"
-									aria-roledescription="Upload discriptive images for ECO problem"
-									title="Upload problem image"
-								>
-									<input
-										type="file"
-										name="Problem images"
-										id="problem-img"
-										class="upload-img__input uploader"
-										accept="image/*"
-									/>
-									<img
-										src="{%static 'assets/icons/gallery.svg'%}"
-										alt="upload image"
-										class="upload-img__avatar"
-									/>
-								</label>
-								<button type="submit" class="primary-btn add-problem-btn echo">
-									{% if problem %}Update{% else %}EcHo{% endif %}
-								</button>
-							</div>
-						</div>
-					</form>
+					<form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <select name="category" class="problem-cat-select" required>
+                          <option class="" value="eco">Select ECO Category</option>
+                          <option class="" value="community" {% if form.instance.category == 'community' %}selected{% endif %}>Community</option>
+                          <option class="" value="environment" {% if form.instance.category == 'environment' %}selected{% endif %}>Environment</option>
+                          <option class="" value="organization" {% if form.instance.category == 'organization' %}selected{% endif %}>Organization</option>
+                        </select>
+                  
+                        <textarea name="description" placeholder="Your ECO Problem" class="new-problem-input" required>{{ form.instance.description }}</textarea>
+                  
+                        <div class='thumbnail-cont' style="height: 60px; width: 60px;">
+                          <!-- Display existing images -->
+                           {% for img_field in form.visible_fields %}
+                            {% if 'img' in img_field.name %}
+                              {% if form.instance.img_one %}
+                                <img src="{{ form.instance.img_one.url }}"  alt="Problem Image" class="thumbnail-img">
+                              {% endif %}
+                              {% if form.instance.img_two %}
+                                <img src="{{ form.instance.img_two.url }}" alt="Problem Image" class="thumbnail-img">
+                              {% endif %}
+                              {% if form.instance.img_three %}
+                                <img src="{{ form.instance.img_three.url }}" alt="Problem Image" class="thumbnail-img">
+                              {% endif %}
+                            {% endif %}
+                          {% endfor %} 
+                        </div>
+                  
+                        <div class="add-problem-group">
+                          <label class="location__label">
+                            <span class="location__desc">
+                              <img src="{% static 'assets/icons/location.png' %}" alt="" aria-hidden="true" class="icon">
+                              <span>location</span>
+                            </span>
+                            <input type="text" name='location' autocomplete="address-level1" class="location-input location" required
+                              placeholder="City, State" value="{{ form.instance.location }}">
+                          </label>
+                  
+                          <div class="goal-select__wrapper">
+                            <img src="{% static 'assets/icons/unsdg-goals.png' %}" alt="" aria-hidden="true" class="icon">
+                            <select name="goal" id="goal-select" class="goal-select" required>
+                              <option class="goal-option" value="">Select UNSDG goal</option>
+                              <!-- Display existing goal options -->
+                              {% for goal_option in form.fields.goal.choices %}
+                                <option value="{{ goal_option.0 }}" {% if goal_option.0 == form.instance.goal %}selected{% endif %}>
+                                  {{ goal_option.1 }}
+                                </option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                  
+                          <div class="add-problem__upload--wrapper">
+                            <label class="upload-img__label" aria-roledescription="Upload discriptive images for ECO problem"
+                              title="Upload problem image">
+                              <input type="file" name="img_one" class="upload-img__input uploader" accept="image/*">
+                              <img src="{% static 'assets/icons/gallery.svg' %}" alt="upload image" class="upload-img__avatar">
+                            </label>
+                           
+                            <button type="submit" class="primary-btn add-problem-btn echo">Update Problem</button>
+                          </div>
+                        </div>
+                      </form>
 					<!-- problem card -->
 					{% for problem in problems %}
 
@@ -196,25 +172,26 @@
 						</div>
 						<section class="card-action-group add-problem-group" role="group">
 							<!-- upvote -->
-							{% csrf_token %}
-							<!-- upvote -->
-							<div class="card__action--item">
-								<button class="like-btn" data-problem-id="{{ problem.id }}" style="border: none; background: none;">
-									<img src="{% static 'assets/icons/upvote.png' %}" alt="upvote" class="icon upvote" />
-								</button>
-								<span class="upvote__count" data-initial-count="{{ problem.likes }}" id="upvote-count-{{ problem.id }}">{{ problem.likes }}</span>
-							</div>
-							
-							<!-- downvote -->
-							<div class="card__action--item">
-								<button class="dislike-btn" data-problem-id="{{ problem.id }}" style="border: none; background: none;">
-									<img src="{% static 'assets/icons/downvote.png' %}" alt="downvote" class="icon downvote" />
-								</button>
-								<span class="downvote__count" data-initial-count="{{ problem.dislikes }}" id="downvote-count-{{ problem.id }}">{{ problem.dislikes }}</span>
-							</div>
-														<!-- ideas -->
 							<div class="card__action--item">
 								<img
+									src="{%static 'assets/icons/upvote.png'%}"
+									alt="upvote"
+									class="icon upvote"
+								/>
+								<span class="upvote__count">{{problem.likes}}</span>
+							</div>
+							<!-- downvote -->
+							<div class="card__action--item">
+								<img
+									src="{%static 'assets/icons/downvote.png'%}"
+									alt="downvote"
+									class="icon downvote"
+								/>
+								<span class="downvote__count">{{problem.dislikes}}</span>
+							</div>
+							<!-- ideas -->
+							<div class="card__action--item">
+								<imgA
 									src="{%static 'assets/icons/ideas.png'%}"
 									alt="ideas"
 									class="icon idea"
@@ -334,40 +311,15 @@
 				<img src="" alt="" class="featured-img" />
 			</div>
 		</template>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 		<script>
-			$(document).ready(function () {
-				// Set up CSRF token for AJAX requests
-				$.ajaxSetup({
-					beforeSend: function (xhr, settings) {
-						if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-							xhr.setRequestHeader("X-CSRFToken", $("[name=csrfmiddlewaretoken]").val());
-						}
-					},
-				});
-		
-				$(".like-btn").click(function () {
-					var problemId = $(this).data("problem-id");
-					$.post("/accounts/like/", { problem_id: problemId }, function (data) {
-						if (data.mode === "success") {
-							// Update the like count for the specific problem in the DOM
-							$("#upvote-count-" + problemId).html(data.likes);
-						}
-					});
-				});
-				
-				$(".dislike-btn").click(function () {
-					var problemId = $(this).data("problem-id");
-					$.post("/accounts/dislike/", { problem_id: problemId }, function (data) {
-						if (data.mode === "success") {
-							// Update the dislike count for the specific problem in the DOM
-							$("#downvote-count-" + problemId).html(data.dislikes);
-						}
-					});
-				});
-			});
-		</script>
+			// Set a JavaScript variable with the authenticated status
+			var is_authenticated = {{ user.is_authenticated|lower }};
+			var user = {
+			  profile_image: "{{ user.user_profile.profile_image.url }}" || null,
+			  full_name: "{{ user.user_profile.full_name }}" || null
+			};
+		  </script>
 
 		<script type="module" src="{% static 'js/app.js' %}"></script>
 		<script src="{% static 'js/problems.js' %}" type="module"></script>
