@@ -286,7 +286,7 @@ def DeleteSkill(request):
 
 
 
-
+@login_required(login_url="login")
 def Problems(request):
     problems=Problem.objects.all().order_by('-created_at')
 
@@ -329,47 +329,101 @@ def edit_problem(request, problem_id):
 
 
 def like_problem(request):
-    if request.method == 'POST':
-        problem_id = request.POST.get('problem_id')
-        problem = Problem.objects.get(id=problem_id)
-        user = request.user
-
-        if user in problem.liked_by.all():
-            problem.liked_by.remove(user)
-        else:
-            problem.liked_by.add(user)
-
-        # Update the likes count using the number of users who liked the problem
-        likes_count = problem.liked_by.count()
-        problem.likes = likes_count
-        print(likes_count)
+    id=int(request.GET['id'])
+    print(
+        'i love stephanie dossur'
+    )
+    problem=Problem.objects.get(id=id)
+    likes_queryset=problem.liked_by.all()
+    dislike_queryset=problem.disliked_by.all()
+    user=request.user
+    if user in dislike_queryset:
+        problem.disliked_by.remove(user)
+        problem.liked_by.add(user)
         problem.save()
+    elif user in likes_queryset:
+        pass
+    elif not user in likes_queryset:
+        problem.liked_by.add(user)
+        problem.save()
+    else:
+        pass
+    likes_count=len(problem.liked_by.all())
+    dislikes_count=len(problem.disliked_by.all())
+    # Basically the dislike is just an inversion of what ive just done, i go leave the idea first because
+    # i need to go house now
+    return JsonResponse({"status":"success","likes":likes_count,"dislikes":dislikes_count},safe=False)
 
-        return JsonResponse({"mode": "success", "likes": likes_count})
+    # if request.method == 'POST':
+    #     problem_id = request.POST.get('problem_id')
+    #     # we need to parse the problem_id to an integer, it comes as a string
+    #     problem = Problem.objects.get(id=problem_id)
+    #     user = request.user
+    #     # we actually de reason the same way boss hahahahahah
+    #     if user in problem.liked_by.all():
+    #         # no need to remove the user again na or make we de undo the like action?
+    #         # we suppose get toggle action on the frontend to de like and unlike
+    #         # but for now if the user don ready like the post, let's do nothing
+    #         problem.liked_by.remove(user)
+    #     else:
+    #         problem.liked_by.add(user)
+
+    #     # Update the likes count using the number of users who liked the problem
+    #     likes_count = problem.liked_by.count()
+    #     # this place is redundant boss, there is no longer a likes or dislikes attribute in the model class
+    #     # this place will return none sef, it's causing 500 error on the request
+    #     # problem.likes = likes_count
+
+    #     print(likes_count)
+    #     problem.save()
+
+    #     return JsonResponse({"mode": "success", "likes": likes_count})
 
 def dislike_problem(request):
-    if request.method == 'POST':
-        problem_id = request.POST.get('problem_id')
-        problem = Problem.objects.get(id=problem_id)
-        user = request.user
-
-        if user in problem.disliked_by.all():
-            problem.disliked_by.remove(user)
-        else:
-            problem.disliked_by.add(user)
-
-        # Update the dislikes count using the number of users who disliked the problem
-        dislikes_count = problem.disliked_by.count()
-        problem.dislikes = dislikes_count
+    id=int(request.GET['id'])
+    problem=Problem.objects.get(id=id)
+    likes_queryset=problem.liked_by.all()
+    dislike_queryset=problem.disliked_by.all()
+    user=request.user
+    if user in likes_queryset:
+        problem.liked_by.remove(user)
+        problem.disliked_by.add(user)
         problem.save()
+    elif user in dislike_queryset:
+        pass
+    elif not user in dislike_queryset:
+        problem.disliked_by.add(user)
+        problem.save()
+    else:
+        pass
+    likes_count=len(problem.liked_by.all())
+    dislikes_count=len(problem.disliked_by.all())
+    # Basically the dislike is just an inversion of what ive just done, i go leave the idea first because
+    # i need to go house now
+    return JsonResponse({"status":"success","likes":likes_count,"dislikes":dislikes_count},safe=False)
+    # if request.method == 'POST':
+    #     problem_id = request.POST.get('problem_id')
+    #     problem = Problem.objects.get(id=problem_id)
+    #     user = request.user
 
-        return JsonResponse({"mode": "success", "dislikes": dislikes_count})
+    #     if user in problem.disliked_by.all():
+    #         problem.disliked_by.remove(user)
+    #     else:
+    #         problem.disliked_by.add(user)
+
+    #     # Update the dislikes count using the number of users who disliked the problem
+    #     dislikes_count = problem.disliked_by.count()
+    #     problem.dislikes = dislikes_count
+    #     problem.save()
+
+        # return JsonResponse({"mode": "success", "dislikes": dislikes_count})
 @login_required(login_url='login')
 def Projects(request):
     projects=Project.objects.all()
     return render(request, "projects.html",{"projects":projects})
 
 
+@login_required(login_url="login")
 def AddProjects(request):
     if request.method=="POST":
         data=request.POST
@@ -419,6 +473,8 @@ def ProblemDetails(request,pk):
         return redirect('problem-details',pk=int(pk))
     return render(request,'problem-details.html',{'problem':problem,'comments':comments})
 
+
+@login_required(login_url="login")
 def ProjectDetails(request,pk):
     projects=Project.objects.all()
     project=Project.objects.filter(id=pk).first()

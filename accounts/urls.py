@@ -37,8 +37,8 @@ urlpatterns = [
     path('get_project_count/', get_project_count, name='get_project_count'),
     path('edit_problem/<int:problem_id>/', edit_problem, name='edit_problem'),
 
-    path('like/', like_problem, name='like_problem'),
-    path('dislike/', dislike_problem, name='dislike_problem'),
+    path('user/like/', like_problem, name='like_problem'),
+    path('user/dislike/', dislike_problem, name='dislike_problem'),
     # This routers triggers the helper function to create the Goal rows automatically
     # path('helper',AddRowsHelper,name='helper')
 

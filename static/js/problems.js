@@ -1,4 +1,62 @@
-import setSelectOptions from './unsdg-goals-select.js'
+import setSelectOptions from "./unsdg-goals-select.js";
+
+// Written by neon to handle the upvote and downvote
+
+// select the icons
+
+const upvote = document.querySelectorAll(".like-btn");
+let likes_count = document.querySelectorAll(".upvote__count");
+
+const downvote = document.querySelectorAll(".dislike-btn");
+let dislikes_count = document.querySelectorAll(".downvote__count");
+
+upvote.forEach((item) => {
+  item.addEventListener("click", async () => {
+    // tempted to use a query parameter here lol,
+    // used query parameters here to evade csrf wahala hahahahahahahahahah
+    let res = await fetch(`like/?id=${item.dataset.problem_id}`, {
+      method: "GET",
+    });
+    let data = await res.json();
+    likes_count.forEach((counts) => {
+
+      if (counts.id == item.dataset.problem_id) {
+        counts.textContent = data.likes;
+      }
+    });
+
+    dislikes_count.forEach((counts) => {
+      if (counts.id == item.dataset.problem_id) {
+        counts.textContent = data.dislikes;
+      }
+    });
+
+  });
+});
+
+// Dislike operation
+
+downvote.forEach((item) => {
+  item.addEventListener("click", async () => {
+    // tempted to use a query parameter here lol,
+    // used query parameters here to evade csrf wahala hahahahahahahahahah
+    let res = await fetch(`dislike/?id=${item.dataset.problem_id}`, {
+      method: "GET",
+    });
+    let data = await res.json();
+    likes_count.forEach((counts) => {
+      if (counts.id == item.dataset.problem_id) {
+        counts.textContent = data.likes;
+      }
+    });
+
+    dislikes_count.forEach((counts) => {
+      if (counts.id == item.dataset.problem_id) {
+        counts.textContent = data.dislikes;
+      }
+    });
+  });
+});
 
 // const problemCards = document.querySelectorAll('.problem-card')
 
@@ -39,41 +97,41 @@ import setSelectOptions from './unsdg-goals-select.js'
 
 // SHARE FUNC
 async function shareProblem(title) {
-	// TODO the text property should be more descriptive and formal
-	const shareData = {
-		title: title ? title : 'ECO Problem',
-		text: 'Participate on this impactful problem on ECO',
-		url: window.location.href,
-	}
+  // TODO the text property should be more descriptive and formal
+  const shareData = {
+    title: title ? title : "ECO Problem",
+    text: "Participate on this impactful problem on ECO",
+    url: window.location.href,
+  };
 
-	try {
-		await navigator.share(shareData)
-	} catch (err) {
-		// notify the user if the browser doesn't support native share
-		if (navigator.canShare == false) alert('not supported')
-		console.log(err)
-	}
+  try {
+    await navigator.share(shareData);
+  } catch (err) {
+    // notify the user if the browser doesn't support native share
+    if (navigator.canShare == false) alert("not supported");
+    console.log(err);
+  }
 }
 
 // TOP PROJECTS (SIDEBAR) LOGIC
-const showSidebar = document.querySelector('.toggle-sidebar')
-const hideSidebar = document.querySelector('.hide-sidebar')
-const sidebar = document.querySelector('.sidebar')
+const showSidebar = document.querySelector(".toggle-sidebar");
+const hideSidebar = document.querySelector(".hide-sidebar");
+const sidebar = document.querySelector(".sidebar");
 
-showSidebar.addEventListener('click', (e) => {
-	sidebar.classList.add('visible')
-})
+showSidebar.addEventListener("click", (e) => {
+  sidebar.classList.add("visible");
+});
 
-hideSidebar.addEventListener('click', (e) => {
-	sidebar.classList.remove('visible')
-})
+hideSidebar.addEventListener("click", (e) => {
+  sidebar.classList.remove("visible");
+});
 
 // set Current ECO + UNSDG Select Menu options/Category
-const categorySelect = document.getElementById('eco-cat-select')
-const selectMenu = document.getElementById('goal-select')
+const categorySelect = document.getElementById("eco-cat-select");
+const selectMenu = document.getElementById("goal-select");
 
-categorySelect.addEventListener('change', (e) => {
-	// const selectOptions = setSelectOptions(e.target.value)
+categorySelect.addEventListener("change", (e) => {
+  // const selectOptions = setSelectOptions(e.target.value)
 
-	selectMenu.innerHTML = setSelectOptions(e.target.value)
-})
+  selectMenu.innerHTML = setSelectOptions(e.target.value);
+});

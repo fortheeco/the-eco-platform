@@ -37,7 +37,8 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 
 # DEBUG = config("DEBUG", cast=bool)
-DEBUG = env('DEBUG')=="True"
+# DEBUG = env('DEBUG')=="True"
+DEBUG=True
 
 ALLOWED_HOSTS = [
     'the-eco-platform.onrender.com',

@@ -51,7 +51,7 @@
 					</aside>
 					<form class="card add-problem display-on-desktop" method="post" id="edit_form" action="" data-create-url="{% url 'problems' %}" data-edit-url="{% if problem.id %}{% url 'edit_problem' problem.id %}{% endif %}">
 
-    
+
 						<select
 							name="category"
 							id="eco-cat-select"
@@ -199,18 +199,18 @@
 							{% csrf_token %}
 							<!-- upvote -->
 							<div class="card__action--item">
-								<button class="like-btn" data-problem-id="{{ problem.id }}" style="border: none; background: none;">
+								<button class="like-btn" data-problem_id="{{ problem.id }}" style="border: none; background: none;">
 									<img src="{% static 'assets/icons/upvote.png' %}" alt="upvote" class="icon upvote" />
 								</button>
-								<span class="upvote__count" data-initial-count="{{ problem.likes }}" id="upvote-count-{{ problem.id }}">{{ problem.likes }}</span>
+								<span class="upvote__count" data-initial-count="{{0}}" id="{{ problem.id }}" >{{ problem.liked_by.all | length }}</span>
 							</div>
-							
+
 							<!-- downvote -->
 							<div class="card__action--item">
-								<button class="dislike-btn" data-problem-id="{{ problem.id }}" style="border: none; background: none;">
+								<button class="dislike-btn" data-problem_id="{{ problem.id }}" style="border: none; background: none;">
 									<img src="{% static 'assets/icons/downvote.png' %}" alt="downvote" class="icon downvote" />
 								</button>
-								<span class="downvote__count" data-initial-count="{{ problem.dislikes }}" id="downvote-count-{{ problem.id }}">{{ problem.dislikes }}</span>
+								<span class="downvote__count" data-initial-count="{{ problem.dislikes }}" data-problem_id="{{problem.id}}" id="{{ problem.id }}">{{ problem.disliked_by.all | length }}</span>
 							</div>
 														<!-- ideas -->
 							<div class="card__action--item">
@@ -335,7 +335,7 @@
 			</div>
 		</template>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+{% comment %}
 		<script>
 			$(document).ready(function () {
 				// Set up CSRF token for AJAX requests
@@ -346,7 +346,7 @@
 						}
 					},
 				});
-		
+
 				$(".like-btn").click(function () {
 					var problemId = $(this).data("problem-id");
 					$.post("/accounts/like/", { problem_id: problemId }, function (data) {
@@ -356,7 +356,7 @@
 						}
 					});
 				});
-				
+
 				$(".dislike-btn").click(function () {
 					var problemId = $(this).data("problem-id");
 					$.post("/accounts/dislike/", { problem_id: problemId }, function (data) {
@@ -367,7 +367,7 @@
 					});
 				});
 			});
-		</script>
+		</script> {% endcomment %}
 
 		<script type="module" src="{% static 'js/app.js' %}"></script>
 		<script src="{% static 'js/problems.js' %}" type="module"></script>
