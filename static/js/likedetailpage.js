@@ -1,72 +1,38 @@
-const upvote = document.querySelectorAll(".like-btn");
-let likes_count = document.querySelectorAll(".upvote__count");
+// Function to update upvote/downvote counts
+function updateCounts(data, problemId) {
+  const upvoteCounts = document.querySelector(`.upvote__count[data-problem_id="${problemId}"]`);
+  const downvoteCounts = document.querySelector(`.downvote__count[data-problem_id="${problemId}"]`);
 
-const downvote = document.querySelectorAll(".dislike-btn");
-let dislikes_count = document.querySelectorAll(".downvote__count");
+  if (upvoteCounts) {
+      upvoteCounts.textContent = data.likes;
+  }
 
-
-let response = await fetch(`like/?id=${button.dataset.problem_id}`, {
-    method: "GET",
-});
-
-if (!response.ok) {
-    console.error('Error:', response.statusText);
-} else {
-    let data;
-    try {
-        data = await response.json();
-        updateCounts(data, button.dataset.problem_id, true);
-    } catch (error) {
-        console.error('JSON Parse Error:', error);
-        console.log('Response Text:', await response.text());
-    }
+  if (downvoteCounts) {
+      downvoteCounts.textContent = data.dislikes;
+  }
 }
 
+// Upvote and Downvote operations
+const voteButtons = document.querySelectorAll(".like-btn, .dislike-btn");
 
-upvote.forEach((item) => {
-  item.addEventListener("click", async () => {
-    // tempted to use a query parameter here lol,
-    // used query parameters here to evade csrf wahala hahahahahahahahahah
-    let res = await fetch(`like/?id=${item.dataset.problem_id}`, {
-      method: "GET",
-    });
-    let data = await res.json();
-    likes_count.forEach((counts) => {
+voteButtons.forEach((button) => {
+  button.addEventListener("click", async () => {
+      const action = button.dataset.action;
+      const problemId = button.dataset.problem_id;
 
-      if (counts.id == item.dataset.problem_id) {
-        counts.textContent = data.likes;
+      try {
+          const response = await fetch(`accounts/user/problem-details/${problemId}/?action=${action}`, {
+              method: "GET",
+          });
+
+          if (!response.ok) {
+              console.error('Error:', response.statusText);
+          } else {
+              const data = await response.json();
+              updateCounts(data, problemId);
+          }
+      } catch (error) {
+          console.error('Error:', error);
       }
-    });
-
-    dislikes_count.forEach((counts) => {
-      if (counts.id == item.dataset.problem_id) {
-        counts.textContent = data.dislikes;
-      }
-    });
-
-  });
-});
-
-// Dislike operation
-
-downvote.forEach((item) => {
-  item.addEventListener("click", async () => {
-    // tempted to use a query parameter here lol,
-    // used query parameters here to evade csrf wahala hahahahahahahahahah
-    let res = await fetch(`dislike/?id=${item.dataset.problem_id}`, {
-      method: "GET",
-    });
-    let data = await res.json();
-    likes_count.forEach((counts) => {
-      if (counts.id == item.dataset.problem_id) {
-        counts.textContent = data.likes;
-      }
-    });
-
-    dislikes_count.forEach((counts) => {
-      if (counts.id == item.dataset.problem_id) {
-        counts.textContent = data.dislikes;
-      }
-    });
   });
 });

@@ -111,19 +111,24 @@
 								{% csrf_token %}
 								<!-- upvote -->
 								<div class="card__action--item">
-									<button class="like-btn" data-problem_id="{{ problem.id }}" style="border: none; background: none;">
+									<button class="like-btn" data-problem_id="{{ problem.id }}" data-action="like" style="border: none; background: none;">
 										<img src="{% static 'assets/icons/upvote.png' %}" alt="upvote" class="icon upvote" />
 									</button>
-									<span class="upvote__count" data-initial-count="{{ problem.likes }}" data-problem_id="{{ problem.id }}">{{ problem.liked_by.all | length }}</span>
+									<span class="upvote__count" data-problem_id="{{ problem.id }}">
+										{{ problem.liked_by.count }}
+									</span>
 								</div>
-
+								
 								<!-- downvote -->
 								<div class="card__action--item">
-									<button class="dislike-btn" data-problem_id="{{ problem.id }}" style="border: none; background: none;">
+									<button class="dislike-btn" data-problem_id="{{ problem.id }}" data-action="dislike" style="border: none; background: none;">
 										<img src="{% static 'assets/icons/downvote.png' %}" alt="downvote" class="icon downvote" />
 									</button>
-									<span class="downvote__count" data-initial-count="{{ problem.dislikes }}" data-problem_id="{{ problem.id }}">{{ problem.disliked_by.all | length }}</span>
+									<span class="downvote__count" data-problem_id="{{ problem.id }}">
+										{{ problem.disliked_by.count }}
+									</span>
 								</div>
+								
 
 															
 

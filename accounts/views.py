@@ -458,20 +458,62 @@ def AddProjects(request):
     return render(request, "add-project.html")
 
 @login_required(login_url='login')
-def ProblemDetails(request,pk):
-    problem=Problem.objects.get(id=pk)
-    comments=Comment.objects.filter(problem=problem).order_by('-created_at')
-    if request.method=="POST":
-        _data=request.POST
+def ProblemDetails(request, pk):
+    problem = Problem.objects.get(id=pk)
+    comments = Comment.objects.filter(problem=problem).order_by('-created_at')
+
+    if request.method == "POST":
+        _data = request.POST
         Comment.objects.create(
             user=request.user,
             text=_data['idea'],
             problem=problem
         )
-        messages.success(request,"Idea Added")
-        # redirect back to the problem-details page
-        return redirect('problem-details',pk=int(pk))
-    return render(request,'problem-details.html',{'problem':problem,'comments':comments})
+        messages.success(request, "Idea Added")
+        # Redirect back to the problem-details page
+        return redirect('problem-details', pk=int(pk))
+
+    # Handling likes and dislikes
+    if request.method == "GET" and 'action' in request.GET:
+        action = request.GET['action']
+        user = request.user
+
+        if action == 'like':
+            handle_like(request, user, problem)
+        elif action == 'dislike':
+            handle_dislike(request, user, problem)
+
+        # Get updated like and dislike counts
+        likes_count = problem.liked_by.count()
+        dislikes_count = problem.disliked_by.count()
+
+        return JsonResponse({"likes": likes_count, "dislikes": dislikes_count}, safe=False)
+
+    return render(request, 'problem-details.html', {'problem': problem, 'comments': comments})
+
+
+def handle_like(request, user, problem):
+    dislikes_queryset = problem.disliked_by.all()
+
+    if user in dislikes_queryset:
+        problem.disliked_by.remove(user)
+        problem.liked_by.add(user)
+        problem.save()
+    elif user not in problem.liked_by.all():
+        problem.liked_by.add(user)
+        problem.save()
+
+
+def handle_dislike(request, user, problem):
+    likes_queryset = problem.liked_by.all()
+
+    if user in likes_queryset:
+        problem.liked_by.remove(user)
+        problem.disliked_by.add(user)
+        problem.save()
+    elif user not in problem.disliked_by.all():
+        problem.disliked_by.add(user)
+        problem.save()
 
 
 @login_required(login_url="login")
