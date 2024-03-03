@@ -22,7 +22,7 @@ from django.contrib.auth.models import Group
 from datetime import datetime
 from django.conf import settings
 from .helper import rows
-
+from django.db.models import Q
 # Create your views here.
 
 # this view expects a payload of full name,gender,email and password from the request object
@@ -288,8 +288,16 @@ def DeleteSkill(request):
 
 @login_required(login_url="login")
 def Problems(request):
+
     problems=Problem.objects.all().order_by('-created_at')
 
+    if 'search' in request.GET:
+        problems=Problem.objects.filter(Q(description__icontains=request.GET['search']) )
+        if len(problems)==0:
+            messages.error(request,"No Results")
+            problems=Problem.objects.all().order_by('-created_at')
+        else:
+            messages.success(request,"Search Results")
 
     if request.method=='POST':
         # dictionary for text input
@@ -315,24 +323,18 @@ def edit_problem(request, problem_id):
     problem = get_object_or_404(Problem, id=problem_id)
 
     if request.method == 'POST':
-        print(request.POST)
         problem.location = request.POST.get('location')
         problem.category = Category.objects.get(name=request.POST.get('category'))
         problem.description = request.POST.get('description')
         problem.goal = Goal.objects.get(goal_no=int(request.POST.get('goal')))
         problem.save()
-
         messages.success(request, "Problem Updated")
         return JsonResponse({"mode": "success"}, safe=False)
-
-    return render(request, 'problems.html', {'problem': problem})
+    return render(request, 'problems.html', {'problem': problem,'edit':True})
 
 
 def like_problem(request):
     id=int(request.GET['id'])
-    print(
-        'i love stephanie dossur'
-    )
     problem=Problem.objects.get(id=id)
     likes_queryset=problem.liked_by.all()
     dislike_queryset=problem.disliked_by.all()
@@ -420,6 +422,13 @@ def dislike_problem(request):
 @login_required(login_url='login')
 def Projects(request):
     projects=Project.objects.all()
+    if 'search' in request.GET:
+        projects=Project.objects.filter(Q(description__icontains=request.GET['search']) )
+        if len(projects)==0:
+            messages.error(request,"No Results")
+            projects=Project.objects.all()
+        else:
+            messages.success(request,"Search Results")
     return render(request, "projects.html",{"projects":projects})
 
 
@@ -458,25 +467,78 @@ def AddProjects(request):
     return render(request, "add-project.html")
 
 @login_required(login_url='login')
-def ProblemDetails(request,pk):
-    problem=Problem.objects.get(id=pk)
-    comments=Comment.objects.filter(problem=problem).order_by('-created_at')
-    if request.method=="POST":
-        _data=request.POST
+def ProblemDetails(request, pk):
+    problem = Problem.objects.get(id=pk)
+    comments = Comment.objects.filter(problem=problem).order_by('-created_at')
+
+    # Handle problem like and dislike
+    # handle comment like and dislike
+
+    if request.method == "POST":
+        _data = request.POST
         Comment.objects.create(
             user=request.user,
             text=_data['idea'],
             problem=problem
         )
-        messages.success(request,"Idea Added")
-        # redirect back to the problem-details page
-        return redirect('problem-details',pk=int(pk))
-    return render(request,'problem-details.html',{'problem':problem,'comments':comments})
+        messages.success(request, "Idea Added")
+        # Redirect back to the problem-details page
+        return redirect('problem-details', pk=int(pk))
+
+    # Handling likes and dislikes
+    if request.method == "GET" and 'action' in request.GET:
+        action = request.GET['action']
+        user = request.user
+
+        if action == 'like':
+            handle_like(request, user, problem)
+        elif action == 'dislike':
+            handle_dislike(request, user, problem)
+
+        # Get updated like and dislike counts
+        likes_count = problem.liked_by.count()
+        dislikes_count = problem.disliked_by.count()
+
+        return JsonResponse({"likes": likes_count, "dislikes": dislikes_count}, safe=False)
+
+    return render(request, 'problem-details.html', {'problem': problem, 'comments': comments})
+
+# Sharp :)))
+# if you ask me sha, the different urls can all share the same view
+def handle_like(request, user, problem):
+    dislikes_queryset = problem.disliked_by.all()
+
+    if user in dislikes_queryset:
+        problem.disliked_by.remove(user)
+        problem.liked_by.add(user)
+        problem.save()
+    elif user not in problem.liked_by.all():
+        problem.liked_by.add(user)
+        problem.save()
+
+
+def handle_dislike(request, user, problem):
+    likes_queryset = problem.liked_by.all()
+
+    if user in likes_queryset:
+        problem.liked_by.remove(user)
+        problem.disliked_by.add(user)
+        problem.save()
+    elif user not in problem.disliked_by.all():
+        problem.disliked_by.add(user)
+        problem.save()
 
 
 @login_required(login_url="login")
 def ProjectDetails(request,pk):
     projects=Project.objects.all()
+    if 'search' in request.GET:
+        projects=Project.objects.filter(Q(description__icontains=request.GET['search']) )
+        if len(projects)==0:
+            messages.error(request,"No Results")
+            projects=Project.objects.all()
+        else:
+            messages.success(request,"Search Results")
     project=Project.objects.filter(id=pk).first()
     return render(request,'project-details.html',{"projects":projects,"project":project})
 
