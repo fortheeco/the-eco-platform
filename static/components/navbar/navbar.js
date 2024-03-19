@@ -6,6 +6,7 @@ const home_url=window.location.href
 const is_authenticated = window.is_authenticated || false;
 const user = window.user || { profile_image: null, full_name: null };
 
+
 template.innerHTML = `
 <link rel="stylesheet" href="/static/components/navbar/navbar.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
@@ -51,7 +52,7 @@ template.innerHTML = `
           ` : `
              <img src="/static/assets/icons/avatar.png" class="img-fluid">
           `}
-            
+
           </div>
           <div class="user-img">
             <img src="/static/assets/icons/arrow-down.png" class="img-fluid">
@@ -59,7 +60,7 @@ template.innerHTML = `
         </button>
 
         <div class=" user-content" style="">
-        
+
           <div class="profile-func">
         ${is_authenticated ? `
             <p class="ms-2 mt-1">${user.full_name || 'Guest'}</p>
@@ -98,7 +99,7 @@ template.innerHTML = `
           <button><img src="/static/assets/icons/more.png" alt=""></button>
       </div>
       <div class=" user-content user-content-sm" style="">
-          
+
           <div class="profile-func">
               ${is_authenticated ? `
                   <p class="ms-2 mt-1">${user.full_name || 'Guest'}</p>
@@ -197,11 +198,11 @@ class navBar extends HTMLElement {
       const visibility = smallNav.getAttribute("data-visible");
       console.log(visibility);
 
-      
-      
+
+
       if (visibility === "false") {
         smallNav.setAttribute("data-visible", "true");
-        
+
       }
     });
     smMenuBtn.addEventListener("click", () => {

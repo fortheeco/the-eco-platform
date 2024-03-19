@@ -67,7 +67,7 @@ button{
     border-radius: 0.3rem;
     background-color: white;
     border: 1px solid #32d272;
-}  
+}
 .form-variables {
     width: 100% !important;
     position: relative;
@@ -105,7 +105,7 @@ border: 0;
     outline: none;
     flex-grow: 1;
 }
-    
+
 .var-input:focus {
     outline: none;
     background-color: #e8fbee;
@@ -116,7 +116,7 @@ border: 0;
     border: 0;
 }
 .gender-select{
-    background-color: transparent; 
+    background-color: transparent;
 }
 .form-select:focus{
     border: 0;
@@ -147,10 +147,10 @@ text-align: center;
 .testing {
     border: 0;
     padding: 0.5rem 1rem;
-    margin: 1rem 0;
+    margin: 0rem 0;
     border-radius: 0.5rem;
     background-color: #32d272;
-    color: white !important;
+    color: white ;
 
 }
 .d-none {
@@ -161,7 +161,7 @@ display: block;
 }
 .sign-up-options-btn{
     width: 35%;
-    padding: 1rem;  
+    padding: 1rem;
     border: 0;
     background-color: white;
     box-shadow: -4px 2px 16px 0px #1DB5593D;
@@ -234,19 +234,19 @@ display: block;
     }
     .form {
       width: 80% !important;
-      
+
     }
     .submit-btn button {
         font-size: 0.8rem;
       }
-    
+
       .form-variables a {
         font-size: 0.8rem;
       }
       .form-variables p {
         font-size: 0.8rem;
       }
-    
+
   }
   @media only screen and (max-width: 480px) {
     .form-wrapper {
@@ -255,19 +255,19 @@ display: block;
     .submit-btn button {
       font-size: 0.8rem;
     }
-  
+
     .form-variables a {
       font-size: 0.6rem;
     }
     .form-variables p {
       font-size: 0.6rem;
     }
-  
-    
+
+
     .form-content {
       margin: 1rem 0;
     }
-  
+
     .form {
       width: 100% !important;
       border-radius: 0;

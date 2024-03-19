@@ -13,6 +13,7 @@
     </script>
   </head>
   <body>
+<!-- {{request.user.user_profile.to_dict|json_script:"user"}} -->
     <nav>
         <nav-bar></nav-bar>
     </nav>
@@ -68,11 +69,11 @@
 
 
                         <div class="var-input ">
-                           
+
                             <input type="text" name="bio" value="{{request.user.user_profile.bio}}" id="firstName" placeholder="Enter your location" required>
                         </div>
                 </div>
-                       <button class="testing" id="">
+                       <button class="testing" id="" style="margin:  0px auto; display: block; margin-top: 20px; ">
                         Update Profile
                     </button>
                     </form>
@@ -80,7 +81,7 @@
 
 
                 <div class="mt-3 d-flex justify-content-center">
-                    <button class="testing" id="welcomeBtn">
+                    <button class="testing" id="welcomeBtn" style="background-color: white;color: #1DB559;border: 2px solid #1DB559; padding: 5px 20px;border-radius: 10px;">
                         Next
                     </button>
                 </div>

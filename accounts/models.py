@@ -45,12 +45,17 @@ class UserProfile(models.Model):
     phone=models.CharField(default="",blank=True,null=True,max_length=300)
     bio=models.TextField(null=True,blank=True,default='')
     verification_token = models.UUIDField(default=uuid.uuid4, editable=False)
-
-
     completed = models.BooleanField(default=False)
 
     def __str__(self):
         return self.full_name  # this function was missing self parameter, so i corrected it
+# returns a dictionary to serialize in the frontend
+    def to_dict(self):
+        return{
+            "full_name":self.full_name,
+            "profile_image":self.profile_image.url,
+            "location":self.location
+        }
 
 
 
