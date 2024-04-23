@@ -1,15 +1,14 @@
+{% extends 'base.html' %}
 {%load static%}
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Profile</title>
-		<link rel="stylesheet" href="{%static 'css/version2/profile-page.css'%}" />
-		<script src="{%static 'components/navbar/navbar.js'%}" defer></script>
-		<script src="{%static 'js/profile.js'%}" defer></script>
-	</head>
-	<body>
+
+{% block header %}
+<title>Profile</title>
+<link rel="stylesheet" href="{%static 'css/version2/profile-page.css'%}" />
+<script src="{%static 'components/navbar/navbar.js'%}" defer></script>
+<script src="{%static 'js/profile.js'%}" defer></script>
+{% endblock header %}
+{% block content %}
+
 		<nav>
 			<nav-bar></nav-bar>
 		</nav>
@@ -562,5 +561,4 @@
 			</aside>
 		</main>
 		<script type="module" src="{%static '/js/app.js'%}"></script>
-	</body>
-</html>
+{% endblock content %}

@@ -1,18 +1,21 @@
-{%load static%}
+{% extends 'base.html' %}
+{% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Edit Eco Problems</title>
-		<!-- <link rel="stylesheet" href="css/version2/pro-page.css" /> -->
-		<link rel="stylesheet" href="{% static 'css/version2/projects-page.css' %}" />
-		<link rel="stylesheet" href="{% static 'css/version2/problems.css' %}" />
-		<link rel="stylesheet" href="{% static 'components/fullscreen-img/full-screen.css' %}" />
-		<script src="{% static 'components/navbar/navbar.js' %}" defer></script>
-	</head>
-	<body>
+{% block header %}
+	<link rel="stylesheet" href="css/version2/pro-page.css" />	
+    <link rel="stylesheet" href="{% static 'css/version2/projects-page.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/version2/problems.css' %}" />
+    <link rel="stylesheet" href="{% static 'components/fullscreen-img/full-screen.css' %}" />
+    <script src="{% static 'components/navbar/navbar.js' %}" defer></script>
+{% endblock header %}
+
+{% block title %}
+	Edit Eco Problems
+{% endblock title %}
+
+{% block content %}
+
+
 		<nav>
 			<nav-bar></nav-bar>
 		</nav>
@@ -326,5 +329,4 @@
 		<script src="{% static 'js/post-problem.js' %}" type="module"></script>
 		<script src="{% static 'js/projects-page.js' %}"></script>
 		<script src="{% static 'components/fullscreen-img/fullscreen-img.js' %}"></script>
-	</body>
-</html>
+{% endblock content %}

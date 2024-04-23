@@ -1,19 +1,18 @@
-
+{% extends 'base.html' %}
 {%load static%}
-<!DOCTYPE html>
-	<html lang="en">
-		<head>
-			<meta charset="UTF-8" />
-			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-			<title>ECO Problem Details</title>
-			<!-- <link rel="stylesheet" href="css/version2/pro-page.css" /> -->
-			<link rel="stylesheet" href="{%static 'css/version2/projects-page.css'%}" />
-			<link rel="stylesheet" href="{%static 'css/version2/problems.css'%}" />
-			<link rel="stylesheet" href="{%static 'css/version2/problem-details.css'%}" />
-			<link rel="stylesheet" href="{%static 'components/fullscreen-img/full-screen.css'%}" />
-			<script src="{%static 'components/navbar/navbar.js'%}" async></script>
-		</head>
-		<body>
+	<title>ECO Problem Details</title>
+	<!-- <link rel="stylesheet" href="css/version2/pro-page.css" /> -->
+	<link rel="stylesheet" href="{%static 'css/version2/projects-page.css'%}" />
+	<link rel="stylesheet" href="{%static 'css/version2/problems.css'%}" />
+	<link rel="stylesheet" href="{%static 'css/version2/problem-details.css'%}" />
+	<link rel="stylesheet" href="{%static 'components/fullscreen-img/full-screen.css'%}" />
+	<script src="{%static 'components/navbar/navbar.js'%}" async></script>
+{% block header %}
+
+{% endblock header %}
+
+{% block content %}
+
 			<nav>
 				<nav-bar></nav-bar>
 			</nav>
@@ -344,5 +343,4 @@
 			<script src="{% static 'js/likedetailpage.js' %}"></script>
 			<script src="{%static 'js/projects-page.js'%}"></script>
 			<script src="{%static 'components/fullscreen-img/fullscreen-img.js'%}"></script>
-		</body>
-	</html>
+{% endblock content %}

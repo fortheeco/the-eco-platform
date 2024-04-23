@@ -40,7 +40,7 @@ class UserProfile(models.Model):
     email = models.EmailField(max_length=500, null = True)
     gender = models.CharField(choices=gender_choice, max_length=50)
     profile_image = models.ImageField(null=True, blank=True, upload_to="profiles/")
-    location = models.CharField(null=True, blank=True, max_length=1000)
+    location = models.CharField(null=True, blank=True, max_length=1000,default='')
     skillsets = models.ManyToManyField(Skills, blank=True)
     phone=models.CharField(default="",blank=True,null=True,max_length=300)
     bio=models.TextField(null=True,blank=True,default='')

@@ -84,12 +84,14 @@ def Update_User_Profile(request):
         return redirect('login')
     elif request.method=="POST" and request.user.is_authenticated:
         user=request.user
+        print(request.FILES)
         user.user_profile.location=request.POST['location']
         user.user_profile.bio=request.POST['bio']
-        user.user_profile.profile_image=request.FILES['image']
+        if request.FILES.get('image')  !=None:
+            user.user_profile.profile_image=request.FILES['image']
         user.user_profile.save()
         messages.success(request,'Profile Details added')
-        return render(request,'individual-details.html')
+        return JsonResponse({"status":"details added"},safe=False)
 
     # this should navigate to the skill addition page
     return render(request,'individual-details.html')

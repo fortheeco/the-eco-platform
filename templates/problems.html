@@ -1,10 +1,7 @@
+{% extends 'base.html' %}
 {%load static%}
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{% block header %}
     <title>ECO Problems</title>
     <!-- <link rel="stylesheet" href="css/version2/pro-page.css" /> -->
     <link
@@ -17,8 +14,9 @@
       href="{% static 'components/fullscreen-img/full-screen.css' %}"
     />
     <script src="{% static 'components/navbar/navbar.js' %}" defer></script>
-  </head>
-  <body>
+{% endblock header %}
+
+{% block content %}
   {% comment %} toggle with a json_script {% endcomment %}
   {{ edit|json_script:"edit"}}
     <nav>
@@ -450,5 +448,4 @@
     <script src="{% static 'js/post-problem.js' %}" type="module"></script>
     <script src="{% static 'js/projects-page.js' %}"></script>
     <script src="{% static 'components/fullscreen-img/fullscreen-img.js' %}"></script>
-  </body>
-</html>
+{% endblock content %}

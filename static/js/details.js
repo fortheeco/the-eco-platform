@@ -6,12 +6,30 @@ const addSKillBtn = document.querySelector("#add-skill");
 const skillInput = document.getElementById("skillInput");
 const skillList = document.getElementById("skill-List");
 const skills = [];
+const location_form = document.querySelector(".location-form");
 
-welcomeBtn.addEventListener("click", () => {
+let location_submit_form = new FormData(location_form);
+
+location_form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  for (let field of location_submit_form.keys()) {
+    location_submit_form.set(field, e.target[field].value);
+  }
+  location_submit_form.set("image", e.target.image.files[0]);
+  await fetch("", {
+    method: "POST",
+    body: location_submit_form,
+  }).then(async (res) => {
+    console.log(await res.json());
+  });
+
   skillsetPage.classList.remove("d-none");
   skillsetPage.classList.add("d-show");
   welcomePage.classList.add("d-none");
 });
+// welcomeBtn.addEventListener("click", async () => {
+
+// });
 
 var csrfcookie = function () {
   var cookieValue = null,
@@ -47,7 +65,7 @@ updateSkillList = () => {
     listItem.classList.add("skills");
 
     const removeButton = document.createElement("button");
-    removeButton.textContent="x"
+    removeButton.textContent = "x";
     const removeIcon = document.createElement("img");
     // removeIcon.src = "/static/assets/icons/x-lg.svg";
     // removeButton.appendChild(removeIcon);
@@ -73,7 +91,9 @@ moreBtn.addEventListener("click", async () => {
   });
   if (response.status == 200) {
     window.location.assign(
-      `${window.location.href.split("/")[0]}//${window.location.host}/accounts/user/profile`
+      `${window.location.href.split("/")[0]}//${
+        window.location.host
+      }/accounts/user/profile`
     );
   }
 });

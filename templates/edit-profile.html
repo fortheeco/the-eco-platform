@@ -1,14 +1,16 @@
-{%load static%}
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Profile</title>
-		<link rel="stylesheet" href="{%static 'css/version2/profile-page.css'%}" />
-		<link rel="stylesheet" href="{%static 'css/version2/edit-profile.css'%}" />
-	</head>
-	<body>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+	<link rel="stylesheet" href="{%static 'css/version2/profile-page.css'%}" />
+	<link rel="stylesheet" href="{%static 'css/version2/edit-profile.css'%}" />
+{% endblock header %}
+
+{% block title %}
+Profile
+{% endblock title %}
+
+{% block content %}
 	<nav>
         <nav-bar></nav-bar>
     </nav>
@@ -212,5 +214,4 @@
 				</p>
 			</div>
 		</template>
-	</body>
-</html>
+{% endblock content %}

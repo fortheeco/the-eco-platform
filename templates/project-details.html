@@ -1,15 +1,14 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {%load static%}
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+{% block header %}
 		<title>ECO Projects</title>
 		<link rel="stylesheet" href="{%static 'css/version2/projects-page.css'%}" />
 		<link rel="stylesheet" href="{%static 'css/version2/project-details.css'%}" />
 		<script src="{%static 'components/navbar/navbar.js'%}" defer></script>
-	</head>
-	<body>
+{% endblock header %}
+
+{% block content %}
 		<nav>
 			<nav-bar></nav-bar>
 		</nav>
@@ -231,5 +230,4 @@
 				}
 			}
 		</script>
-	</body>
-</html>
+{% endblock content %}
