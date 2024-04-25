@@ -32,6 +32,21 @@ nav{
     z-index: 999;
 }
 
+.update-profile-btn-custom{
+    background-color: #1DB559;
+    padding: 10px;
+    border-radius: 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    margin-top: 15px;
+    justify-content: center;
+    font-size: .8rem;
+    
+}
+
 @media (max-width: 480px) {
     nav{
         top: 0;

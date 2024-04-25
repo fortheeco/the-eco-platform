@@ -9,12 +9,23 @@ button{
 }
 .skills{
     list-style-type: none;
-    background-color: var(--primary-green);
-    padding: 0.5rem ;
-    border-radius: 0.5rem;
-    color: white;
+    border-radius: 10rem;
+    color: var(--primary-green);
     margin-right: 0.5rem;
     margin-bottom: 0.5rem;
+    padding:5px 10px ;
+    border: 2px solid var(--primary-green);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: .8rem;
+}
+
+.skills button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--primary-green);
 }
 .form {
     width: 35%;
@@ -145,14 +156,28 @@ text-align: center;
     color: white;
 }
 .testing {
-    border: 0;
+    border: 2px solid #1DB559;
     padding: 0.5rem 1rem;
     margin: 0rem 0;
     border-radius: 0.5rem;
-    background-color: #32d272;
+    background-color: #1DB559;
     color: white ;
 
 }
+.back-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+#welcomeBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
 .d-none {
 display: none;
 }

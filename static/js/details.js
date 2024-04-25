@@ -7,6 +7,7 @@ const skillInput = document.getElementById("skillInput");
 const skillList = document.getElementById("skill-List");
 const skills = [];
 const location_form = document.querySelector(".location-form");
+let backBtn = document.querySelector(".back-btn");
 
 let location_submit_form = new FormData(location_form);
 
@@ -27,6 +28,14 @@ location_form.addEventListener("submit", async (e) => {
   skillsetPage.classList.add("d-show");
   welcomePage.classList.add("d-none");
 });
+
+backBtn.addEventListener("click", () => {
+  skillsetPage.classList.add("d-none");
+  skillsetPage.classList.remove("d-show");
+  welcomePage.classList.remove("d-none");
+  welcomePage.classList.remove("d-show");
+});
+
 // welcomeBtn.addEventListener("click", async () => {
 
 // });
@@ -65,7 +74,8 @@ updateSkillList = () => {
     listItem.classList.add("skills");
 
     const removeButton = document.createElement("button");
-    removeButton.textContent = "x";
+    removeButton.innerHTML =
+      "<ion-icon name='close-circle-outline' style='font-size: 1.2rem;'></ion-icon>";
     const removeIcon = document.createElement("img");
     // removeIcon.src = "/static/assets/icons/x-lg.svg";
     // removeButton.appendChild(removeIcon);

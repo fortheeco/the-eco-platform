@@ -30,7 +30,7 @@ btn.addEventListener('click',()=>{
         skills_box.appendChild(skill);
         skill_input.value = "";
   }
-  console.log(skills);
+
 
 })
 

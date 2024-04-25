@@ -51,7 +51,7 @@
                 <div class="user-img">
                     {% if user.is_authenticated %}
                         {% if request.user.user_profile.profile_image %}
-                            <img src="{{ request.user.user_profile.profile_image.url }}" width="50" height="50" style="border-radius: 50%;" alt="Profile Image">
+                            <img src="{{ request.user.user_profile.profile_image.url }}"  style="border-radius: 50%;height: 3.1rem;width: 3.1rem;object-fit: cover;" alt="Profile Image">
                         {% else %}
                             <img src="{% static 'assets/icons/avatar.png' %}" width="50" height="50" style="border-radius: 50%;" alt="Default Avatar">
                         {% endif %}
@@ -154,6 +154,9 @@
     {% block content %}         
     {% endblock content %} 
     <script src="{% static 'js/app.js'%}"></script>
+    <!-- added ionic icons library cdn -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 
 </html>

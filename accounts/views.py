@@ -29,7 +29,6 @@ from django.db.models import Q
 # since the registration form doesnt include a username field, we generate a random username from their full name
 # with the uuid library
 def User_Registration(request):
-    print(settings.DEBUG)
     if request.user.is_authenticated:
         return redirect('profile')
     if request.method=="POST":
@@ -84,7 +83,7 @@ def Update_User_Profile(request):
         return redirect('login')
     elif request.method=="POST" and request.user.is_authenticated:
         user=request.user
-        print(request.FILES)
+        
         user.user_profile.location=request.POST['location']
         user.user_profile.bio=request.POST['bio']
         if request.FILES.get('image')  !=None:
@@ -438,7 +437,6 @@ def Projects(request):
 def AddProjects(request):
     if request.method=="POST":
         data=request.POST
-        print(request.POST)
         skill_arr=request.POST['skills'].split(',')
         new_project=Project.objects.create(
             title=data['title'],
