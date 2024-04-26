@@ -1,5 +1,6 @@
 from django.urls import path,include
 from .views import *
+from django.views.generic import TemplateView
 
 # (
 #     User_Registration,
@@ -39,7 +40,7 @@ urlpatterns = [
 
     path('user/like/', like_problem, name='like_problem'),
     path('user/dislike/', dislike_problem, name='dislike_problem'),
-
+    path('pals/',TemplateView.as_view(template_name='pals.html'),name='pals')
     # path('user/problem-details/like/', like_problem, name='like_problem'),
     # path('user/problem-details/dislike/', dislike_problem, name='dislike_problem'),
     # This routers triggers the helper function to create the Goal rows automatically

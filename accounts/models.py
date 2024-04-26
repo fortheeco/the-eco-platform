@@ -65,6 +65,7 @@ class OrganisationProfile(models.Model):
         ("Telecom", "Telecom"),
         ("Agriculture", "Agriculture"),
         ("Fashion", "Fashion"),
+        ("Technology","Technology")
     )
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="org_profile")
     name = models.CharField(max_length=500)

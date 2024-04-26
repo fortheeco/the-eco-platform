@@ -46,7 +46,7 @@ smt.addEventListener('click',async()=>{
       },
     });
     if (response.status==200){
-        console.log("skills sent");
+       return
     }
 })
 

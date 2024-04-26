@@ -8,9 +8,12 @@ const skillList = document.getElementById("skill-List");
 const skills = [];
 const location_form = document.querySelector(".location-form");
 let backBtn = document.querySelector(".back-btn");
-
+let profile_img = Array.from(document.querySelectorAll(".profile_img"));
 let location_submit_form = new FormData(location_form);
 
+let static_url = location.origin;
+
+// submit location, bio and profile image form to the server
 location_form.addEventListener("submit", async (e) => {
   e.preventDefault();
   for (let field of location_submit_form.keys()) {
@@ -21,9 +24,11 @@ location_form.addEventListener("submit", async (e) => {
     method: "POST",
     body: location_submit_form,
   }).then(async (res) => {
-    console.log(await res.json());
+    let data = await res.json();
+    profile_img.forEach((img) => {
+      img.src = `${static_url}${data.data}`;
+    });
   });
-
   skillsetPage.classList.remove("d-none");
   skillsetPage.classList.add("d-show");
   welcomePage.classList.add("d-none");
@@ -36,9 +41,11 @@ backBtn.addEventListener("click", () => {
   welcomePage.classList.remove("d-show");
 });
 
-// welcomeBtn.addEventListener("click", async () => {
-
-// });
+welcomeBtn.addEventListener("click", () => {
+  skillsetPage.classList.remove("d-none");
+  skillsetPage.classList.add("d-show");
+  welcomePage.classList.add("d-none");
+});
 
 var csrfcookie = function () {
   var cookieValue = null,
@@ -92,7 +99,7 @@ moreBtn.addEventListener("click", async () => {
   let skill_obj = {
     skills,
   };
-  let response = await fetch(`${window.location.href}/skill`, {
+  let response = await fetch(`${window.location.href}skill/`, {
     method: "POST",
     body: JSON.stringify(skill_obj),
     headers: {

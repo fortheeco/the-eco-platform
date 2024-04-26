@@ -32,7 +32,7 @@
                         <span>step 2/3</span>
                     </div>
 
-                    <form method="post" action="" enctype='multipart/form-data' class="location-form">
+                    <form method="post" action="" enctype='multipart/form-data' class="location-form" >
                          {% csrf_token %}
                                         <div class="user-img-upload mt-4 d-flex align-items-center gap-5">
                         <div class="">
@@ -87,7 +87,7 @@
                 </div>
 
                                <div class="mt-3 d-flex justify-content-center">
-                    <button class="" id="welcomeBtn" style="background-color: white;color: #1DB559;border: 2px solid #1DB559; padding: 5px 20px;border-radius: 10px;">
+                    <button type="submit" class="" id="welcomeBtn" style="background-color: white;color: #1DB559;border: 2px solid #1DB559; padding: 5px 20px;border-radius: 10px;">
                         Next
                         <ion-icon name="chevron-forward-outline"></ion-icon>
                     </button>
@@ -108,7 +108,7 @@
                     <div class="welcome-card-header d-flex align-items-center gap-2 mt-3">
                         <div class="user-img-sm">
                             {% if request.user.user_profile.profile_image %}
-                        <img src="{{request.user.user_profile.profile_image.url}}"  class="" style="width: 7rem; height: 7rem; object-fit: cover;border-radius: 1000px;"  alt="">
+                        <img src="{{request.user.user_profile.profile_image.url}}"  class="profile_img" style="width: 7rem; height: 7rem; object-fit: cover;border-radius: 1000px;"  alt="">
                             {% else %}
                             <img src="{%static 'assets\icons\upload-avatar.png'%}" class="img-fluid" alt="">
                             {% endif %}

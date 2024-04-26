@@ -90,7 +90,7 @@ def Update_User_Profile(request):
             user.user_profile.profile_image=request.FILES['image']
         user.user_profile.save()
         messages.success(request,'Profile Details added')
-        return JsonResponse({"status":"details added"},safe=False)
+        return JsonResponse({"status":"details added","data":request.user.user_profile.profile_image.url},safe=False)
 
     # this should navigate to the skill addition page
     return render(request,'individual-details.html')
