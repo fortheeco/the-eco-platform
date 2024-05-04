@@ -23,6 +23,8 @@ from datetime import datetime
 from django.conf import settings
 from .helper import rows
 from django.db.models import Q
+from .countries import get_countries_and_states
+from .get_african_countries import african_countries
 # Create your views here.
 
 # this view expects a payload of full name,gender,email and password from the request object
@@ -91,9 +93,11 @@ def Update_User_Profile(request):
         user.user_profile.save()
         messages.success(request,'Profile Details added')
         return JsonResponse({"status":"details added","data":request.user.user_profile.profile_image.url},safe=False)
-
+    context={
+        "african_countries":african_countries 
+     }
     # this should navigate to the skill addition page
-    return render(request,'individual-details.html')
+    return render(request,'individual-details.html',context=context)
 
 # this request view will successfully log the user in to the application if they have completed each
 # stage for the registration process which are email activation, avatar and location upload, skill additions
@@ -575,3 +579,6 @@ def UpVote(request):
 
 def DownVote(request):
     pass
+
+def get_countries_data(request):
+    return JsonResponse({"data":get_countries_and_states()},safe=False)
