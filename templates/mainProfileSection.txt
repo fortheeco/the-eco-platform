@@ -1,51 +1,21 @@
-{% extends 'base.html' %} {%load static%} {% block header %}
-<title>Profile</title>
-<link rel="stylesheet" href="{%static 'css/version2/profile-page-v2.css'%}" />
-<script src="{%static 'components/navbar/navbar.js'%}" defer></script>
-<script src="{%static 'js/profile.js'%}" defer></script>
-{% endblock header %} {% block content %}
-<nav>
-  <nav-bar></nav-bar>
-</nav>
-{% include "components/alert.html" %}
-<!-- main page content -->
-<main class="container">
-  <div class="container_mainContainer">
-    <div class="container_main">
-      <div class="profileImg">
-        <img src="{%static 'assets/profileImages/profilepic.png'%}" alt="" />
-      </div>
-      <div>
-        <div class="DefultFlexContainer">
-          <p>Mikel John <span>~Leader</span></p>
-
-          <div class="roundedPrimary-btn">Edit Profile</div>
-        </div>
-
-        <p>Lagos, Nigeria</p>
-
-        <p>
-          Passionate data enthusiast unraveling hidden truths, unlocking
-          possibilities through analytics, visualization, and the art of data.
-          Empowering informed decisions, driving business success.
-          #DataEnthusiast #AnalyticsNinja
-        </p>
-
-        <div class="flexMediumGap">
-          <p>Following 234</p>
-          <p>Followers 23</p>
+  <section class="main-container">
+    <!-- this will only be displayed on mobile (starts here) -->
+    <div class="user__info display-on-desktop">
+      <h3 class="user__info--heading">about</h3>
+      <p class="user__info--txt">
+        {{user_profile.bio}}
+        <span class="tag">#DataEnthusiast</span>
+        <span class="tag">#AnalyticsNinja</span>
+      </p>
+      <div class="project-type__group">
+        <div class="project-type__group">
+          {% for skill in user_profile.skillsets.all %}
+          <button class="secondary-btn">{{skill.name}}</button>
+          {% endfor %}
         </div>
       </div>
     </div>
-
-    <!-- Skills section -->
-    <div class="flexMediumGap">
-      <p class="secondary-btn">Data analytics (5)</p>
-      <p class="secondary-btn">Data science (3)</p>
-      <p class="secondary-btn">Programming (9)</p>
-      <p class="secondary-btn">Data analytics (0)</p>
-    </div>
-
+    <!-- this will only be displayed on mobile (ends here) -->
     <!-- problems/projects/ideas nav -->
     <nav class="user-nav">
       <h6 class="user-nav__link active-nav" id="problem-nav" role="link">
@@ -54,83 +24,32 @@
       <h6 class="user-nav__link" id="project-nav" role="link">projects</h6>
       <h6 class="user-nav__link" id="idea-nav" role="link">ideas</h6>
     </nav>
-
-   <!------------------ problems section --------------------->
+    <!------------------ problems section --------------------->
     <article class="main-content" id="problems">
-      <section class="main-content__details">
-        <div class="idea__card">
-          <!-- card -->
-          <div class="card-header">
-           <div class="card-">
-            <!-- location -->
-            <p class="card-header__item">
-              <img
-                src="{%static 'assets/icons/material-symbols_location-on.png'%}"
-                alt=""
-                aria-hidden="true"
-                class="icon location-icon"
-              />
-              Lagos, Nigeria
-            </p>
-            <!-- ECO Category -->
-            <p class="card-header__item">
-              Eco Category: <span class="eco-category">Community</span>
-            </p>
-          </div>
-            <div class="card-nav" role="navigation">
-              <!-- nav toggle -->
-              <img
-                src="{%static 'assets/icons/more.svg'%}"
-                alt="Toggle nav"
-                title="Toggle options"
-                class="card-nav__toggle icon"
-              />
-              <!-- nav -->
-              <ul class="card-nav__wrapper hidden">
-                <li class="card-nav__item">
-                  <img
-                    src="{%static 'assets/icons/edit.png'%}"
-                    alt="edit idea"
-                    class="icon"
-                  />
-                  edit idea
-                </li>
-                <li class="card-nav__item">
-                  <img
-                    src="{%static 'assets/icons/share.png'%}"
-                    alt="share idea"
-                    class="icon"
-                  />
-                  share idea
-                </li>
-                <li class="card-nav__item danger">
-                  <img
-                    src="{%static 'assets/icons/trash.png'%}"
-                    alt="Delete idea"
-                    class="icon"
-                  />
-                  Delete idea
-                </li>
-              </ul>
-            </div>
-          </div>
-           <!-- card text -->
-          <p class="idea__card--txt">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores
-            doloremque incidunt saepe voluptates dicta consequatur in eaque
-            harum aperiam perferendis.
-          </p>
-          <div class="idea__card--footer">
-            <p class="goal goal-tag">
-              UNSdg Gaol: 3: Good health and well being
-            </p>
-            <p class="posted-at">
-              Posted: <span class="date">11:24pm 02 mar, 2024</span>
-            </p>
-          </div>
-         
+      <!-- stats -->
+      <section class="stats">
+        <h5 class="stats-heading">
+          Problems Echo'ed <span id="problem-count">(20)</span>
+        </h5>
+        <div class="stats--wrapper">
+          <span class="stats--com">70%</span>
+          <span class="stats--org">20%</span>
+          <span class="stats--env">10%</span>
         </div>
-      </section>
+        <div class="stats--legend">
+          <div class="legend--wrapper">
+            <div class="legend--item env"></div>
+            <span class="legend-label">environment</span>
+          </div>
+          <div class="legend--wrapper">
+            <div class="legend--item com"></div>
+            <span class="legend-label">community</span>
+          </div>
+          <div class="legend--wrapper">
+            <div class="legend--item org"></div>
+            <span class="legend-label">organization</span>
+          </div>
+        </div>
       </section>
       <!------------- main card container ---------->
       <section class="main-content__details">
@@ -207,7 +126,31 @@
 
     <!------------------ projects section --------------------->
     <article class="main-content hidden" id="projects">
-      
+      <!-- stats -->
+      <section class="stats">
+        <h5 class="stats-heading">
+          Projects Echo'ed <span id="project-count">(20)</span>
+        </h5>
+        <div class="stats--wrapper">
+          <span class="stats--com">70%</span>
+          <span class="stats--org">20%</span>
+          <span class="stats--env">10%</span>
+        </div>
+        <div class="stats--legend">
+          <div class="legend--wrapper">
+            <div class="legend--item env"></div>
+            <span class="legend-label">environment</span>
+          </div>
+          <div class="legend--wrapper">
+            <div class="legend--item com"></div>
+            <span class="legend-label">community</span>
+          </div>
+          <div class="legend--wrapper">
+            <div class="legend--item org"></div>
+            <span class="legend-label">organization</span>
+          </div>
+        </div>
+      </section>
       <!------------- main card container ---------->
       <section class="main-content__details">
         <div class="project__card">
@@ -276,7 +219,31 @@
 
     <!------------------ ideas section --------------------->
     <article class="main-content hidden" id="ideas">
-     
+      <!-- stats -->
+      <section class="stats">
+        <h5 class="stats-heading">
+          Ideas Echo'ed <span id="idea-count">(20)</span>
+        </h5>
+        <div class="stats--wrapper">
+          <span class="stats--com">70%</span>
+          <span class="stats--org">20%</span>
+          <span class="stats--env">10%</span>
+        </div>
+        <div class="stats--legend">
+          <div class="legend--wrapper">
+            <div class="legend--item env"></div>
+            <span class="legend-label">environment</span>
+          </div>
+          <div class="legend--wrapper">
+            <div class="legend--item com"></div>
+            <span class="legend-label">community</span>
+          </div>
+          <div class="legend--wrapper">
+            <div class="legend--item org"></div>
+            <span class="legend-label">organization</span>
+          </div>
+        </div>
+      </section>
       <!------------- main card container ---------->
       <section class="main-content__details">
         <div class="idea__card">
@@ -341,7 +308,7 @@
               </ul>
             </div>
           </div>
-           <!-- card text -->
+          <!-- card text -->
           <p class="idea__card--txt">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores
             doloremque incidunt saepe voluptates dicta consequatur in eaque
@@ -379,20 +346,13 @@
         </div>
       </section>
     </article>
- 
+    <!-- add project (plus) icon -->
+    <a href="{%url 'projects'%}" class="add-icon__wrapper">
+      <img
+        src="{%static 'assets/icons/fluent_add-circle-16-filled.png'%}"
+        alt="add new project"
+        title="Add new project"
+        class="add-icon"
+      />
+    </a>
   </section>
-
-
-  </div>
-</main>
-
-<script>
-  // Set a JavaScript variable with the authenticated status
-  var is_authenticated = {{ user.is_authenticated|lower }};
-  var user = {
-    profile_image: "{{ user.user_profile.profile_image.url }}" || null,
-    full_name: "{{ user.user_profile.full_name }}" || null
-  };
-</script>
-<script type="module" src="{%static '/js/app.js'%}"></script>
-{% endblock content %}

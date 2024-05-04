@@ -1,0 +1,63 @@
+ <!-- profile section -->
+  <section class="profile">
+    <!-- user details -->
+    <div class="user-details">
+      {% if request.user.user_profile.profile_image %}
+      <img
+        src="{{ request.user.user_profile.profile_image.url }}"
+        alt="Profile Image"
+        class="profile__img"
+      />
+      {% else %}
+      <p style="color: red">*No image uploaded</p>
+      {% endif %}
+      <div class="user__info--wrapper">
+        <h3 class="user__name">{{ request.user.user_profile.full_name}}</h3>
+        <h6 class="user__role">leader</h6>
+      </div>
+    </div>
+    <div class="user__address--wrapper">
+      <!-- <p class="user__address--location">{{user_profile.location}}</p> -->
+      <p class="user__address--email">{{ user.email }}</p>
+      <a href="{%url 'edit'%}" class="edit-profile">
+        <img
+          src="{%static 'assets/icons/edit.svg'%}"
+          class="icon"
+          alt=""
+          aria-hidden="true"
+        />
+        <span>edit profile</span>
+      </a>
+    </div>
+    <!-- this will only be displayed on mobile (starts here) -->
+    <div class="user__info display-on-mobile">
+      <h3 class="user__info--heading">about</h3>
+      <p class="user__info--txt">
+        {{user_profile.bio}}
+        <span class="tag">#DataEnthusiast</span>
+        <span class="tag">#AnalyticsNinja</span>
+      </p>
+      <div class="project-type__group">
+        {% for skill in user_profile.skillsets.all %}
+        <button class="secondary-btn">{{skill.name}}</button>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- this will only be displayed on mobile (ends here) -->
+
+    <div class="acc-upgrade__wrapper display-on-desktop">
+      <img
+        src="{%static 'assets/images/upgrade.png'%}"
+        alt="Upgrade your account"
+        class="acc-upgrade"
+      />
+    </div>
+  </section>
+  <!-- this will only be displayed on mobile  -->
+  <div class="become-leader display-on-mobile">
+    <p class="upgrade-txt">
+      You are currently an Eco Ambassador. Upgrade to become a leader
+    </p>
+    <button class="tertiary-btn">Become a leader</button>
+  </div>
