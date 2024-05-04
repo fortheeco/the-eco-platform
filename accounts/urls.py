@@ -40,7 +40,8 @@ urlpatterns = [
 
     path('user/like/', like_problem, name='like_problem'),
     path('user/dislike/', dislike_problem, name='dislike_problem'),
-    path('pals/',TemplateView.as_view(template_name='pals.html'),name='pals')
+    path('pals/',TemplateView.as_view(template_name='pals.html'),name='pals'),
+    path('african-countries',get_countries_data,name='countries_data')
     # path('user/problem-details/like/', like_problem, name='like_problem'),
     # path('user/problem-details/dislike/', dislike_problem, name='dislike_problem'),
     # This routers triggers the helper function to create the Goal rows automatically
