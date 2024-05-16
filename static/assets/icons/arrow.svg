@@ -1,9 +1,0 @@
-<svg class="arrow-icon" width="45" height="45"
-          viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="26" cy="26" r="26" transform="rotate(90 26 26)" fill="#1DB559" />
-          <path d="M26 18.4375L26 34.4375" stroke="white" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round" />
-          <path
-            d="M32 24.4375L26.4096 17.6353C26.3584 17.5731 26.2955 17.5233 26.225 17.4892C26.1544 17.4551 26.0779 17.4375 26.0005 17.4375C25.9232 17.4375 25.8467 17.4551 25.7761 17.4892C25.7056 17.5233 25.6426 17.5731 25.5915 17.6353L20 24.4375"
-            stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>

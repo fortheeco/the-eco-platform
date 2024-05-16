@@ -1,11 +1,8 @@
-# the-eco-platform
-ECO Africa Website
+# React + Vite
 
-# Project-description
-This project is encompasses the idea of bringing together different organizations and individuals with the vision of recognizing and solving problems in Africa, the recognition and solutions to the problems are categorized accordingly with the UnSDG goals.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-# Technologies used
-Python (Django web framework)
-HTML
-CSS
-JavaScript 
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
