@@ -1,19 +1,25 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Nav from "./components/Nav/Nav.jsx";
+import { LandingPage } from "./components/Home/LandingPage.jsx";
+import { SignIn } from "./components/Routes/SignIn.jsx";
+import { SignUp } from "./components/Routes/SignUp";
+import { Dashboard } from "./components/Dashboard/dashboard.jsx";
 
-function App() {
-  const [count, setCount] = useState(0);
-
+const App = () => {
   return (
-    <>
-      Hello I'm Austin. This is a new project
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      <Routes>
+        <Route path="/" element={<Nav />}>
+          <Route index element={<LandingPage />} />
+          <Route path="sign-in" element={<SignIn />} />
+          <Route path="sign-up" element={<SignUp />} />
+        </Route>
+
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </div>
   );
-}
+};
 
 export default App;
