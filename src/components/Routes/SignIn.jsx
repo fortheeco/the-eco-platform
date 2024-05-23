@@ -1,5 +1,8 @@
-import React from "react";
+import AuthNav from "../Signup/AuthNav";
+import SplitLayout from "../Signup/SplitLayout";
 
 export const SignIn = () => {
-  return <div>SignIn</div>;
+  return <SplitLayout>
+    <div className="w-full"><AuthNav/></div>
+  </SplitLayout>;
 };
