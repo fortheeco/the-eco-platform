@@ -1,21 +1,22 @@
 .globe-bg {
-  background-color: rgba(255, 255, 255, 0.7);
-  background-blend-mode: screen;
+	background-color: rgba(255, 255, 255, 0.7);
 }
 
 @media screen and (min-width: 1200px) {
-  .globe-bg {
-    background: url("../assets/landingpage/fadedglobe.svg");
-    background-color: #1DB559;
-      background-size: 150%;
-      background-repeat: no-repeat;
-      background-position: 0% 120%;
-      border-radius: .5rem;
-      border-top: 4px solid #1DB559;
-    }
-  }
+	.globe-bg {
+		background: url('../assets/landingpage/fadedglobe.svg');
+		background-color: rgba(29, 181, 89, 0.06);
+		background-blend-mode: lighten;
+		background-size: 150%;
+		background-repeat: no-repeat;
+		background-position: 0% 120%;
+		border-radius: 0.5rem;
+		border-top: 4px solid #1db559;
+		position: relative;
+	}
+}
 
-  .active {
-    background-color: #1DB559;
-    color: black;
-  }
+.active {
+	background-color: #1db559;
+	color: black;
+}
