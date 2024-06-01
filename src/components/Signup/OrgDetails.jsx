@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { layout, styles } from '../../style'
-import locationIcon from '../assets/signup/location.svg'
 import userAvatar from '../assets/signup/user-avatar.png'
 
-export default function UserDetails() {
+export default function OrgDetails() {
 	const user = {
 		name: 'John Doe',
 		email: 'example@gmail.com',
@@ -37,11 +36,11 @@ export default function UserDetails() {
 	}
 
 	return (
-		<section className={`w-full ${layout.section}`}>
+		<section className={`w-full relative ${layout.section}`}>
 			<div
-				className={`bg-container relative w-full px-6 ${styles.paddingY} ${styles.paddingX}`}
+				className={`bg-container shadow-xl w-full px-6 ${styles.paddingY} ${styles.paddingX}`}
 			>
-				<p className="flex absolute right-6 top-16 text-lg">Step 2/3</p>
+				<p className="flex absolute right-6 top-8 text-lg">Step 2/3</p>
 				<h2 className="font-semibold text-xl capitalize mb-3 lg:text-3xl lg:font-bold">
 					welcome, {shortenedName}
 				</h2>
@@ -52,7 +51,7 @@ export default function UserDetails() {
 					<img
 						src={avatar}
 						alt="user avatar"
-						className="w-40 h-40 object-fill object-center rounded-full"
+						className="w-40 h-40 object-fill object-center rounded-full shadow-sm"
 					/>
 					<label className="flex flex-col items-center lg:items-start gap-4">
 						<input
@@ -65,6 +64,7 @@ export default function UserDetails() {
 						/>
 						<button
 							onClick={handleBtnClicked}
+							title="Add your company logo"
 							className="w-fit rounded-md flex items-center px-8 py-3 text-white bg-ecoGreen"
 						>
 							Upload image
@@ -79,25 +79,35 @@ export default function UserDetails() {
 					location
 				</h2>
 				<p className="text-lg text-nav/70 my-6">
-					Tell us the location you are reporting from
+					Tell us the location of your office
 				</p>
-				<label className="flex mt-3 pr-4 gap-3 bg-ecoGreen/10 rounded-md has-[:focus]:border-b-2 has-[:focus]:border-ecoGreen w-full lg:w-1/2">
-					<img
-						src={locationIcon}
-						alt="map icon"
-						className="h-12  inline-block p-2"
-					/>
+				<label className="flex mt-3 h-12 px-5 gap-3 bg-ecoGreen/10 rounded-md has-[:focus]:border-b-2 has-[:focus]:border-ecoGreen w-full lg:w-1/2">
 					<input
 						type="text"
 						required
 						minLength={6}
 						maxLength={80}
+						title="Your Office address"
 						autoComplete="location"
 						aria-description="location"
-						placeholder="Enter your location"
+						placeholder="Enter your office address"
 						className="bg-transparent outline-0 w-full border-0"
 					/>
 				</label>
+				<div className="flex w-full flex-col gap-2 lg:flex-row lg:items-end">
+					<label className="flex mt-3 h-12 px-5 gap-3 bg-ecoGreen/10 rounded-md w-full lg:w-1/2">
+						<input
+							type="text"
+							minLength={6}
+							maxLength={80}
+							autoComplete="location"
+							aria-description="location"
+							placeholder="Enter your branch office address"
+							className="bg-transparent outline-0 w-full border-0"
+						/>
+					</label>
+					<span className="italic">(Optional)</span>
+				</div>
 				<button
 					type="submit"
 					className="capitalize bg-ecoGreen text-white w-full py-3 lg:w-1/3 flex justify-center rounded-md text-lg mx-auto mt-16 mb-4"

@@ -7,8 +7,12 @@ import { SignIn } from './components/Routes/SignIn.jsx'
 import { SignUp } from './components/Routes/SignUp'
 import AccountType from './components/Signup/AccountType.jsx'
 import Individual from './components/Signup/Individual.jsx'
+import OrgDetails from './components/Signup/OrgDetails.jsx'
+import OrgVerification from './components/Signup/OrgVerification.jsx'
+import Organization from './components/Signup/Organization.jsx'
 import Skillsets from './components/Signup/Skillset.jsx'
 import UserDetails from './components/Signup/UserDetails.jsx'
+import VerifyEmail from './components/Signup/VerifyEmail.jsx'
 
 const App = () => {
 	return (
@@ -21,8 +25,12 @@ const App = () => {
 					<Route path="sign-up" element={<SignUp />}>
 						<Route index element={<AccountType />} />
 						<Route path="individual" element={<Individual />} />
-						<Route path="details" element={<UserDetails />} />
+						<Route path="user-details" element={<UserDetails />} />
 						<Route path="skillset" element={<Skillsets />} />
+						<Route path="organization" element={<Organization />} />
+						<Route path="org-details" element={<OrgDetails />} />
+						<Route path="org-verification" element={<OrgVerification />} />
+						<Route path="verify-email" element={<VerifyEmail />} />
 					</Route>
 				</Route>
 

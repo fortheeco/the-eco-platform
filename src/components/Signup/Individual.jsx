@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
+// import { toast } from 'react-toastify'
+import useSignup from '../../hooks/useSignup'
 import bannerImg from '../assets/ecoBannerImage.png'
 import genderIcon from '../assets/signup/gender-icon.svg'
 import userIcon from '../assets/signup/profile.svg'
@@ -9,16 +11,31 @@ import emailIcon from '../assets/signup/sms.svg'
 import AuthNav from './AuthNav'
 import SplitLayout from './SplitLayout'
 
+const initialState = {
+	full_name: '',
+	email: '',
+	gender: 'custom',
+	password: '',
+}
+
 export default function Individual() {
 	const [showPswd, setShowPswd] = useState(false)
+	const [formData, setFormData] = useState(initialState)
+	const { signup, error, isPending } = useSignup()
+
+	function handleChange(e) {
+		setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+	}
 
 	async function handleSubmit(e) {
 		e.preventDefault()
-		console.log('form submitted')
+		await signup({ ...formData })
+		console.log(formData)
 	}
 
 	return (
 		<div className="w-full block relative">
+			{/* {error && toast.error(error, { position: 'top-center' })} */}
 			<SplitLayout>
 				<article className={`w-full md:p-10 lg:shadow-lg globe-bg`}>
 					<AuthNav />
@@ -30,7 +47,7 @@ export default function Individual() {
 					<form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
 						<label className="block w-full">
 							<span className="text-lg capitalize">full name</span>
-							<div className="flex mt-3 pr-4 gap-3 bg-ecoGreen/10 rounded-md has-[:focus]:border-b-2 has-[:focus]:border-ecoGreen">
+							<div className="flex mt-3 pr-4 gap-3 bg-ecoGreen/10 rounded-md has-[:focus]:border-indigo-200 has-[:focus-within]:border-4">
 								<img
 									src={userIcon}
 									alt="user avatar"
@@ -39,10 +56,14 @@ export default function Individual() {
 								<input
 									type="text"
 									required
+									disabled={isPending}
+									name="full_name"
+									value={formData.full_name}
+									onChange={handleChange}
 									minLength={6}
 									maxLength={30}
 									placeholder="John Doe"
-									className="bg-transparent outline-0 w-full border-0 pr-2 focus:border-b-2"
+									className="bg-transparent outline-0 w-full border-0 pr-2"
 								/>
 							</div>
 						</label>
@@ -56,6 +77,10 @@ export default function Individual() {
 								/>
 								<select
 									required
+									disabled={isPending}
+									value={formData.gender}
+									name="gender"
+									onChange={handleChange}
 									className="bg-transparent outline-0 border-0  capitalize w-full pr-2"
 								>
 									<option value="custom">custom</option>
@@ -76,6 +101,10 @@ export default function Individual() {
 								<input
 									type="email"
 									required
+									disabled={isPending}
+									name="email"
+									value={formData.email}
+									onChange={handleChange}
 									minLength={6}
 									maxLength={80}
 									placeholder="example@email.com"
@@ -95,6 +124,10 @@ export default function Individual() {
 								<input
 									type={showPswd ? 'text' : 'password'}
 									required
+									disabled={isPending}
+									name="password"
+									value={formData.password}
+									onChange={handleChange}
 									minLength={6}
 									maxLength={100}
 									placeholder="*******"
@@ -120,9 +153,10 @@ export default function Individual() {
 
 						<button
 							type="submit"
-							className="capitalize bg-ecoGreen text-white w-full py-3 lg:w-4/5 rounded-md text-lg font-semibold mx-auto"
+							disabled={isPending}
+							className="capitalize bg-ecoGreen text-white w-full py-3 lg:w-4/5 rounded-md text-lg font-semibold mx-auto disabled:bg-slate-300 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none"
 						>
-							create account
+							{isPending ? 'loading...' : 'create account'}
 						</button>
 					</form>
 				</article>

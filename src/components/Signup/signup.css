@@ -4,16 +4,59 @@
 
 @media screen and (min-width: 1200px) {
 	.globe-bg {
-		background: url('../assets/landingpage/fadedglobe.svg');
 		background-color: rgba(29, 181, 89, 0.06);
 		background-blend-mode: lighten;
-		background-size: 150%;
-		background-repeat: no-repeat;
-		background-position: 0% 120%;
 		border-radius: 0.5rem;
 		border-top: 4px solid #1db559;
 		position: relative;
+		/* overflow-x: hidden; */
 	}
+
+	/* Place everything in the container above the pseudo element */
+	.globe-bg * {
+		z-index: 2;
+	}
+
+	.globe-bg::before {
+		content: url('../assets/landingpage/fadedglobe.svg');
+		opacity: 0.4;
+		object-fit: 150%;
+		object-position: center;
+		left: 20%;
+		display: block;
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		z-index: 1;
+	}
+}
+
+.bg-container {
+	background-color: rgba(29, 181, 89, 0.06);
+	background-blend-mode: lighten;
+	border-radius: 0.5rem;
+	border-top: 4px solid #1db559;
+	position: relative;
+	overflow-x: hidden;
+}
+
+/* Place everything in the container above the pseudo element */
+.bg-container * {
+	z-index: 2;
+}
+
+.bg-container::before {
+	content: url('../assets/landingpage/fadedglobe.svg');
+	opacity: 0.4;
+	object-fit: contain;
+	object-position: left;
+	right: 50%;
+	transform: translateX(30%);
+	display: block;
+	width: 100%;
+	/* height: 100%; */
+	position: absolute;
+	z-index: 1;
 }
 
 .active {
