@@ -16,8 +16,8 @@ export default function AccountType() {
 				</h4>
 				<div className="grid grid-cols-2 gap-3 md:gap-8 lg:gap-20 w-full justify-between mt-16">
 					<Link
-						to={'individual'}
-						className="w-full flex flex-col items-center justify-center gap-5 p-6 rounded-xl bg-white shadow-md"
+						to={'user'}
+						className="w-full flex flex-col items-center justify-center gap-5 p-6 rounded-xl bg-white shadow-md hover:shadow-xl transition-all duration-200 active:scale-75"
 					>
 						<img
 							src={userIcon}
@@ -29,7 +29,7 @@ export default function AccountType() {
 					</Link>
 					<Link
 						to={'organization'}
-						className="w-full flex flex-col items-center justify-center gap-5 p-6 rounded-xl bg-white shadow-md"
+						className="w-full flex flex-col items-center justify-center gap-5 p-6 rounded-xl bg-white shadow-md hover:shadow-xl transition-all duration-200 active:scale-75"
 					>
 						<img
 							src={orgIcon}

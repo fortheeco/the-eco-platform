@@ -1,15 +1,21 @@
 import { useState } from 'react'
-import { layout, styles } from '../../style'
-import userAvatar from '../assets/signup/user-avatar.png'
+import { layout, styles } from '../../../style'
+import locationIcon from '../../assets/signup/location.svg'
+import userAvatar from '../../assets/signup/user-avatar.png'
 
-export default function OrgDetails() {
-	const user = {
-		name: 'John Doe',
-		email: 'example@gmail.com',
-		gender: 'male',
-		avatar: userAvatar,
-	}
-	const [avatar, setAvatar] = useState(user.avatar)
+const user = {
+	name: 'John Doe',
+	email: 'example@gmail.com',
+	gender: 'male',
+	avatar: userAvatar,
+}
+
+export default function UserDetails() {
+	const [formData, setFormData] = useState({
+		avatar: user.avatar,
+		location: '',
+	})
+
 	const shortenedName = user.name.split(' ')[0]
 
 	function handleFileChange(e) {
@@ -27,7 +33,7 @@ export default function OrgDetails() {
 			}
 
 			const imageUrl = URL.createObjectURL(file)
-			setAvatar(imageUrl)
+			setFormData((prev) => ({ ...prev, avatar: imageUrl }))
 		}
 	}
 
@@ -35,12 +41,20 @@ export default function OrgDetails() {
 		document.getElementById('upload-avatar').click()
 	}
 
+	function handleSubmit(e) {
+		e.preventDefault()
+		if (formData.location === '') {
+			alert('Please add your location')
+			return
+		}
+	}
+
 	return (
-		<section className={`w-full relative ${layout.section}`}>
+		<section className={`w-full ${layout.section}`}>
 			<div
-				className={`bg-container shadow-xl w-full px-6 ${styles.paddingY} ${styles.paddingX}`}
+				className={`bg-container relative w-full px-6 ${styles.paddingY} ${styles.paddingX}`}
 			>
-				<p className="flex absolute right-6 top-8 text-lg">Step 2/3</p>
+				<p className="flex absolute right-6 top-16 text-lg">Step 2/3</p>
 				<h2 className="font-semibold text-xl capitalize mb-3 lg:text-3xl lg:font-bold">
 					welcome, {shortenedName}
 				</h2>
@@ -49,14 +63,15 @@ export default function OrgDetails() {
 				</p>
 				<div className="flex flex-col my-8 lg:justify-start lg:gap-20 lg:flex-row w-full items-center justify-center gap-3">
 					<img
-						src={avatar}
+						src={formData.avatar}
 						alt="user avatar"
-						className="w-40 h-40 object-fill object-center rounded-full shadow-sm"
+						className="w-40 h-40 object-fill object-center rounded-full"
 					/>
 					<label className="flex flex-col items-center lg:items-start gap-4">
 						<input
 							type="file"
 							name="avatar"
+							// value={formData.avatar}
 							id="upload-avatar"
 							accept="image/*"
 							onChange={handleFileChange}
@@ -64,7 +79,6 @@ export default function OrgDetails() {
 						/>
 						<button
 							onClick={handleBtnClicked}
-							title="Add your company logo"
 							className="w-fit rounded-md flex items-center px-8 py-3 text-white bg-ecoGreen"
 						>
 							Upload image
@@ -79,35 +93,29 @@ export default function OrgDetails() {
 					location
 				</h2>
 				<p className="text-lg text-nav/70 my-6">
-					Tell us the location of your office
+					Tell us the location you are reporting from
 				</p>
-				<label className="flex mt-3 h-12 px-5 gap-3 bg-ecoGreen/10 rounded-md has-[:focus]:border-b-2 has-[:focus]:border-ecoGreen w-full lg:w-1/2">
+				<label className="flex mt-3 pr-4 gap-3 bg-ecoGreen/10 rounded-md has-[:focus]:border-b-2 has-[:focus]:border-ecoGreen w-full lg:w-1/2">
+					<img
+						src={locationIcon}
+						alt="map icon"
+						className="h-12  inline-block p-2"
+					/>
 					<input
 						type="text"
 						required
+						value={formData.location}
+						onChange={(e) =>
+							setFormData((prev) => ({ ...prev, location: e.target.value }))
+						}
 						minLength={6}
 						maxLength={80}
-						title="Your Office address"
 						autoComplete="location"
 						aria-description="location"
-						placeholder="Enter your office address"
+						placeholder="Enter your location"
 						className="bg-transparent outline-0 w-full border-0"
 					/>
 				</label>
-				<div className="flex w-full flex-col gap-2 lg:flex-row lg:items-end">
-					<label className="flex mt-3 h-12 px-5 gap-3 bg-ecoGreen/10 rounded-md w-full lg:w-1/2">
-						<input
-							type="text"
-							minLength={6}
-							maxLength={80}
-							autoComplete="location"
-							aria-description="location"
-							placeholder="Enter your branch office address"
-							className="bg-transparent outline-0 w-full border-0"
-						/>
-					</label>
-					<span className="italic">(Optional)</span>
-				</div>
 				<button
 					type="submit"
 					className="capitalize bg-ecoGreen text-white w-full py-3 lg:w-1/3 flex justify-center rounded-md text-lg mx-auto mt-16 mb-4"

@@ -63,3 +63,11 @@
 	background-color: #1db559;
 	color: black;
 }
+
+.input-parent:has(:focus-within) {
+	border-bottom: 3px solid #1db559;
+}
+
+.input-error {
+	border-bottom: 3px solid #e63946;
+}

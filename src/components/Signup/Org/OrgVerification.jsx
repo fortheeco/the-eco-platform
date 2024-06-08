@@ -1,4 +1,4 @@
-import { layout, styles } from '../../style'
+import { layout, styles } from '../../../style'
 
 export default function OrgVerification() {
 	return (

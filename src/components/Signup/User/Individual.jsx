@@ -2,14 +2,15 @@ import { useState } from 'react'
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
 // import { toast } from 'react-toastify'
-import useSignup from '../../hooks/useSignup'
-import bannerImg from '../assets/ecoBannerImage.png'
-import genderIcon from '../assets/signup/gender-icon.svg'
-import userIcon from '../assets/signup/profile.svg'
-import passwordIcon from '../assets/signup/security-safe.svg'
-import emailIcon from '../assets/signup/sms.svg'
-import AuthNav from './AuthNav'
-import SplitLayout from './SplitLayout'
+import { validateForm } from '../../../helpers/validate-form'
+import useSignup from '../../../hooks/useSignup'
+import bannerImg from '../../assets/ecoBannerImage.png'
+import genderIcon from '../../assets/signup/gender-icon.svg'
+import userIcon from '../../assets/signup/profile.svg'
+import passwordIcon from '../../assets/signup/security-safe.svg'
+import emailIcon from '../../assets/signup/sms.svg'
+import AuthNav from '../AuthNav'
+import SplitLayout from '../SplitLayout'
 
 const initialState = {
 	full_name: '',
@@ -22,15 +23,26 @@ export default function Individual() {
 	const [showPswd, setShowPswd] = useState(false)
 	const [formData, setFormData] = useState(initialState)
 	const { signup, error, isPending } = useSignup()
+	const [formError, setFormError] = useState({})
 
 	function handleChange(e) {
-		setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+		const { name, value } = e.target
+		setFormData((prev) => ({ ...prev, [name]: value }))
+		// clear previous error for current input
+		setFormError((prev) => ({ ...prev, [name]: null }))
 	}
 
 	async function handleSubmit(e) {
 		e.preventDefault()
-		await signup({ ...formData })
-		console.log(formData)
+		const errors = validateForm(formData)
+		setFormError(errors)
+
+		if (Object.keys(errors).length === 0) {
+			await signup({ ...formData })
+			console.log(formData)
+			return
+		}
+		console.error('Invalid credentials')
 	}
 
 	return (
@@ -47,7 +59,11 @@ export default function Individual() {
 					<form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
 						<label className="block w-full">
 							<span className="text-lg capitalize">full name</span>
-							<div className="flex mt-3 pr-4 gap-3 bg-ecoGreen/10 rounded-md has-[:focus]:border-indigo-200 has-[:focus-within]:border-4">
+							<div
+								className={`flex mt-3 gap-3 bg-ecoGreen/10 rounded-md relative input-parent transition-all duration-200 ${
+									formError.full_name ? 'input-error' : ''
+								}`}
+							>
 								<img
 									src={userIcon}
 									alt="user avatar"
@@ -55,33 +71,34 @@ export default function Individual() {
 								/>
 								<input
 									type="text"
-									required
 									disabled={isPending}
 									name="full_name"
 									value={formData.full_name}
 									onChange={handleChange}
-									minLength={6}
-									maxLength={30}
 									placeholder="John Doe"
-									className="bg-transparent outline-0 w-full border-0 pr-2"
+									className="bg-transparent inline-block relative outline-0 w-full border-0 pr-2"
 								/>
 							</div>
+							{formError.full_name && (
+								<small className="text-base text-rose-500 mt-2 inline-block">
+									{formError.full_name}
+								</small>
+							)}
 						</label>
 						<label className="block w-full">
 							<span className="text-lg capitalize">Gender</span>
-							<div className="flex mt-3 pr-4 gap-3 bg-ecoGreen/10 rounded-md">
+							<div className="flex mt-3 pr-4 gap-3 bg-ecoGreen/10 rounded-md input-parent transition-all duration-200">
 								<img
 									src={genderIcon}
 									alt="gender avatar"
 									className="h-12  inline-block p-2"
 								/>
 								<select
-									required
 									disabled={isPending}
 									value={formData.gender}
 									name="gender"
 									onChange={handleChange}
-									className="bg-transparent outline-0 border-0  capitalize w-full pr-2"
+									className="bg-transparent outline-0 border-0 capitalize w-full pr-2"
 								>
 									<option value="custom">custom</option>
 									<option value="male">male</option>
@@ -92,7 +109,11 @@ export default function Individual() {
 
 						<label className="block w-full">
 							<span className="text-lg capitalize">email address</span>
-							<div className="flex mt-3 pr-4 gap-3 bg-ecoGreen/10 rounded-md">
+							<div
+								className={`flex mt-3 gap-3 bg-ecoGreen/10 rounded-md relative input-parent transition-all duration-200 ${
+									formError.email ? 'input-error' : ''
+								}`}
+							>
 								<img
 									src={emailIcon}
 									alt="email avatar"
@@ -100,22 +121,28 @@ export default function Individual() {
 								/>
 								<input
 									type="email"
-									required
 									disabled={isPending}
 									name="email"
 									value={formData.email}
 									onChange={handleChange}
-									minLength={6}
-									maxLength={80}
 									placeholder="example@email.com"
 									className="bg-transparent outline-0 border-0 w-full pr-2"
 								/>
 							</div>
+							{formError.email && (
+								<small className="text-base text-rose-500 mt-2 inline-block">
+									{formError.email}
+								</small>
+							)}
 						</label>
 
 						<label className="block w-full">
 							<span className="text-lg capitalize">password</span>
-							<div className="flex mt-3 pr-4 gap-3 bg-ecoGreen/10 rounded-md">
+							<div
+								className={`flex mt-3 gap-3 bg-ecoGreen/10 rounded-md relative input-parent transition-all duration-200 ${
+									formError.password ? 'input-error' : ''
+								}`}
+							>
 								<img
 									src={passwordIcon}
 									alt="security avatar"
@@ -123,13 +150,10 @@ export default function Individual() {
 								/>
 								<input
 									type={showPswd ? 'text' : 'password'}
-									required
 									disabled={isPending}
 									name="password"
 									value={formData.password}
 									onChange={handleChange}
-									minLength={6}
-									maxLength={100}
 									placeholder="*******"
 									className="bg-transparent outline-0 border-0 w-full pr-2"
 								/>
@@ -140,6 +164,11 @@ export default function Individual() {
 									{showPswd ? <IoEyeOutline /> : <IoEyeOffOutline />}
 								</div>
 							</div>
+							{formError.password && (
+								<small className="text-base text-rose-500 mt-2 inline-block">
+									{formError.password}
+								</small>
+							)}
 						</label>
 						<p className="my-4 text-lg text-center">
 							Already have an account?{' '}
@@ -158,6 +187,11 @@ export default function Individual() {
 						>
 							{isPending ? 'loading...' : 'create account'}
 						</button>
+						{error && (
+							<small className="text-center text-rose-500 font-nunito text-lg inline-block w-full mt-6">
+								{error}
+							</small>
+						)}
 					</form>
 				</article>
 				<div className="hidden w-full ml-auto lg:block">

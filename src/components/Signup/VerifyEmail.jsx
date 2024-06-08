@@ -1,6 +1,6 @@
 export default function VerifyEmail() {
 	return (
-		<article className="w-full h-screen flex items-center justify-center gap-5 p-10">
+		<article className="w-full h-screen flex flex-col items-center justify-center gap-5 p-10">
 			<h2 className="font-semibold text-xl lg:text-2xl text-ecoGreen">
 				Just a few more steps to go...
 			</h2>

@@ -6,12 +6,12 @@ import Nav from './components/Nav/Nav.jsx'
 import { SignIn } from './components/Routes/SignIn.jsx'
 import { SignUp } from './components/Routes/SignUp'
 import AccountType from './components/Signup/AccountType.jsx'
-import Individual from './components/Signup/Individual.jsx'
-import OrgDetails from './components/Signup/OrgDetails.jsx'
-import OrgVerification from './components/Signup/OrgVerification.jsx'
-import Organization from './components/Signup/Organization.jsx'
-import Skillsets from './components/Signup/Skillset.jsx'
-import UserDetails from './components/Signup/UserDetails.jsx'
+import OrgDetails from './components/Signup/Org/OrgDetails.jsx'
+import OrgVerification from './components/Signup/Org/OrgVerification.jsx'
+import Organization from './components/Signup/Org/Organization.jsx'
+import Individual from './components/Signup/User/Individual.jsx'
+import Skillsets from './components/Signup/User/Skillset.jsx'
+import UserDetails from './components/Signup/User/UserDetails.jsx'
 import VerifyEmail from './components/Signup/VerifyEmail.jsx'
 
 const App = () => {
@@ -20,16 +20,23 @@ const App = () => {
 			<Routes>
 				<Route path="/" element={<Nav />}>
 					<Route index element={<LandingPage />} />
-					<Route path="sign-in" element={<SignIn />} />
+					<Route path="login" element={<SignIn />} />
 
-					<Route path="sign-up" element={<SignUp />}>
+					<Route path="signup" element={<SignUp />}>
 						<Route index element={<AccountType />} />
-						<Route path="individual" element={<Individual />} />
-						<Route path="user-details" element={<UserDetails />} />
-						<Route path="skillset" element={<Skillsets />} />
-						<Route path="organization" element={<Organization />} />
-						<Route path="org-details" element={<OrgDetails />} />
-						<Route path="org-verification" element={<OrgVerification />} />
+
+						<Route path="user">
+							<Route index element={<Individual />} />
+							<Route path="details" element={<UserDetails />} />
+							<Route path="skillset" element={<Skillsets />} />
+						</Route>
+
+						<Route path="organization">
+							<Route index element={<Organization />} />
+							<Route path="details" element={<OrgDetails />} />
+							<Route path="verification" element={<OrgVerification />} />
+						</Route>
+
 						<Route path="verify-email" element={<VerifyEmail />} />
 					</Route>
 				</Route>

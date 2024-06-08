@@ -9,8 +9,20 @@ import passwordIcon from '../assets/signup/security-safe.svg'
 import emailIcon from '../assets/signup/sms.svg'
 import squareIcon from '../assets/signup/squacle.svg'
 
+const initialState = {
+	email: '',
+	password: '',
+}
+
 export function SignIn() {
 	const [showPswd, setShowPswd] = useState(false)
+	const [checked, setChecked] = useState(true)
+	const [formData, setFormData] = useState(initialState)
+
+	function handleChange(e) {
+		const { name, value } = e.target
+		setFormData((prev) => ({ ...prev, [name]: value }))
+	}
 
 	async function handleSubmit(e) {
 		e.preventDefault()
@@ -30,7 +42,7 @@ export function SignIn() {
 					<form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
 						<label className="block w-full">
 							<span className="text-lg capitalize">email address</span>
-							<div className="flex mt-3 pr-4 gap-3 bg-ecoGreen/10 rounded-md">
+							<div className="flex mt-3 pr-4 gap-3 bg-ecoGreen/10 rounded-md input-parent">
 								<img
 									src={emailIcon}
 									alt="email avatar"
@@ -38,6 +50,9 @@ export function SignIn() {
 								/>
 								<input
 									type="email"
+									name="email"
+									value={formData.email}
+									onChange={handleChange}
 									required
 									minLength={6}
 									maxLength={80}
@@ -50,7 +65,7 @@ export function SignIn() {
 
 						<label className="block w-full mt-4">
 							<span className="text-lg capitalize">password</span>
-							<div className="flex mt-3 pr-4 gap-3 bg-ecoGreen/10 rounded-md">
+							<div className="flex mt-3 pr-4 gap-3 bg-ecoGreen/10 rounded-md input-parent">
 								<img
 									src={passwordIcon}
 									alt="security avatar"
@@ -58,6 +73,9 @@ export function SignIn() {
 								/>
 								<input
 									type={showPswd ? 'text' : 'password'}
+									name="password"
+									value={formData.password}
+									onChange={handleChange}
 									required
 									minLength={6}
 									maxLength={100}
@@ -75,12 +93,18 @@ export function SignIn() {
 						<label className="flex items-center gap-3 mt-3">
 							<div className="flex relative w-6 h-6">
 								<input
+									checked={checked}
+									onChange={() => setChecked((prev) => !prev)}
 									type="checkbox"
 									name="remember-me"
 									id="remember-me"
 									className="w-0 h-0 invisible peer"
 								/>
-								<img src={squareIcon} alt="checked" className="w-full h-full" />
+								<img
+									src={squareIcon}
+									alt="checked"
+									className="w-full h-full peer-focus:shadow-md"
+								/>
 								<img
 									src={checkmarkIcon}
 									alt="checked"
