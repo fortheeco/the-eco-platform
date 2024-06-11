@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import Avatar from "../assets/nav/AvatarEco.svg";
+import Avatar from "../../assets/nav/AvatarEco.svg";
 import { styles } from "../../style";
 import { Link, Outlet } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
@@ -9,7 +9,7 @@ import "../../index.css";
 const Nav = () => {
   return (
     <Fragment>
-      <div className={`${styles.paddingX}  w-full  pt-12 `}>
+      <div className={`${styles.paddingX}  w-full  pt-12 fixed z-20 `}>
         <div
           className={`pl-8 pr-10  py-1  box-shadow  bg-[#fff] relative h-full flex items-center justify-between`}
         >
