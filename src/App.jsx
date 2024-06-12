@@ -13,6 +13,7 @@ import Individual from "./components/Signup/User/Individual.jsx";
 import Skillsets from "./components/Signup/User/Skillset.jsx";
 import UserDetails from "./components/Signup/User/UserDetails.jsx";
 import VerifyEmail from "./components/Signup/VerifyEmail.jsx";
+import { PalsIndex } from "./components/Pals/index.jsx";
 
 const App = () => {
   return (
@@ -22,6 +23,9 @@ const App = () => {
         <Route index element={<LandingPage />} />
 
         <Route path="login" element={<SignIn />} />
+
+        {/* Pals page */}
+        <Route path="pals" element={<PalsIndex />} />
 
         <Route path="signup" element={<SignUp />}>
           <Route index element={<AccountType />} />

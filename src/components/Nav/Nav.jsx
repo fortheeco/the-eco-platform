@@ -26,7 +26,9 @@ const Nav = () => {
               <li className="flex items-center gap-2 cursor-pointer">
                 Eco <IoIosArrowDown />
               </li>
-              <li>PALs</li>
+              <Link to={"/pals"}>
+                <li>PALs</li>
+              </Link>
 
               <li>Innovation</li>
             </ul>
