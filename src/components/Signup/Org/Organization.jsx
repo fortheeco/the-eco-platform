@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
-import bannerImg from '../../assets/signup/org-account-icon.png'
+import bannerImg from '../../../assets/signup/org-account-icon.png'
 import AuthNav from '../AuthNav'
 import SplitLayout from '../SplitLayout'
 

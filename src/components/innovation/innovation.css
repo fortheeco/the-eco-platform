@@ -7,21 +7,21 @@
 }
 
 .innov-hero {
-	background-image: url('../assets/innovation/hero-bg-sm.png');
+	background-image: url('../../assets/innovation/hero-bg-sm.png');
 }
 
 .innov-highlight {
-	background-image: url('../assets/innovation/cards-bg.png');
+	background-image: url('../../assets/innovation/cards-bg.png');
 }
 
 .innov-cta {
-	background-image: url('../assets/innovation/group-afro-americans-working-together.png');
+	background-image: url('../../assets/innovation/group-afro-americans-working-together.png');
 	background-color: #000;
 	background-blend-mode: screen;
 }
 
 @media screen and (min-width: 1200px) {
 	.innov-hero {
-		background-image: url('../assets/innovation/innovation_bg.png');
+		background-image: url('../../assets/innovation/innovation_bg.png');
 	}
 }

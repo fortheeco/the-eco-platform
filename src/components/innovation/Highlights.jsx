@@ -1,9 +1,9 @@
 import { FaFacebookF, FaLinkedinIn, FaXTwitter } from 'react-icons/fa6'
+import dataIcon from '../../assets/innovation/data-icon.png'
+import designIcon from '../../assets/innovation/design-icon.png'
+import digitalIcon from '../../assets/innovation/digital-icon.png'
+import mediaIcon from '../../assets/innovation/media-icon.png'
 import { layout } from '../../style'
-import dataIcon from '../assets/innovation/data-icon.png'
-import designIcon from '../assets/innovation/design-icon.png'
-import digitalIcon from '../assets/innovation/digital-icon.png'
-import mediaIcon from '../assets/innovation/media-icon.png'
 
 export default function Highlights() {
 	return (

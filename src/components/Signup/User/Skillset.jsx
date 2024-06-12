@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import locationIcon from '../../../assets/signup/location.svg'
+import userAvatar from '../../../assets/signup/user-avatar.png'
 import { layout } from '../../../style'
-import locationIcon from '../../assets/signup/location.svg'
-import userAvatar from '../../assets/signup/user-avatar.png'
 
 export default function Skillset() {
 	const user = {

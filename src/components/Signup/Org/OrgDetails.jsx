@@ -1,6 +1,6 @@
 import { useState } from 'react'
+import userAvatar from '../../../assets/signup/user-avatar.png'
 import { layout, styles } from '../../../style'
-import userAvatar from '../../assets/signup/user-avatar.png'
 
 export default function OrgDetails() {
 	const user = {

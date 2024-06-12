@@ -1,7 +1,7 @@
 import { useState } from 'react'
+import locationIcon from '../../../assets/signup/location.svg'
+import userAvatar from '../../../assets/signup/user-avatar.png'
 import { layout, styles } from '../../../style'
-import locationIcon from '../../assets/signup/location.svg'
-import userAvatar from '../../assets/signup/user-avatar.png'
 
 const user = {
 	name: 'John Doe',

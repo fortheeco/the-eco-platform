@@ -1,9 +1,9 @@
 import { useState } from 'react'
+import edenImg from '../../assets/innovation/eden.png'
+import flutterwaveImg from '../../assets/innovation/flutterwave.png'
+import kudaImg from '../../assets/innovation/kuda.png'
+import moniepointImg from '../../assets/innovation/moniepoint.png'
 import { layout } from '../../style'
-import edenImg from '../assets/innovation/eden.png'
-import flutterwaveImg from '../assets/innovation/flutterwave.png'
-import kudaImg from '../assets/innovation/kuda.png'
-import moniepointImg from '../assets/innovation/moniepoint.png'
 
 const CATEGORY_LIST = [
 	{ img: kudaImg, category: 'fintech', id: 1 },

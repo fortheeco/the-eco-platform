@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
+import bannerImg from '../../assets/ecoBannerImage.png'
+import checkmarkIcon from '../../assets/signup/check.svg'
+import passwordIcon from '../../assets/signup/security-safe.svg'
+import emailIcon from '../../assets/signup/sms.svg'
+import squareIcon from '../../assets/signup/squacle.svg'
 import AuthNav from '../Signup/AuthNav'
 import SplitLayout from '../Signup/SplitLayout'
-import bannerImg from '../assets/ecoBannerImage.png'
-import checkmarkIcon from '../assets/signup/check.svg'
-import passwordIcon from '../assets/signup/security-safe.svg'
-import emailIcon from '../assets/signup/sms.svg'
-import squareIcon from '../assets/signup/squacle.svg'
 
 const initialState = {
 	email: '',

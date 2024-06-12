@@ -1,3 +1,4 @@
+import Nav from '../Nav/Nav'
 import CTA from '../innovation/CTA'
 import Categories from '../innovation/Categories'
 import Footer from '../innovation/Footer'
@@ -6,12 +7,15 @@ import Highlights from '../innovation/Highlights'
 
 export default function Innovation() {
 	return (
-		<section className="w-full relative" id="innovation">
-			<Hero />
-			<Categories />
-			<Highlights />
-			<CTA />
-			<Footer />
-		</section>
+		<div className="w-full relative" id="innovation">
+			<Nav />
+			<section className="w-full pt-20">
+				<Hero />
+				<Categories />
+				<Highlights />
+				<CTA />
+				<Footer />
+			</section>
+		</div>
 	)
 }

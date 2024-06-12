@@ -3,13 +3,13 @@ import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import axios from '../../../api/axios'
+import bannerImg from '../../../assets/ecoBannerImage.png'
+import genderIcon from '../../../assets/signup/gender-icon.svg'
+import userIcon from '../../../assets/signup/profile.svg'
+import passwordIcon from '../../../assets/signup/security-safe.svg'
+import emailIcon from '../../../assets/signup/sms.svg'
 import { validateForm } from '../../../helpers/validate-form'
 import useSignup from '../../../hooks/useSignup'
-import bannerImg from '../../assets/ecoBannerImage.png'
-import genderIcon from '../../assets/signup/gender-icon.svg'
-import userIcon from '../../assets/signup/profile.svg'
-import passwordIcon from '../../assets/signup/security-safe.svg'
-import emailIcon from '../../assets/signup/sms.svg'
 import AuthNav from '../AuthNav'
 import SplitLayout from '../SplitLayout'
 
@@ -205,7 +205,7 @@ export default function Individual() {
 				</div>
 			</SplitLayout>
 			<Link
-				to={'/sign-up/organization'}
+				to={'/signup/organization'}
 				className="block text-ecoGreen underline text-lg text-center lg:font-bold lg:text-left lg:ml-[20%] mt-16"
 			>
 				Create organization account

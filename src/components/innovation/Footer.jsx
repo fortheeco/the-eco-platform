@@ -1,6 +1,6 @@
 import { FaFacebookF, FaLinkedinIn, FaXTwitter } from 'react-icons/fa6'
 import { Link } from 'react-router-dom'
-import arrowUp from '../assets/innovation/uparrow.png'
+import arrowUp from '../../assets/innovation/uparrow.png'
 
 export default function Footer() {
 	const currentYear = new Date().getFullYear()

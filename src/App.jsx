@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import { Dashboard } from './components/Dashboard/dashboard.jsx'
 import { LandingPage } from './components/Home/LandingPage.jsx'
 import Nav from './components/Nav/Nav.jsx'
+import { PalsIndex } from './components/Pals/index.jsx'
 import Innovation from './components/Routes/Innovation.jsx'
 import { SignIn } from './components/Routes/SignIn.jsx'
 import { SignUp } from './components/Routes/SignUp'
@@ -19,29 +20,32 @@ const App = () => {
 	return (
 		<div>
 			<Routes>
-				<Route path="/" element={<Nav />}>
-					<Route index element={<LandingPage />} />
-					<Route path="login" element={<SignIn />} />
-					<Route path="innovation" element={<Innovation />} />
+				{/* <Route path="/" element={<Nav />}> */}
+				<Route index element={<LandingPage />} />
+				<Route path="login" element={<SignIn />} />
 
-					<Route path="signup" element={<SignUp />}>
-						<Route index element={<AccountType />} />
+				{/* Pals page */}
+				<Route path="pals" element={<PalsIndex />} />
+				<Route path="innovation" element={<Innovation />} />
 
-						<Route path="user">
-							<Route index element={<Individual />} />
-							<Route path="details" element={<UserDetails />} />
-							<Route path="skillset" element={<Skillsets />} />
-						</Route>
+				<Route path="signup" element={<SignUp />}>
+					<Route index element={<AccountType />} />
 
-						<Route path="organization">
-							<Route index element={<Organization />} />
-							<Route path="details" element={<OrgDetails />} />
-							<Route path="verification" element={<OrgVerification />} />
-						</Route>
-
-						<Route path="verify-email" element={<VerifyEmail />} />
+					<Route path="user">
+						<Route index element={<Individual />} />
+						<Route path="details" element={<UserDetails />} />
+						<Route path="skillset" element={<Skillsets />} />
 					</Route>
+
+					<Route path="organization">
+						<Route index element={<Organization />} />
+						<Route path="details" element={<OrgDetails />} />
+						<Route path="verification" element={<OrgVerification />} />
+					</Route>
+
+					<Route path="verify-email" element={<VerifyEmail />} />
 				</Route>
+				{/* </Route> */}
 
 				<Route path="/dashboard" element={<Dashboard />} />
 			</Routes>
