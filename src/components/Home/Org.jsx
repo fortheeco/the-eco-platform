@@ -4,7 +4,7 @@ import { ORGANIZATIONS } from "../data";
 
 export default function Org() {
   return (
-    <section className=" sm:px-16 px-8 sm:py-12 py-8 flex flex-col justify-center gap-10 w-full">
+    <section className=" sm:px-16 px-8  py-8 flex flex-col justify-center gap-10 w-full">
       <div className="flex flex-col items-center justify-center text-center">
         <p className="text-[24px] font-[300]">Welcome to THE ECO</p>
         <div className="flex flex-col items-center justify-center text-center mt-2">
