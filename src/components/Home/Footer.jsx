@@ -1,6 +1,7 @@
 import React from "react";
 import { CustomButton } from "../utils/Button";
 import { SOCIALS } from "../data";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -15,7 +16,12 @@ export default function Footer() {
             <li>iPALs</li>
             <li>Innovation</li>
           </ul>
-          <CustomButton content="Create Account" variant="p-2" />
+          <Link to={"/signup"}>
+            <CustomButton
+              content="Create Account"
+              variant="p-2 cursor-pointer"
+            />
+          </Link>
         </div>
         <div className="mt-6 mb-6">
           <ul className="flex gap-14 items-center">
