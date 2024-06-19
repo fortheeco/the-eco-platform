@@ -18,11 +18,13 @@ export default function useSignup() {
 		setError(null)
 
 		try {
-			const response = await api.post('/signup/', data)
-			console.log(response)
+			const response = await api.post('/signup/', email)
+			// localStorage.setItem('user-info', JSON.stringify(data))
+			// console.log(response)
 			setError(null)
 			setIsPending(false)
-			navigate('/signup/verify-email')
+			return response
+			// navigate('/signup/verify-email')
 		} catch (err) {
 			setError(err?.message)
 			setIsPending(false)

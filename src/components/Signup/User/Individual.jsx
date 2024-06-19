@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
-// import { toast } from 'react-toastify'
+import { toast } from 'react-toastify'
+import axios from '../../../api/axios'
 import { validateForm } from '../../../helpers/validate-form'
 import useSignup from '../../../hooks/useSignup'
 import bannerImg from '../../assets/ecoBannerImage.png'
@@ -38,7 +39,8 @@ export default function Individual() {
 		setFormError(errors)
 
 		if (Object.keys(errors).length === 0) {
-			await signup({ ...formData })
+			// await signup({ ...formData })
+			const response = await axios.post('/signup/', formData.email)
 			console.log(formData)
 			return
 		}
@@ -174,7 +176,7 @@ export default function Individual() {
 							Already have an account?{' '}
 							<Link
 								to={'/sign-in'}
-								className="capitalize lg:font-semibold text-ecoGreen"
+								className="capitalize lg:font-semibold text-ecoGreen focus-within:font-bold focus-within:outline-0 focus-within:underline transition-all"
 							>
 								Login to your portal
 							</Link>
@@ -183,7 +185,7 @@ export default function Individual() {
 						<button
 							type="submit"
 							disabled={isPending}
-							className="capitalize bg-ecoGreen text-white w-full py-3 lg:w-4/5 rounded-md text-lg font-semibold mx-auto disabled:bg-slate-300 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none"
+							className="capitalize bg-ecoGreen text-white w-full py-3 lg:w-4/5 rounded-md text-lg font-semibold mx-auto disabled:bg-slate-300 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none focus-within:outline-ecoGreen focus-within:outline-2 focus-within:shadow-lg focus-within:rounded-none focus-within:bg-ecoGreen/70 transition-all"
 						>
 							{isPending ? 'loading...' : 'create account'}
 						</button>

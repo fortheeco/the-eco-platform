@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import { Dashboard } from './components/Dashboard/dashboard.jsx'
 import { LandingPage } from './components/Home/LandingPage.jsx'
 import Nav from './components/Nav/Nav.jsx'
+import Innovation from './components/Routes/Innovation.jsx'
 import { SignIn } from './components/Routes/SignIn.jsx'
 import { SignUp } from './components/Routes/SignUp'
 import AccountType from './components/Signup/AccountType.jsx'
@@ -21,6 +22,7 @@ const App = () => {
 				<Route path="/" element={<Nav />}>
 					<Route index element={<LandingPage />} />
 					<Route path="login" element={<SignIn />} />
+					<Route path="innovation" element={<Innovation />} />
 
 					<Route path="signup" element={<SignUp />}>
 						<Route index element={<AccountType />} />
