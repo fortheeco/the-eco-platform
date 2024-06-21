@@ -35,16 +35,16 @@ export default function Categories() {
 			className={layout.section}
 			aria-description="innovation categories"
 		>
-			<div className="w-full flex flex-col items-center justify-center gap-4 p-10 lg:px-20">
-				<h2 className="text-3xl font-Montserrat font-bold text-center lg:text-4xl mb-4">
+			<div className="w-full flex flex-col items-center justify-center gap-4 sm:p-10 lg:px-20 relative">
+				<h2 className="text-xl md:text-3xl font-Montserrat font-bold text-center lg:text-4xl mb-4">
 					INNOVATIONS COMING OUT OF AFRICA #ForAfrica
 				</h2>
-				<nav className="w-full flex items-center justify-center gap-4 my-4 overflow-x-scroll lg:overflow-auto px-10">
+				<nav className="w-full flex items-center lg:justify-center gap-4 my-4 overflow-x-scroll lg:overflow-auto px-10">
 					{categories.map((category) => (
 						<button
 							key={category}
 							onClick={() => setSelectedCategory(category)}
-							className={`px-4 py-2 font-semibold font-montserrat text-2xl capitalize whitespace-nowrap w-fit ${
+							className={`px-4 py-2 font-semibold font-montserrat text-2xl capitalize whitespace-nowrap w-fit  ${
 								category === selectedCategory
 									? 'bg-ecoGreen text-white rounded-md'
 									: 'text-black'
@@ -54,7 +54,7 @@ export default function Categories() {
 						</button>
 					))}
 				</nav>
-				<ul className="w-full flex items-center justify-center gap-x-10 gap-y-16 lg:gap-y-20 lg:gap-x-16">
+				<ul className="w-full grid grid-cols-[repeat(auto-fill,_minmax(15rem,_1fr))] items-center justify-center gap-x-10 gap-y-16 lg:gap-y-20 lg:gap-x-16">
 					{cardList.length !== 0 ? (
 						cardList.map((card) => <Card key={card.id} {...card} />)
 					) : (
@@ -70,7 +70,7 @@ export default function Categories() {
 
 const Card = ({ img }) => {
 	return (
-		<div className="flex w-full min-w-[18rem] max-w-xs h-72 relative rounded-sm ">
+		<div className="flex w-full h-72 relative rounded-sm ">
 			<img
 				src={img}
 				alt=""

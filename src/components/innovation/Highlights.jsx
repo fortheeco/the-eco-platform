@@ -8,7 +8,7 @@ import mediaIcon from '../assets/innovation/media-icon.png'
 export default function Highlights() {
 	return (
 		<article className={`w-full ${layout.section}`}>
-			<div className="w-full flex flex-col items-center justify-center gap-4 p-10 lg:px-20 innov-highlight">
+			<div className="w-full flex flex-col items-center justify-center gap-4 sm:p-10 lg:px-20 innov-highlight">
 				<h3 className="text-2xl font-bold text-center lg:text-3xl">
 					Build innovation and strategy
 				</h3>

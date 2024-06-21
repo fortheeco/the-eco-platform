@@ -5,19 +5,27 @@ import arrowUp from '../assets/innovation/uparrow.png'
 export default function Footer() {
 	const currentYear = new Date().getFullYear()
 
+	function scrollToTop() {
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth',
+		})
+	}
+
 	return (
 		<footer className="bg-[#263238] pb-8 pt-24 lg:py-16 text-white mt-24 lg:mt-[12rem] relative">
-			<Link
-				to={'#innovation'}
+			<button
+				role="navigation"
+				aria-description="scroll to top of page"
+				onClick={scrollToTop}
 				className="absolute right-7 -top-5 inline-block sm:top-1/4 sm:right-12"
 			>
 				<img
 					src={arrowUp}
-					alt="scroll to top"
-					role="navigation"
+					alt="arrow up"
 					className="w-10 aspect-square object-contain hover:scale-110 hover:shadow-md transition-all active:scale-95"
 				/>
-			</Link>
+			</button>
 			<div className="text-center flex flex-col items-center justify-center">
 				<div className="flex flex-col sm:flex-row gap-6 sm:gap-6 items-center">
 					<ul className="flex gap-6 md:gap-12 text-center font-montserrat font-light text-sm">
