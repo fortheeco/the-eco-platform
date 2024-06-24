@@ -6,7 +6,7 @@ import { IoIosArrowDown } from "react-icons/io";
 
 import "../../index.css";
 
-const Nav = () => {
+const LoginNav = () => {
   return (
     <Fragment>
       <div className={`${styles.paddingX}  w-full  pt-12 fixed z-20 `}>
@@ -35,17 +35,25 @@ const Nav = () => {
             </ul>
           </div>
 
-          <div className=" hidden  sm:flex justify-center items-center gap-5 md:text-[14px] bg-[#F9FFFB] absolute right-0 top-0 bottom-0 px-12 h-full box-shadow">
-            <Link to={"/login"}>
-              <button className="border border-ecoGreen py-3 px-12 text-[15px] text-ecoGreen rounded-[10px] tracking-[1px]">
-                Login
-              </button>
+          <div className=" hidden sm:flex justify-center items-center gap-5 md:text-[14px] bg-[#F9FFFB] absolute right-0 top-0 bottom-0 px-12 h-full box-shadow">
+            <p>Problems 24</p>
+
+            <p>Projects 24</p>
+
+            <p className="w-[0.25px] h-6 bg-black"></p>
+
+            <div className="flex items-center gap-2 cursor-pointer">
+              <img src={Avatar} alt="" className={` w-[2rem] h-[2rem] `} />
+
+              <IoIosArrowDown />
+            </div>
+
+            {/* <Link to={"/sign-in"}>
+              <button className="">Problems 24</button>
             </Link>
-            <Link to={"/signup"}>
-              <button className="bg-ecoGreen py-3 px-4 text-white text-[15px] tracking-[1px] rounded-[10px]">
-                Create Account
-              </button>
-            </Link>
+            <Link to={"/sign-up"}>
+              <button className="">Projects 24</button>
+            </Link> */}
           </div>
         </div>
       </div>
@@ -54,4 +62,4 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+export default LoginNav;
