@@ -1,19 +1,19 @@
 import { useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import axios from '../../../api/axios'
 import locationIcon from '../../../assets/signup/location.svg'
-import userAvatar from '../../../assets/signup/user-avatar.png'
+import { useAuthContext } from '../../../hooks/useAuthContext'
 import { layout } from '../../../style'
 
 export default function Skillset() {
-	const user = {
-		name: 'John Doe',
-		email: 'example@gmail.com',
-		gender: 'male',
-		avatar: userAvatar,
-	}
-	const shortenedName = user.name.split(' ')[0]
+	const [isPending, setIsPending] = useState(false)
+	const [error, setError] = useState(null)
+	const { user, token } = useAuthContext()
+	const shortenedName = user?.full_name?.split(' ')[0] || ''
 	const [skills, setSkills] = useState([])
 	const [newSkill, setNewSkill] = useState('')
+	const navigate = useNavigate()
 
 	function handleAddSkill() {
 		if (newSkill.trim() === '') {
@@ -22,7 +22,7 @@ export default function Skillset() {
 		}
 
 		const skillExists = skills.some(
-			(skill) => skill.skill.toLowerCase() === newSkill.toLowerCase()
+			(skill) => skill.name.toLowerCase() === newSkill.toLowerCase()
 		)
 
 		if (skillExists) {
@@ -31,8 +31,7 @@ export default function Skillset() {
 		}
 
 		const newSkillObject = {
-			id: uuidv4(),
-			skill: newSkill,
+			name: newSkill,
 		}
 
 		setSkills([...skills, newSkillObject])
@@ -45,9 +44,38 @@ export default function Skillset() {
 		}
 	}
 
-	function handleRemoveSkill(id) {
-		const updatedSkills = skills.filter((skill) => skill.id !== id)
+	function handleRemoveSkill(name) {
+		const updatedSkills = skills.filter((skill) => skill.name !== name)
 		setSkills(updatedSkills)
+	}
+
+	async function handleSubmit(e) {
+		e.preventDefault()
+		setError(null)
+		setIsPending(true)
+		try {
+			await axios
+				.post('update_skills/', skills, {
+					headers: { Authorization: `Bearer ${token}` },
+					withCredentials: true,
+				})
+				.then((res) => {
+					toast.success('Skills added successfully!')
+
+					setTimeout(() => {
+						navigate('/')
+					}, 2000)
+				})
+			setError(null)
+		} catch (err) {
+			let logErr =
+				err?.response?.data?.detail ||
+				'Something went wrong... please refresh and try again'
+			setError(logErr)
+			console.error(err)
+		} finally {
+			setIsPending(false)
+		}
 	}
 
 	return (
@@ -95,13 +123,13 @@ export default function Skillset() {
 				<ul className="w-full flex gap-4">
 					{skills.map((skill) => (
 						<li
-							key={skill.id}
+							key={skill.name}
 							className="w-fit flex items-center px-2 py-2 bg-ecoGreen text-white gap-4 rounded-md lg:text-lg capitalize"
 						>
-							{skill.skill}{' '}
+							{skill.name}{' '}
 							<span
-								title={`Remove ${skill.skill}`}
-								onClick={() => handleRemoveSkill(skill.id)}
+								title={`Remove ${skill.name}`}
+								onClick={() => handleRemoveSkill(skill.name)}
 								className="cursor-pointer text-dimWhite font-poppins"
 							>
 								x
@@ -109,11 +137,18 @@ export default function Skillset() {
 						</li>
 					))}
 				</ul>
+				{error && (
+					<small className="text-center text-rose-500 font-nunito text-lg font-semibold inline-block w-full mt-2">
+						{error}
+					</small>
+				)}
 				<button
 					type="submit"
-					className="capitalize bg-ecoGreen text-white w-full py-3 lg:w-1/3 flex justify-center rounded-md text-lg mx-auto mt-16 mb-4"
+					onClick={handleSubmit}
+					disabled={isPending}
+					className="capitalize bg-ecoGreen text-white w-full py-3 lg:w-1/3 flex justify-center rounded-md text-lg mx-auto mt-16 mb-4 disabled:bg-slate-300 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none focus-within:outline-ecoGreen focus-within:outline-2 focus-within:shadow-lg focus-within:rounded-none focus-within:bg-ecoGreen/70 transition-all"
 				>
-					save and continue
+					{isPending ? 'loading' : 'save and continue'}
 				</button>
 			</div>
 		</section>

@@ -1,14 +1,20 @@
 import { createContext, useReducer } from 'react'
+// import Cookies from 'js-cookie'
 
 export const AuthContext = createContext()
 
-export function authReducer(state, action) {
+function reducer(state, action) {
 	switch (action.type) {
 		case 'LOGIN':
-			return { ...state, user: action.payload }
+			return {
+				...state,
+				user: action.user,
+				isAuthenticated: true,
+				token: action.token,
+			}
 
 		case 'LOGOUT':
-			return { ...state, user: null }
+			return { ...state, user: null, isAuthenticated: false, token: null }
 
 		default:
 			return state
@@ -16,8 +22,10 @@ export function authReducer(state, action) {
 }
 
 export function AuthContextProvider({ children }) {
-	const [state, dispatch] = useReducer(authReducer, {
+	const [state, dispatch] = useReducer(reducer, {
 		user: null,
+		token: null,
+		isAuthenticated: false,
 	})
 
 	return (

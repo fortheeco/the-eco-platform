@@ -18,7 +18,7 @@
 	}
 
 	.globe-bg::before {
-		content: url('../assets/landingpage/fadedglobe.svg');
+		content: url('../../assets/landingpage/fadedglobe.svg');
 		opacity: 0.4;
 		object-fit: 150%;
 		object-position: center;
@@ -46,7 +46,7 @@
 }
 
 .bg-container::before {
-	content: url('../assets/landingpage/fadedglobe.svg');
+	content: url('../../assets/landingpage/fadedglobe.svg');
 	opacity: 0.4;
 	object-fit: contain;
 	object-position: left;

@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
+// import { toast } from 'react-toastify'
 import bannerImg from '../../assets/ecoBannerImage.png'
 import checkmarkIcon from '../../assets/signup/check.svg'
 import passwordIcon from '../../assets/signup/security-safe.svg'
 import emailIcon from '../../assets/signup/sms.svg'
 import squareIcon from '../../assets/signup/squacle.svg'
+import useLogin from '../../hooks/useLogin'
 import AuthNav from '../Signup/AuthNav'
 import SplitLayout from '../Signup/SplitLayout'
 
@@ -18,6 +20,7 @@ export function SignIn() {
 	const [showPswd, setShowPswd] = useState(false)
 	const [checked, setChecked] = useState(true)
 	const [formData, setFormData] = useState(initialState)
+	const { signin, error, isPending } = useLogin()
 
 	function handleChange(e) {
 		const { name, value } = e.target
@@ -26,11 +29,12 @@ export function SignIn() {
 
 	async function handleSubmit(e) {
 		e.preventDefault()
-		console.log('form submitted')
+		await signin(formData.email, formData.password)
 	}
 
 	return (
 		<div className="w-full block relative py-10 lg:py-20 font-nunito sm:px-8 lg:px-20">
+			{/* {error && toast.error(error, { position: 'top-center' })} */}
 			<SplitLayout>
 				<article className={`w-full md:p-10 lg:shadow-lg globe-bg`}>
 					<AuthNav />
@@ -113,13 +117,19 @@ export function SignIn() {
 							</div>
 							<span>Remember me</span>
 						</label>
-
+						{error && (
+							<small className="inline-block text-lg text-rose-600 text-center">
+								{error}
+							</small>
+						)}
 						<button
 							type="submit"
-							className="capitalize bg-ecoGreen text-white py-3 w-4/5 rounded-md text-lg font-semibold mx-auto inline-block my-6"
+							disabled={isPending}
+							className="capitalize bg-ecoGreen text-white py-3 w-4/5 rounded-md text-lg font-semibold mx-auto inline-block mb-6"
 						>
-							login
+							{isPending ? 'Loading...' : 'login'}
 						</button>
+
 						<Link
 							to={'/iforgot'}
 							className="font-semibold text-ecoGreen text-lg text-center capitalize"

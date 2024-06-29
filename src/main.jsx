@@ -13,8 +13,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 		<BrowserRouter>
 			<AuthContextProvider>
 				<App />
-				<ToastContainer />
 			</AuthContextProvider>
+			<ToastContainer />
 		</BrowserRouter>
 	</React.StrictMode>
 )
