@@ -6,7 +6,11 @@ export default function Org() {
   return (
     <section className=" sm:px-16 px-8  py-8 flex flex-col justify-center gap-10 w-full">
       <div className="flex flex-col items-center justify-center text-center">
-        <p className="text-[24px] font-[300]">Welcome to THE ECO</p>
+        <p className="text-[24px] font-[300] relative">
+          <p className="bg-ecoGreen w-2 h-2 text-ecoGreen text-[8px]  rounded-full absolute top-2"></p>
+          Welcome to THE ECO
+          <p className="bg-red w-2 h-2 text-red text-[8px] rounded-full absolute right-0 bottom-2"></p>
+        </p>
         <div className="flex flex-col items-center justify-center text-center mt-2">
           <h4 className="text-[13px] font-light mb-1">
             The ECO is an abbreviation meaning{" "}

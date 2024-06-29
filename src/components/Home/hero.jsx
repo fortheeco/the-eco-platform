@@ -4,10 +4,23 @@ import "./landingPage.css";
 import heroImg from "../../assets/landingpage/ecoBannerImg.png";
 import fadedGlobe from "../../assets/landingpage/fadedGlobe.png";
 import { Link } from "react-router-dom";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const Hero = () => {
+  const slidersettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    swipeToSlide: true,
+    autoplay: true, // Enable autoplay
+    autoplaySpeed: 4000, // Autoplay speed in milliseconds
+  };
   return (
-    <div className=" ">
+    <div className="w-full ">
       <div
         className={`${layout.section} ${styles.flexBetween} items-center mx-auto w-full relative`}
       >
@@ -30,7 +43,12 @@ const Hero = () => {
           </div>
         </div>
 
-        <img src={heroImg} alt="" className=" md:mr-[-30px] mt-20" />
+        <div className=" mt-20 w-[80%] overflow-x-hidden lg:h-[37rem] md:mr-[-30px]">
+          <Slider {...slidersettings}>
+            <img src={heroImg} alt="" className="h-[36rem] w-[70%]" />
+            <img src={heroImg} alt="" className="h-[36rem] w-[70%]" />
+          </Slider>
+        </div>
       </div>
     </div>
   );

@@ -1,16 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Nav from "../Nav/Nav";
 import { layout, styles } from "../../style";
 import { IoSearch } from "react-icons/io5";
 import avatar1 from "../../assets/avatar/femaleBlack.svg";
 import { Palsdata } from "./data";
+import axios from "../../api/axios";
 
 export const PalsIndex = () => {
   const [searchInput, setSearchInput] = useState("");
   //   const [search, setSearch] = useState(false);
+  const [palsData, setPalsData] = useState([]);
 
-  const filteredPals = Palsdata.filter((data) =>
-    data.name.toLowerCase().includes(searchInput.toLowerCase())
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("/pals");
+
+        setPalsData(response.data.results);
+
+        // console.log(response.data);
+        //  setData(response.data);
+      } catch (error) {
+        //  setError(error);
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const filteredPals = palsData?.filter((data) =>
+    data.full_name.toLowerCase().includes(searchInput.toLowerCase())
   );
 
   return (
@@ -45,7 +65,7 @@ export const PalsIndex = () => {
         </div>
 
         <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredPals.map((data) => {
+          {filteredPals?.map((data) => {
             return <PalsCard data={data} />;
           })}
         </div>
@@ -56,20 +76,25 @@ export const PalsIndex = () => {
 
 const PalsCard = ({ data }) => {
   return (
-    <div className="border border-[#979797] p-4 rounded-lg" key={data.index}>
+    <div className="border border-[#979797] p-4 rounded-lg" key={data?.id}>
       <div className="flex items-center gap-2">
         <img src={avatar1} alt="" className="w-[50px]" />
         <div>
-          <p className=" text-[14px]">{data.name}</p>
+          <p className=" text-[14px]">{data?.full_name}</p>
           <p className="font-light mt-1 text-[13px]">Leader</p>
         </div>
       </div>
-      <p className="font-light mt-2 text-[13px]">{data.desc}</p>
+      <p className="font-light mt-2 text-[13px]">
+        Passionate data enthusiast unraveling hidden truths, unlocking
+        possibilities through analytics, visualization, and the art of data.
+        Empowering informed decisions, driving business success.
+        {/* {data?.description} */}
+      </p>
 
       <div className="mt-4 font-light text-[12px] flex gap-2">
         {data.skills.map((skill, index) => (
           <p key={index} className="bg-ecoLightGreen p-1">
-            {skill}
+            {skill?.name}
           </p>
         ))}
       </div>
