@@ -7,6 +7,7 @@ import checkmarkIcon from '../../assets/signup/check.svg'
 import passwordIcon from '../../assets/signup/security-safe.svg'
 import emailIcon from '../../assets/signup/sms.svg'
 import squareIcon from '../../assets/signup/squacle.svg'
+import { validateEmail, validatePassword } from '../../helpers/validate-form'
 import useLogin from '../../hooks/useLogin'
 import AuthNav from '../Signup/AuthNav'
 import SplitLayout from '../Signup/SplitLayout'
@@ -21,20 +22,29 @@ export function SignIn() {
 	const [checked, setChecked] = useState(true)
 	const [formData, setFormData] = useState(initialState)
 	const { signin, error, isPending } = useLogin()
+	const [formError, setFormError] = useState({})
 
 	function handleChange(e) {
 		const { name, value } = e.target
 		setFormData((prev) => ({ ...prev, [name]: value }))
+		setFormError((prev) => ({ ...prev, [name]: null }))
 	}
 
 	async function handleSubmit(e) {
 		e.preventDefault()
-		await signin(formData.email, formData.password)
+		let emailError = validateEmail(formData.email)
+		let pswdError = validatePassword(formData.password)
+		setFormError({ email: emailError, password: pswdError })
+
+		if (emailError || pswdError) {
+			return
+		}
+		await signin(formData)
+		return
 	}
 
 	return (
 		<div className="w-full block relative py-10 lg:py-20 font-nunito sm:px-8 lg:px-20">
-			{/* {error && toast.error(error, { position: 'top-center' })} */}
 			<SplitLayout>
 				<article className={`w-full md:p-10 lg:shadow-lg globe-bg`}>
 					<AuthNav />
@@ -57,14 +67,18 @@ export function SignIn() {
 									name="email"
 									value={formData.email}
 									onChange={handleChange}
-									required
-									minLength={6}
-									maxLength={80}
-									autoComplete="on"
 									placeholder="example@email.com"
 									className="bg-transparent outline-0 border-0 w-full pr-2"
 								/>
 							</div>
+							{formError.email && (
+								<small
+									aria-description="email input validation error"
+									className="inline-block text-lg text-rose-600 text-center"
+								>
+									{formError.email}
+								</small>
+							)}
 						</label>
 
 						<label className="block w-full mt-4">
@@ -80,9 +94,6 @@ export function SignIn() {
 									name="password"
 									value={formData.password}
 									onChange={handleChange}
-									required
-									minLength={6}
-									maxLength={100}
 									placeholder="*******"
 									className="bg-transparent outline-0 border-0 w-full pr-2"
 								/>
@@ -93,6 +104,14 @@ export function SignIn() {
 									{showPswd ? <IoEyeOutline /> : <IoEyeOffOutline />}
 								</div>
 							</div>
+							{formError.password && (
+								<small
+									aria-description="password input validation error"
+									className="inline-block text-lg text-rose-600 text-center"
+								>
+									{formError.password}
+								</small>
+							)}
 						</label>
 						<label className="flex items-center gap-3 mt-3">
 							<div className="flex relative w-6 h-6">

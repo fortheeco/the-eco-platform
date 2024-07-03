@@ -54,18 +54,15 @@ export default function Skillset() {
 		setError(null)
 		setIsPending(true)
 		try {
-			await axios
-				.post('update_skills/', skills, {
-					headers: { Authorization: `Bearer ${token}` },
-					withCredentials: true,
-				})
-				.then((res) => {
-					toast.success('Skills added successfully!')
+			await axios.post('update_skills/', skills, {
+				headers: { Authorization: `Token ${token}` },
+			})
 
-					setTimeout(() => {
-						navigate('/')
-					}, 2000)
-				})
+			toast.success('Skills added successfully!')
+
+			setTimeout(() => {
+				navigate('/')
+			}, 2000)
 			setError(null)
 		} catch (err) {
 			let logErr =
@@ -80,12 +77,12 @@ export default function Skillset() {
 
 	return (
 		<section className={`w-full ${layout.section}`}>
-			<div className={`globe-bg relative w-full lg:pl-16 lg:pr-8 py-6`}>
+			<form className={`globe-bg relative w-full lg:pl-16 lg:pr-8 py-6`}>
 				<div className="flex w-full justify-between items-center">
 					<div className="flex items-center my-8 lg:gap-10 gap-3">
 						<img
 							src={user.avatar}
-							alt="user avatar"
+							alt={user.name}
 							className="w-10 h-10 lg:w-40 lg:h-40 object-fill object-center rounded-full"
 						/>
 						<h2 className="font-semibold text-lg capitalize lg:text-3xl lg:font-bold">
@@ -108,12 +105,12 @@ export default function Skillset() {
 					<input
 						type="text"
 						required
-						minLength={6}
+						minLength={2}
 						maxLength={80}
 						value={newSkill}
 						onChange={(e) => setNewSkill(e.target.value)}
 						onKeyDown={handleKeyDown}
-						autoComplete="on"
+						autoComplete="off"
 						autoFocus
 						aria-description="add a new skillset"
 						placeholder="Add skillset"
@@ -150,7 +147,7 @@ export default function Skillset() {
 				>
 					{isPending ? 'loading' : 'save and continue'}
 				</button>
-			</div>
+			</form>
 		</section>
 	)
 }

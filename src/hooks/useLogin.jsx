@@ -1,6 +1,8 @@
+import Cookies from 'js-cookie'
+// import { jwtDecode } from 'jwt-decode'
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import api from '../api/axios'
+import axios from '../api/axios'
 import { useAuthContext } from './useAuthContext'
 
 export default function useLogin() {
@@ -20,15 +22,18 @@ export default function useLogin() {
 		setError(null)
 
 		try {
-			const response = await api.post('login/', data)
+			const response = await axios.post('login/', data)
 			const { user, token } = await response?.data
 			dispatch({
 				type: 'LOGIN',
 				user,
 				token,
 			})
+			console.log(user, token)
+			// let decoded = jwtDecode(token)
+			Cookies.set('token', token, { expires: 7 })
+			localStorage.setItem('user', JSON.stringify(response.data.user))
 			// document.cookie('token', response.data.token)
-			// localStorage.setItem('site', response.data.token)
 			setError(null)
 			setIsPending(false)
 			if (user?.skills?.length === 0) {

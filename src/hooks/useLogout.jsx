@@ -1,23 +1,25 @@
+import Cookies from 'js-cookie'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import api from '../api/axios'
+import axios from '../api/axios'
 import { useAuthContext } from './useAuthContext'
 
 export default function useLogout() {
-	const { setUser, setToken } = useAuthContext()
+	const { dispatch } = useAuthContext()
 	const navigate = useNavigate()
 	const [error, setError] = useState(null)
 	const [isPending, setIsPending] = useState(false)
+	const token = Cookies.get('token')
 
 	async function logout() {
 		setIsPending(true)
 		setError(null)
 
 		try {
-			await api.post('logout/')
-			setUser(null)
-			setToken(null)
-			localStorage.removeItem('site')
+			await axios.post('logout/')
+			dispatch({ type: 'LOGOUT' })
+			Cookies.remove('token')
+			localStorage.removeItem('user')
 			setError(null)
 			setIsPending(false)
 			navigate('/login')

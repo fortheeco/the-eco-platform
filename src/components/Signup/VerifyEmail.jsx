@@ -17,8 +17,6 @@ export default function VerifyEmail() {
 	const { formData, id } = state || {}
 	const [messageId, setMessageId] = useState(id)
 
-	console.log(formData)
-
 	async function handleSubmit(e) {
 		e.preventDefault()
 		const isComplete = otp.every((item) => item !== '')

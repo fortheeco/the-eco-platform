@@ -96,7 +96,7 @@ export default function UserDetails() {
 	return (
 		<section className={`w-full ${layout.section}`}>
 			{error && toast.error(error)}
-			<div
+			<form
 				className={`bg-container relative w-full px-6 ${styles.paddingY} ${styles.paddingX}`}
 			>
 				<p className="flex absolute right-6 top-16 text-lg">Step 2/3</p>
@@ -168,7 +168,7 @@ export default function UserDetails() {
 				>
 					{isPending ? 'Loading' : 'next'}
 				</button>
-			</div>
+			</form>
 		</section>
 	)
 }

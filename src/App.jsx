@@ -16,6 +16,8 @@ import Skillsets from './components/Signup/User/Skillset.jsx'
 import UserDetails from './components/Signup/User/UserDetails.jsx'
 import VerifyEmail from './components/Signup/VerifyEmail.jsx'
 // import LoginRoute from './utils/LoginRoute.jsx'
+import ForgotPassword from './components/Routes/ForgotPassword.jsx'
+import ResetPassword from './components/Routes/ResetPassword.jsx'
 import ErrorElement from './utils/ErrorElement.jsx'
 import ProtectedRoute from './utils/ProtectedRoute.jsx'
 
@@ -29,12 +31,9 @@ const App = () => {
 			<Route path="pals" element={<PalsIndex />} />
 			<Route path="innovation" element={<Innovation />} />
 
-			{/* <Route element={<LoginRoute />}> */}
-			<Route
-				errorElement={<ErrorElement />}
-				path="login"
-				element={<SignIn />}
-			/>
+			<Route path="login" element={<SignIn />} />
+			<Route path="iforgot" element={<ForgotPassword />} />
+			<Route path="reset-password" element={<ResetPassword />} />
 
 			<Route path="signup" errorElement={<ErrorElement />} element={<SignUp />}>
 				<Route index element={<AccountType />} />
