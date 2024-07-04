@@ -3,15 +3,15 @@ import LoginNav from "../../Nav/Loginnav.jsx";
 import { Hero } from "./Hero.jsx";
 import { ProfileProjects } from "./ProfileBody.jsx";
 import { ProfileRight } from "./profileRight.jsx";
+import { layout } from "../../../style.js";
 
 export const Profile = () => {
   return (
-    <div className="w-full h-full overflow-y-hidden">
+    <div className={`w-full h-full overflow-y-hidden bg-gray-50`}>
       <LoginNav />
-      <div className="h-40"></div>
-      <div className="h-[85svh]  flex">
+      <div className="h-[8rem]"></div>
+      <div className={`${layout.section} h-[85svh]  flex w-full gap-10`}>
         <div className="h-full w-[75%] overflow-y-auto">
-          {" "}
           <Hero />
           <ProfileProjects />
         </div>

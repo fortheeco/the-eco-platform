@@ -65,9 +65,27 @@ export const ProfileRight = () => {
     cutout: "65%", // Controls the size of the doughnut hole
   };
   return (
-    <div className="h-full overflow-auto">
+    <div className="h-full overflow-auto bg-[#FBFBFB] flex flex-col gap-5">
       <div className="bg-white p-4 rounded-lg">
         <Doughnut data={data} options={options} />
+      </div>
+
+      <div className="bg-white p-4">
+        <>
+          <p className="mb-6">Contact Person</p>
+        </>
+
+        <>
+          <p>John Thomas</p>
+          <p className="text-[#474747] mb-6 mt-1 text-[13px]">
+            Business Development Manager
+          </p>
+        </>
+
+        <>
+          <p className="">Reach Out</p>
+          <p className="mt-1 text-ecoGreen text-[13px]">J.Thomas@gmail.com</p>
+        </>
       </div>
 
       <div className="w-full  bg-white rounded-lg text-center p-4">

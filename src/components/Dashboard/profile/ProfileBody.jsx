@@ -8,7 +8,7 @@ export const ProfileProjects = () => {
   const [activeTab, setActiveTab] = useState("Problems"); // Default active tab is 'Problems'
 
   return (
-    <section className="px-4 sm:px-8 lg:px-16 py-4 mx-auto max-w-[1440px] bg-gray-50 lg:-mt-[120px]">
+    <section className=" py-4   bg-gray-50 ">
       <div className="flex gap-4 sm:gap-10 border-b border-[#ACB2B0] cursor-pointer mb-6 lg:max-w-[900px]">
         <p
           className={
