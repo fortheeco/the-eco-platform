@@ -1,5 +1,6 @@
 // import { organization } from "../assets/SVG";
-
+import Location from "../../assets/dashboard/profile/Location.svg";
+import More from "../../assets/dashboard/profile/more.svg";
 
 export const ORGANIZATIONS = [
   {
@@ -26,7 +27,7 @@ export const ORGANIZATIONS = [
     description:
       "Data on the structures and functions of different organizations (such as businesses, government agencies, and civil society groups) can provide insights into the efficiency and effectiveness of these organizations and how they contribute to the overall economy. EcHo problem and projects related to this in your community ",
   },
-]
+];
 
 export const SOCIALS = {
   links: [
@@ -36,34 +37,33 @@ export const SOCIALS = {
   ],
 };
 
-
-
-
 export const FAQs = [
   {
     title: "What is Eco Tech all about?",
     content: [
-      "Our platform connects individuals and organizations in Africa to drive sustainability, innovation, and technology through the iPALs portal and PALs app. ECO stands for Environment, Community, and Organization."
-    ]
+      "Our platform connects individuals and organizations in Africa to drive sustainability, innovation, and technology through the iPALs portal and PALs app. ECO stands for Environment, Community, and Organization.",
+    ],
   },
   {
     title: "Can I submit my own projects or ideas to the platform?",
     content: [
-      "Yes! You can submit your own project if you have a leader profile on the ECO platform. Ideas are submitted on Problems therefore if you want to share an idea - you would have to share the problem and idea on it. If you do share idea on other problems on the platform then the idea is recorded as yours on your profile."
-    ]
+      "Yes! You can submit your own project if you have a leader profile on the ECO platform. Ideas are submitted on Problems therefore if you want to share an idea - you would have to share the problem and idea on it. If you do share idea on other problems on the platform then the idea is recorded as yours on your profile.",
+    ],
   },
   {
-    title: "Are there any specific requirements for submitting projects or problems?",
+    title:
+      "Are there any specific requirements for submitting projects or problems?",
     content: [
       "Your project or problem must be Environmental, community, or organization-focused on a place, people, product, or service.",
       "Your project or problem has to be related to one of the United Nation Sustainability Goals.",
       "Projects must have skills attached to it, required number of people, and a timeline to complete.",
       "Only Leaders can post projects.",
-      "Ambassadors can post problems and ideas and can work on projects."
-    ]
+      "Ambassadors can post problems and ideas and can work on projects.",
+    ],
   },
   {
-    title: "What resources or tools does Eco Tech provide for youth interested in the tech industry?",
+    title:
+      "What resources or tools does Eco Tech provide for youth interested in the tech industry?",
     content: [
       "Job and Internship Opportunities: ECO connects youth with job and internship opportunities in the tech industry. Partnering with tech companies, startups, and organizations, the platform helps youth access employment and internship openings that align with their interests and skills.",
       "Tech Leadership Training: The ECO platform provides tech leadership training programs designed to equip youth with the necessary skills, knowledge, and mindset to excel in the tech industry. These programs cover topics such as coding, software development, data analytics, cybersecurity, and digital innovation.",
@@ -72,28 +72,60 @@ export const FAQs = [
       "Youths can report problems they face to engage other youth in tech to help and support.",
       "They can find projects to collaborate and create.",
       "ECO platform offers youths the opportunity to grow in tech companies and eventually become investors in other tech companies.",
-      "Youths can find where their skills are most needed in Africa for free border employment in other African countries."
-    ]
+      "Youths can find where their skills are most needed in Africa for free border employment in other African countries.",
+    ],
   },
   {
-    title: "How can I contact the team behind Eco Tech for further inquiries or support?",
-    content: [
-      "You can reach us through our email on ask@fortheECO.com."
-    ]
+    title:
+      "How can I contact the team behind Eco Tech for further inquiries or support?",
+    content: ["You can reach us through our email on ask@fortheECO.com."],
   },
   {
     title: "Why PALs?",
     content: [
       "PALs stands for Partners, Ambassadors, and Leaders for Sustainability.",
-       "PALs play a crucial role in driving sustainability and innovation within the ECO platform. They are key contributors and active participants in the ecosystem, working together to address environmental, social, and economic challenges in Africa.",
+      "PALs play a crucial role in driving sustainability and innovation within the ECO platform. They are key contributors and active participants in the ecosystem, working together to address environmental, social, and economic challenges in Africa.",
       "PALs are at the heart of the ECO platform, serving as catalysts for collaboration, knowledge-sharing, and sustainable projects. They bring their expertise, resources, and passion for sustainability and innovation to create meaningful impact in their local communities and beyond.",
-      "PALs act as change agents and champions for sustainability. They contribute their skills, knowledge, and resources to develop innovative solutions, promote sustainable practices, and drive positive environmental and social impact."
-    ]
-  }
+      "PALs act as change agents and champions for sustainability. They contribute their skills, knowledge, and resources to develop innovative solutions, promote sustainable practices, and drive positive environmental and social impact.",
+    ],
+  },
+];
 
-  
-]
-
-
-
-
+export const Community = [
+  {
+    state: "Ikeja,Lagos",
+    imgUrl: Location,
+    moreUrl: More,
+    description:
+      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit nostru. Exercitation veniam consequat sunt nostru.Velit officia mollit consequat duis enim velit mollit.",
+    label: "Eco Category:",
+    value: "Community",
+    time: "11:34pm 2 Mar 24",
+    goal: "UNSdg Goal",
+    goalLabel: "3: Good health and well being",
+  },
+  {
+    state: "Ikeja,Lagos",
+    imgUrl: Location,
+    moreUrl: More,
+    description:
+      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit nostru. Exercitation veniam consequat sunt nostru.Velit officia mollit consequat duis enim velit mollit.",
+    label: "Eco Category:",
+    value: "Community",
+    time: "11:34pm 2 Mar 24",
+    goal: "UNSdg Goal",
+    goalLabel: "3: Good health and well being",
+  },
+  {
+    state: "Ikeja,Lagos",
+    imgUrl: Location,
+    moreUrl: More,
+    description:
+      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit nostru. Exercitation veniam consequat sunt nostru.Velit officia mollit consequat duis enim velit mollit.",
+    label: "Eco Category:",
+    value: "Community",
+    time: "11:34pm 2 Mar 24",
+    goal: "UNSdg Goal",
+    goalLabel: "3: Good health and well being",
+  },
+];

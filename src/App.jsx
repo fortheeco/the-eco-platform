@@ -14,6 +14,7 @@ import Skillsets from "./components/Signup/User/Skillset.jsx";
 import UserDetails from "./components/Signup/User/UserDetails.jsx";
 import VerifyEmail from "./components/Signup/VerifyEmail.jsx";
 import { PalsIndex } from "./components/Pals/index.jsx";
+import { Profile } from "./components/Dashboard/profile/profile.jsx";
 
 const App = () => {
   return (
@@ -47,6 +48,7 @@ const App = () => {
         {/* </Route> */}
 
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </div>
   );
