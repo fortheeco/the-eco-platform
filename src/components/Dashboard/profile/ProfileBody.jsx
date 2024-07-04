@@ -50,7 +50,7 @@ export const ProfileProjects = () => {
                 <CommunityCard key={com.goal} {...com} />
               ))}
             </div>
-            <div className="w-full lg:w-[500px] bg-white rounded-lg text-center p-4">
+            {/* <div className="w-full lg:w-[500px] bg-white rounded-lg text-center p-4">
               <div className="flex flex-col items-center">
                 <h1 className="w-[100px] text-center text-xl">
                   Upgrade to <span className="font-bold">Partner</span>
@@ -69,7 +69,7 @@ export const ProfileProjects = () => {
                 </button>
                 <img src={Globe} alt="globe" />
               </div>
-            </div>
+            </div> */}
           </div>
         )}
         {activeTab === "Projects" && (

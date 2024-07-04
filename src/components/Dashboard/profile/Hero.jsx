@@ -66,7 +66,6 @@ export const Hero = () => {
 
   return (
     <section className="px-8  lg:px-16 py-12 lg:py-24 mx-auto max-w-[1440px] bg-gray-50 ">
-      <div className="h-20"></div>
       <div className="flex flex-col lg:flex-row gap-10">
         <div className="flex flex-col md:flex-row gap-6">
           <img
@@ -99,10 +98,10 @@ export const Hero = () => {
             </p>
           </div>
         </div>
-
+        {/* 
         <div className="bg-white p-4 rounded-lg">
           <Doughnut data={data} options={options} />
-        </div>
+        </div> */}
       </div>
     </section>
   );
