@@ -26,7 +26,7 @@ export default function GetOTP({
 			</p>
 			<OtpInput numberOfDigits={numberOfDigits} otp={otp} setOtp={setOtp} />
 			{error && (
-				<small className="text-base text-rose-500 font-semibold inline-block">
+				<small className="text-base text-rose-500 inline-block mt-2">
 					{error}
 				</small>
 			)}

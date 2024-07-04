@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import axios from '../../../api/axios'
+import api from '../../../api/axios'
 import locationIcon from '../../../assets/signup/location.svg'
 import { useAuthContext } from '../../../hooks/useAuthContext'
 import { layout } from '../../../style'
@@ -9,7 +9,7 @@ import { layout } from '../../../style'
 export default function Skillset() {
 	const [isPending, setIsPending] = useState(false)
 	const [error, setError] = useState(null)
-	const { user, token } = useAuthContext()
+	const { user } = useAuthContext()
 	const shortenedName = user?.full_name?.split(' ')[0] || ''
 	const [skills, setSkills] = useState([])
 	const [newSkill, setNewSkill] = useState('')
@@ -17,7 +17,7 @@ export default function Skillset() {
 
 	function handleAddSkill() {
 		if (newSkill.trim() === '') {
-			alert('Skill cannot be empty.')
+			toast.info('Skill cannot be empty.')
 			return
 		}
 
@@ -26,7 +26,7 @@ export default function Skillset() {
 		)
 
 		if (skillExists) {
-			alert('This skill already exists.')
+			toast.error('This skill already exists.')
 			return
 		}
 
@@ -54,9 +54,7 @@ export default function Skillset() {
 		setError(null)
 		setIsPending(true)
 		try {
-			await axios.post('update_skills/', skills, {
-				headers: { Authorization: `Token ${token}` },
-			})
+			await api.put('update_skills/', skills)
 
 			toast.success('Skills added successfully!')
 
@@ -77,7 +75,7 @@ export default function Skillset() {
 
 	return (
 		<section className={`w-full ${layout.section}`}>
-			<form className={`globe-bg relative w-full lg:pl-16 lg:pr-8 py-6`}>
+			<article className={`globe-bg relative w-full lg:pl-16 lg:pr-8 py-6`}>
 				<div className="flex w-full justify-between items-center">
 					<div className="flex items-center my-8 lg:gap-10 gap-3">
 						<img
@@ -147,7 +145,7 @@ export default function Skillset() {
 				>
 					{isPending ? 'loading' : 'save and continue'}
 				</button>
-			</form>
+			</article>
 		</section>
 	)
 }

@@ -1,5 +1,5 @@
-import { createContext, useReducer } from 'react'
-// import Cookies from 'js-cookie'
+import Cookies from 'js-cookie'
+import { createContext, useEffect, useReducer, useState } from 'react'
 
 export const AuthContext = createContext()
 
@@ -9,12 +9,11 @@ function reducer(state, action) {
 			return {
 				...state,
 				user: action.user,
-				isAuthenticated: true,
 				token: action.token,
 			}
 
 		case 'LOGOUT':
-			return { ...state, user: null, isAuthenticated: false, token: null }
+			return { ...state, user: null, token: null }
 
 		default:
 			return state
@@ -25,11 +24,21 @@ export function AuthContextProvider({ children }) {
 	const [state, dispatch] = useReducer(reducer, {
 		user: null,
 		token: null,
-		isAuthenticated: false,
 	})
+	const [authIsReady, setAuthIsReady] = useState(false)
+
+	useEffect(() => {
+		const token = Cookies.get('token')
+		if (token) {
+			const loggedInUser = localStorage.getItem('user')
+			const user = JSON.parse(loggedInUser)
+			dispatch({ type: 'LOGIN', user, token })
+		}
+		setAuthIsReady(true)
+	}, [])
 
 	return (
-		<AuthContext.Provider value={{ ...state, dispatch }}>
+		<AuthContext.Provider value={{ ...state, dispatch, authIsReady }}>
 			{children}
 		</AuthContext.Provider>
 	)

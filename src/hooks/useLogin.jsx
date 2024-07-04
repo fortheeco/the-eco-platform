@@ -36,12 +36,13 @@ export default function useLogin() {
 			// document.cookie('token', response.data.token)
 			setError(null)
 			setIsPending(false)
-			if (user?.skills?.length === 0) {
+			if (user.skills.length === 0) {
 				navigate('/signup/user/skillset', { replace: true })
 			} else {
 				navigate(from, { replace: true })
 			}
 		} catch (err) {
+			console.error(err)
 			// check if error is due to invalid credentials, else it's a network error
 			let logErr = err?.response?.data?.non_field_errors[0] || err.message
 			setError(logErr)

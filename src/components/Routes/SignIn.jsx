@@ -39,7 +39,7 @@ export function SignIn() {
 		if (emailError || pswdError) {
 			return
 		}
-		await signin(formData)
+		await signin(formData.email, formData.password)
 		return
 	}
 

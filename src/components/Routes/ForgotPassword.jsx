@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 // import { toast } from 'react-toastify'
 import api from '../../api/axios'
@@ -67,8 +67,9 @@ export default function ForgotPassword() {
 			navigate('/reset-password', { state: { email } })
 		} catch (err) {
 			let logErr =
-				err?.response?.data?.email[0] ||
+				err?.response?.data?.detail ||
 				'Something went wrong... please refresh and try again'
+			console.error(err)
 			setOtpError(logErr)
 			setIsPending(false)
 		}
@@ -77,6 +78,12 @@ export default function ForgotPassword() {
 	async function handleRetry() {
 		console.log('Retrying...')
 	}
+
+	useEffect(() => {
+		if (!email) {
+			setShowOTPForm(false)
+		}
+	}, [])
 
 	return (
 		<div className="relative w-full">
