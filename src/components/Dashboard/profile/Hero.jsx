@@ -2,6 +2,7 @@ import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import HeroImage from "../../../assets/dashboard/profile/hero-logo.svg";
+import { Link } from "react-router-dom";
 
 export const Hero = () => {
   return (
@@ -21,9 +22,12 @@ export const Hero = () => {
               </div>
               <span className="text-sm text-[#292D32]">Lagos, Nigeria</span>
             </div>
-            <button className="px-4 py-2 text-white rounded-full mt-2 md:mt-0 bg-[#1DB559]">
+            <Link
+              to={"/user/details"}
+              className="px-4 py-2 text-white rounded-full mt-2 md:mt-0 bg-[#1DB559]"
+            >
               Edit profile
-            </button>
+            </Link>
           </div>
           <p className="text-sm  text-[#474747]">
             Passionate data enthusiast unraveling hidden truths, unlocking

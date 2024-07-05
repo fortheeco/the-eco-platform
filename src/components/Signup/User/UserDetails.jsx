@@ -1,22 +1,28 @@
-import { useState } from "react";
-import { layout, styles } from "../../../style";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "../../../api/axios";
 import locationIcon from "../../../assets/signup/location.svg";
 import userAvatar from "../../../assets/signup/user-avatar.png";
-
-const user = {
-  name: "John Doe",
-  email: "example@gmail.com",
-  gender: "male",
-  avatar: userAvatar,
-};
+import { useAuthContext } from "../../../hooks/useAuthContext";
+import { layout, styles } from "../../../style";
 
 export default function UserDetails() {
+  const { dispatch } = useAuthContext();
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const { formData: user } = state || {};
   const [formData, setFormData] = useState({
-    avatar: user.avatar,
+    image: null,
     location: "",
   });
 
-  const shortenedName = user.name.split(" ")[0];
+  // clear the state from the router
+  // navigate(pathname, { replace: true, state: {} })
+
+  const shortenedName = user?.full_name.split(" ")[0] || "";
 
   function handleFileChange(e) {
     const file = e.target.files[0];
@@ -33,7 +39,7 @@ export default function UserDetails() {
       }
 
       const imageUrl = URL.createObjectURL(file);
-      setFormData((prev) => ({ ...prev, avatar: imageUrl }));
+      setFormData((prev) => ({ ...prev, image: imageUrl }));
     }
   }
 
@@ -41,17 +47,56 @@ export default function UserDetails() {
     document.getElementById("upload-avatar").click();
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     if (formData.location === "") {
-      alert("Please add your location");
+      toast.info("Please add your location");
       return;
     }
+    if (!formData.image) {
+      toast.info("A valid profile image is required!");
+      return;
+    }
+    setIsPending(true);
+    setError(null);
+
+    await axios
+      .post(
+        "complete_profile/",
+        { ...user, ...formData },
+        {
+          headers: { "Content-Type": "application/json" },
+          // withCredentials: true,
+        }
+      )
+      .then((response) => {
+        setIsPending(false);
+        setError(null);
+        console.log(response);
+        dispatch({
+          type: "LOGIN",
+          token: response.data.token,
+          user: response.data.user,
+        });
+        navigate("/signup/user/skillset", {
+          state: {},
+          replace: true,
+        });
+        window.history.replaceState({}, "");
+      })
+      .catch((err) => {
+        let logErr =
+          err?.response.data.error ||
+          "Oops... Something went wrong! Please try again";
+        setIsPending(false);
+        setError(logErr);
+      });
   }
 
   return (
     <section className={`w-full ${layout.section}`}>
-      <div
+      {error && toast.error(error)}
+      <form
         className={`bg-container relative w-full px-6 ${styles.paddingY} ${styles.paddingX}`}
       >
         <p className="flex absolute right-6 top-16 text-lg">Step 2/3</p>
@@ -63,14 +108,14 @@ export default function UserDetails() {
         </p>
         <div className="flex flex-col my-8 lg:justify-start lg:gap-20 lg:flex-row w-full items-center justify-center gap-3">
           <img
-            src={formData.avatar}
+            src={formData.image || userAvatar}
             alt="user avatar"
             className="w-40 h-40 object-fill object-center rounded-full"
           />
           <label className="flex flex-col items-center lg:items-start gap-4">
             <input
               type="file"
-              name="avatar"
+              name="image"
               // value={formData.avatar}
               id="upload-avatar"
               accept="image/*"
@@ -117,12 +162,13 @@ export default function UserDetails() {
           />
         </label>
         <button
-          type="submit"
-          className="capitalize bg-ecoGreen text-white w-full py-3 lg:w-1/3 flex justify-center rounded-md text-lg mx-auto mt-16 mb-4"
+          disabled={isPending}
+          onClick={handleSubmit}
+          className="capitalize bg-ecoGreen text-white w-full py-3 lg:w-1/3 flex justify-center rounded-md text-lg mx-auto mt-16 mb-4 disabled:bg-slate-300 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none focus-within:outline-ecoGreen focus-within:outline-2 focus-within:shadow-lg focus-within:rounded-none focus-within:bg-ecoGreen/70 transition-all"
         >
-          next
+          {isPending ? "Loading" : "next"}
         </button>
-      </div>
+      </form>
     </section>
   );
 }

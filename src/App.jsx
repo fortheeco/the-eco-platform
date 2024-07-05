@@ -2,7 +2,9 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { Dashboard } from "./components/Dashboard/dashboard.jsx";
 import { LandingPage } from "./components/Home/LandingPage.jsx";
-import Nav from "./components/Nav/Nav.jsx";
+import { PalsIndex } from "./components/Pals/index.jsx";
+import Innovation from "./components/Routes/Innovation.jsx";
+import NotFound from "./components/Routes/NotFound.jsx";
 import { SignIn } from "./components/Routes/SignIn.jsx";
 import { SignUp } from "./components/Routes/SignUp";
 import AccountType from "./components/Signup/AccountType.jsx";
@@ -13,44 +15,63 @@ import Individual from "./components/Signup/User/Individual.jsx";
 import Skillsets from "./components/Signup/User/Skillset.jsx";
 import UserDetails from "./components/Signup/User/UserDetails.jsx";
 import VerifyEmail from "./components/Signup/VerifyEmail.jsx";
-import { PalsIndex } from "./components/Pals/index.jsx";
+// import LoginRoute from './utils/LoginRoute.jsx'
+// import Cookies from 'js-cookie'
+// import { useEffect, useState } from 'react'
+import ForgotPassword from "./components/Routes/ForgotPassword.jsx";
+import ResetPassword from "./components/Routes/ResetPassword.jsx";
+import { useAuthContext } from "./hooks/useAuthContext.jsx";
+import ErrorElement from "./utils/ErrorElement.jsx";
+import ProtectedRoute from "./utils/ProtectedRoute.jsx";
 import { Profile } from "./components/Dashboard/profile/profile.jsx";
 
 const App = () => {
+  const { authIsReady } = useAuthContext();
+
   return (
-    <div>
-      <Routes>
-        {/* <Route path="/" element={<Nav />}> */}
-        <Route index element={<LandingPage />} />
+    <>
+      {authIsReady && (
+        <Routes>
+          <Route index element={<LandingPage />} />
+          {/* Pals page */}
+          <Route path="pals" element={<PalsIndex />} />
+          <Route path="innovation" element={<Innovation />} />
+          <Route path="login" element={<SignIn />} />
+          <Route path="iforgot" element={<ForgotPassword />} />
+          {/* Pals page */}
+          <Route path="pals" element={<PalsIndex />} />
+          <Route path="reset-password" element={<ResetPassword />} />
+          <Route
+            path="signup"
+            errorElement={<ErrorElement />}
+            element={<SignUp />}
+          >
+            <Route index element={<AccountType />} />
 
-        <Route path="login" element={<SignIn />} />
+            <Route path="user">
+              <Route index element={<Individual />} />
+              <Route path="details" element={<UserDetails />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="skillset" element={<Skillsets />} />
+              </Route>
+            </Route>
 
-        {/* Pals page */}
-        <Route path="pals" element={<PalsIndex />} />
+            <Route path="organization">
+              <Route index element={<Organization />} />
+              <Route path="details" element={<OrgDetails />} />
+              <Route path="verification" element={<OrgVerification />} />
+            </Route>
 
-        <Route path="signup" element={<SignUp />}>
-          <Route index element={<AccountType />} />
-
-          <Route path="user">
-            <Route index element={<Individual />} />
-            <Route path="details" element={<UserDetails />} />
-            <Route path="skillset" element={<Skillsets />} />
+            <Route path="verify-email" element={<VerifyEmail />} />
           </Route>
-
-          <Route path="organization">
-            <Route index element={<Organization />} />
-            <Route path="details" element={<OrgDetails />} />
-            <Route path="verification" element={<OrgVerification />} />
-          </Route>
-
-          <Route path="verify-email" element={<VerifyEmail />} />
-        </Route>
-        {/* </Route> */}
-
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/profile" element={<Profile />} />
-      </Routes>
-    </div>
+          {/* </Route> */}
+          {/* </Route> */}
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      )}
+    </>
   );
 };
 

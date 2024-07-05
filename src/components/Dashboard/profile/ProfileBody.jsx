@@ -4,6 +4,7 @@ import { ListItem } from "./ListItem.jsx";
 import { Community } from "../../data/index.js";
 import Globe from "../../../assets/dashboard/profile/globe.svg";
 import { About } from "./about.jsx";
+import { Project } from "./project.jsx";
 
 export const ProfileProjects = () => {
   const [activeTab, setActiveTab] = useState("About"); // Default active tab is 'Problems'
@@ -72,7 +73,7 @@ export const ProfileProjects = () => {
         )}
         {activeTab === "Projects" && (
           <div className="flex flex-col lg:flex-row gap-10">
-            <h1>Project Here</h1>
+            <Project />
           </div>
         )}
         {activeTab === "Ideas" && (

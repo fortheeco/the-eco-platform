@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
-// import { toast } from 'react-toastify'
-import { validateForm } from "../../../helpers/validate-form";
-import useSignup from "../../../hooks/useSignup";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "../../../api/axios";
 import bannerImg from "../../../assets/ecoBannerImage.png";
 import genderIcon from "../../../assets/signup/gender-icon.svg";
 import userIcon from "../../../assets/signup/profile.svg";
 import passwordIcon from "../../../assets/signup/security-safe.svg";
 import emailIcon from "../../../assets/signup/sms.svg";
+import { validateForm } from "../../../helpers/validate-form";
 import AuthNav from "../AuthNav";
 import SplitLayout from "../SplitLayout";
 
@@ -22,8 +22,11 @@ const initialState = {
 export default function Individual() {
   const [showPswd, setShowPswd] = useState(false);
   const [formData, setFormData] = useState(initialState);
-  const { signup, error, isPending } = useSignup();
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState(null);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [formError, setFormError] = useState({});
+  const navigate = useNavigate();
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -38,16 +41,43 @@ export default function Individual() {
     setFormError(errors);
 
     if (Object.keys(errors).length === 0) {
-      await signup({ ...formData });
-      console.log(formData);
-      return;
+      setIsPending(true);
+      setError(null);
+      await axios
+        .post(
+          "signup/",
+          { email: formData.email },
+          {
+            headers: { "Content-Type": "application/json" },
+            // withCredentials: true,
+          }
+        )
+        .then((response) => {
+          setIsPending(false);
+          setError(null);
+          setIsSuccess(true);
+          setTimeout(() => {
+            navigate("/signup/verify-email", {
+              state: { formData, id: response.data?.message_id },
+              replace: true,
+            });
+          }, 2000);
+        })
+        .catch((err) => {
+          let logErr =
+            err?.response.data.error ||
+            "Oops... Something went wrong! Please try again";
+          toast.error(logErr);
+          setIsPending(false);
+          setIsSuccess(false);
+          setError(logErr);
+        });
     }
-    console.error("Invalid credentials");
+    return;
   }
 
   return (
     <div className="w-full block relative">
-      {/* {error && toast.error(error, { position: 'top-center' })} */}
       <SplitLayout>
         <article className={`w-full md:p-10 lg:shadow-lg globe-bg`}>
           <AuthNav />
@@ -71,7 +101,7 @@ export default function Individual() {
                 />
                 <input
                   type="text"
-                  disabled={isPending}
+                  disabled={isPending || isSuccess}
                   name="full_name"
                   value={formData.full_name}
                   onChange={handleChange}
@@ -94,7 +124,7 @@ export default function Individual() {
                   className="h-12  inline-block p-2"
                 />
                 <select
-                  disabled={isPending}
+                  disabled={isPending || isSuccess}
                   value={formData.gender}
                   name="gender"
                   onChange={handleChange}
@@ -121,7 +151,7 @@ export default function Individual() {
                 />
                 <input
                   type="email"
-                  disabled={isPending}
+                  disabled={isPending || isSuccess}
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
@@ -150,7 +180,7 @@ export default function Individual() {
                 />
                 <input
                   type={showPswd ? "text" : "password"}
-                  disabled={isPending}
+                  disabled={isPending || isSuccess}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
@@ -173,8 +203,8 @@ export default function Individual() {
             <p className="my-4 text-lg text-center">
               Already have an account?{" "}
               <Link
-                to={"/sign-in"}
-                className="capitalize lg:font-semibold text-ecoGreen"
+                to={"/login"}
+                className="capitalize lg:font-semibold text-ecoGreen focus-within:font-bold focus-within:outline-0 focus-within:underline transition-all"
               >
                 Login to your portal
               </Link>
@@ -182,14 +212,20 @@ export default function Individual() {
 
             <button
               type="submit"
-              disabled={isPending}
-              className="capitalize bg-ecoGreen text-white w-full py-3 lg:w-4/5 rounded-md text-lg font-semibold mx-auto disabled:bg-slate-300 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none"
+              disabled={isPending || isSuccess}
+              className="capitalize bg-ecoGreen text-white w-full py-3 lg:w-4/5 rounded-md text-lg font-semibold mx-auto disabled:bg-slate-300 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none focus-within:outline-ecoGreen focus-within:outline-2 focus-within:shadow-lg focus-within:rounded-none focus-within:bg-ecoGreen/70 transition-all"
             >
               {isPending ? "loading..." : "create account"}
             </button>
             {error && (
-              <small className="text-center text-rose-500 font-nunito text-lg inline-block w-full mt-6">
+              <small className="text-center text-rose-500 font-nunito text-lg font-semibold inline-block w-full mt-2">
                 {error}
+              </small>
+            )}
+            {isSuccess && (
+              <small className="text-center text-ecoGreen font-nunito text-lg font-semibold inline-block w-full mt-2">
+                Congratulations! Please verify your email to proceed to the next
+                step
               </small>
             )}
           </form>
@@ -203,7 +239,7 @@ export default function Individual() {
         </div>
       </SplitLayout>
       <Link
-        to={"/sign-up/organization"}
+        to={"/signup/organization"}
         className="block text-ecoGreen underline text-lg text-center lg:font-bold lg:text-left lg:ml-[20%] mt-16"
       >
         Create organization account

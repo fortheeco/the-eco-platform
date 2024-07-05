@@ -1,13 +1,19 @@
+import Cookies from 'js-cookie'
+// import { jwtDecode } from 'jwt-decode'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import api from '../api/axios'
+import { useLocation, useNavigate } from 'react-router-dom'
+import axios from '../api/axios'
+import { useAuthContext } from './useAuthContext'
 
 export default function useLogin() {
+	const { dispatch } = useAuthContext()
 	const navigate = useNavigate()
+	const location = useLocation()
+	const from = location.state?.from?.pathname || '/'
 	const [error, setError] = useState(null)
 	const [isPending, setIsPending] = useState(false)
 
-	async function signup(email, password) {
+	async function signin(email, password) {
 		const data = {
 			email,
 			password,
@@ -16,17 +22,33 @@ export default function useLogin() {
 		setError(null)
 
 		try {
-			const response = await api.post('/login', data)
-			const userId = response.data.id
-			console.log(response)
+			const response = await axios.post('login/', data)
+			const { user, token } = await response?.data
+			dispatch({
+				type: 'LOGIN',
+				user,
+				token,
+			})
+			console.log(user, token)
+			// let decoded = jwtDecode(token)
+			Cookies.set('token', token, { expires: 7 })
+			localStorage.setItem('user', JSON.stringify(response.data.user))
+			// document.cookie('token', response.data.token)
 			setError(null)
 			setIsPending(false)
-			navigate(`/${userId}/profile`)
+			if (user.skills.length === 0) {
+				navigate('/signup/user/skillset', { replace: true })
+			} else {
+				navigate(from, { replace: true })
+			}
 		} catch (err) {
-			setError(err?.message)
+			console.error(err)
+			// check if error is due to invalid credentials, else it's a network error
+			let logErr = err?.response?.data?.non_field_errors[0] || err.message
+			setError(logErr)
 			setIsPending(false)
 		}
 	}
 
-	return { signup, error, isPending }
+	return { signin, error, isPending }
 }

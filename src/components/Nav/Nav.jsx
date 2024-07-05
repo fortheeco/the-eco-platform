@@ -32,7 +32,10 @@ const Nav = () => {
                 <li>PALs</li>
               </Link>
 
-              <li>Innovation</li>
+              <Link to={"/innovation"}>
+                <li>Innovation</li>
+              </Link>
+              {/* <li>Innovation</li> */}
             </ul>
           </div>
 
