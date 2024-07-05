@@ -6,7 +6,7 @@ import HeroImage from "../../../assets/dashboard/profile/hero-logo.svg";
 export const Hero = () => {
   return (
     <section className=" py-12 lg:py-4   bg-gray-50 ">
-      <div className="flex flex-col md:flex-row gap-6">
+      <div className="flex flex-col md:flex-row gap-6 items-center">
         <img
           src={HeroImage}
           alt="hero-image"
@@ -25,7 +25,7 @@ export const Hero = () => {
               Edit profile
             </button>
           </div>
-          <p className="text-sm md:text-base lg:text-lg text-[#474747]">
+          <p className="text-sm  text-[#474747]">
             Passionate data enthusiast unraveling hidden truths, unlocking
             possibilities through analytics, visualization, and the art of data.
             Empowering informed decisions, driving business success.{" "}
@@ -45,7 +45,13 @@ export const Hero = () => {
         </div>
       </div>
 
-      <div className="bg-white p-4 rounded-lg mt-12">Edu Tech</div>
+      <div className="bg-white p-4 rounded-lg mt-12 flex items-center justify-between w-full text-sm">
+        Edu Tech <p className="bg-ecoGreen h-2 w-2 rounded-full"></p> Est,2023{" "}
+        <p className="bg-ecoGreen h-2 w-2 rounded-full"></p> Industry
+        Innovation, and Infrastructure{" "}
+        <p className="bg-ecoGreen h-2 w-2 rounded-full"></p>{" "}
+        <span className="text-ecoGreen">www.T4GA.afri</span>
+      </div>
     </section>
   );
 };

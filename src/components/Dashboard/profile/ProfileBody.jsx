@@ -3,18 +3,30 @@ import { CommunityCard } from "./CommunityCard.jsx";
 import { ListItem } from "./ListItem.jsx";
 import { Community } from "../../data/index.js";
 import Globe from "../../../assets/dashboard/profile/globe.svg";
+import { About } from "./about.jsx";
 
 export const ProfileProjects = () => {
-  const [activeTab, setActiveTab] = useState("Problems"); // Default active tab is 'Problems'
+  const [activeTab, setActiveTab] = useState("About"); // Default active tab is 'Problems'
 
   return (
     <section className=" py-4   bg-gray-50 ">
       <div className="flex gap-4 sm:gap-10 border-b border-[#ACB2B0] cursor-pointer mb-6 lg:max-w-[900px]">
         <p
           className={
+            activeTab === "About"
+              ? "text-black font-bold border-b-2 border-black cursor-pointer"
+              : "text-gray-500 cursor-pointer"
+          }
+          onClick={() => setActiveTab("About")}
+        >
+          About
+        </p>
+
+        <p
+          className={
             activeTab === "Problems"
-              ? "text-black font-bold border-b-2 border-black"
-              : "text-gray-500"
+              ? "text-black font-bold border-b-2 border-black cursor-pointer"
+              : "text-gray-500 cursor-pointer"
           }
           onClick={() => setActiveTab("Problems")}
         >
@@ -23,8 +35,8 @@ export const ProfileProjects = () => {
         <p
           className={
             activeTab === "Projects"
-              ? "text-black font-bold border-b-2 border-black"
-              : "text-gray-500"
+              ? "text-black font-bold border-b-2 border-black cursor-pointer"
+              : "text-gray-500 cursor-pointer"
           }
           onClick={() => setActiveTab("Projects")}
         >
@@ -33,14 +45,20 @@ export const ProfileProjects = () => {
         <p
           className={
             activeTab === "Ideas"
-              ? "text-black font-bold border-b-2 border-black"
-              : "text-gray-500"
+              ? "text-black font-bold border-b-2 border-black cursor-pointer"
+              : "text-gray-500 cursor-pointer"
           }
           onClick={() => setActiveTab("Ideas")}
         >
           Ideas
         </p>
       </div>
+
+      {activeTab === "About" && (
+        <div className="flex flex-col lg:flex-row gap-10">
+          <About />
+        </div>
+      )}
 
       <div className="flex flex-col lg:flex-row gap-10">
         {activeTab === "Problems" && (
@@ -50,26 +68,6 @@ export const ProfileProjects = () => {
                 <CommunityCard key={com.goal} {...com} />
               ))}
             </div>
-            {/* <div className="w-full lg:w-[500px] bg-white rounded-lg text-center p-4">
-              <div className="flex flex-col items-center">
-                <h1 className="w-[100px] text-center text-xl">
-                  Upgrade to <span className="font-bold">Partner</span>
-                </h1>
-                <p className="mt-6 text-[16px]">
-                  Purus viverra ac vulputate quam sociis pretium nulla nulla
-                  semper.{" "}
-                </p>
-                <div className="mt-6">
-                  <ListItem>Velit officia consequat duis enim</ListItem>
-                  <ListItem>Exercitation veniam consequat sunt</ListItem>
-                  <ListItem>consequat duis enim velit mollit.</ListItem>
-                </div>
-                <button className="mt-4 bg-[#1DB559] text-white px-2 py-2 rounded-lg">
-                  Upgrade Plan
-                </button>
-                <img src={Globe} alt="globe" />
-              </div>
-            </div> */}
           </div>
         )}
         {activeTab === "Projects" && (

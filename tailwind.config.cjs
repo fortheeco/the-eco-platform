@@ -17,6 +17,7 @@ module.exports = {
         ecoGreen: "#1DB559",
         ecoOrange: "#F67218",
         ecoLightGreen: "#E8FFED",
+        ecoBlue: "#2EA2CF",
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],

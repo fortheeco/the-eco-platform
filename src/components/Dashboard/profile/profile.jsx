@@ -10,12 +10,14 @@ export const Profile = () => {
     <div className={`w-full h-full overflow-y-hidden bg-gray-50`}>
       <LoginNav />
       <div className="h-[8rem]"></div>
-      <div className={`${layout.section} h-[85svh]  flex w-full gap-10`}>
-        <div className="h-full w-[75%] overflow-y-auto">
+      <div
+        className={`${layout.section} h-[85svh] flex w-full gap-10 justify-center px-40`}
+      >
+        <div className="h-full w-[70%] pl-8 overflow-y-auto">
           <Hero />
           <ProfileProjects />
         </div>
-        <div className="w-[25%]">
+        <div className="w-[25%] pr-4">
           <ProfileRight />
         </div>
       </div>
