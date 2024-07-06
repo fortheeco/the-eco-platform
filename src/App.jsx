@@ -24,6 +24,7 @@ import { useAuthContext } from "./hooks/useAuthContext.jsx";
 import ErrorElement from "./utils/ErrorElement.jsx";
 import ProtectedRoute from "./utils/ProtectedRoute.jsx";
 import { Profile } from "./components/Dashboard/profile/profile.jsx";
+import { EditProfileIndex } from "./components/Dashboard/profile/Edit-Profile/index.jsx";
 
 const App = () => {
   const { authIsReady } = useAuthContext();
@@ -38,6 +39,8 @@ const App = () => {
           <Route path="innovation" element={<Innovation />} />
           <Route path="login" element={<SignIn />} />
           <Route path="iforgot" element={<ForgotPassword />} />
+          <Route path="profile/edit" element={<EditProfileIndex />} />
+
           {/* Pals page */}
           <Route path="pals" element={<PalsIndex />} />
           <Route path="reset-password" element={<ResetPassword />} />

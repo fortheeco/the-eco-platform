@@ -18,6 +18,8 @@ module.exports = {
         ecoOrange: "#F67218",
         ecoLightGreen: "#E8FFED",
         ecoBlue: "#2EA2CF",
+        inputBg: "#F5F5F5",
+        inputBorder: "#DADADA",
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],

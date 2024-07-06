@@ -5,9 +5,10 @@ import { Community } from "../../data/index.js";
 import Globe from "../../../assets/dashboard/profile/globe.svg";
 import { About } from "./about.jsx";
 import { Project } from "./project.jsx";
+import { Ideas } from "./ideas.jsx";
 
 export const ProfileProjects = () => {
-  const [activeTab, setActiveTab] = useState("About"); // Default active tab is 'Problems'
+  const [activeTab, setActiveTab] = useState("About"); // Default active tab is 'About'
 
   return (
     <section className=" py-4   bg-gray-50 ">
@@ -78,7 +79,7 @@ export const ProfileProjects = () => {
         )}
         {activeTab === "Ideas" && (
           <div className="flex flex-col lg:flex-row gap-10">
-            <h1>Ideas Here</h1>
+            <Ideas />
           </div>
         )}
       </div>
