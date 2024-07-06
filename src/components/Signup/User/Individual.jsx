@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import axios from '../../../api/axios'
+import api from '../../../api/axios'
 import bannerImg from '../../../assets/ecoBannerImage.png'
 import genderIcon from '../../../assets/signup/gender-icon.svg'
 import userIcon from '../../../assets/signup/profile.svg'
@@ -43,7 +43,7 @@ export default function Individual() {
 		if (Object.keys(errors).length === 0) {
 			setIsPending(true)
 			setError(null)
-			await axios
+			await api
 				.post(
 					'signup/',
 					{ email: formData.email },
@@ -79,11 +79,9 @@ export default function Individual() {
 	return (
 		<div className="w-full block relative">
 			<SplitLayout>
-				<article className={`w-full md:p-10 lg:shadow-lg globe-bg`}>
+				<article className="w-full md:p-10 lg:shadow-lg globe-bg">
 					<AuthNav />
-					<h4
-						className={`text-2xl underline text-center my-6 block lg:text-3xl`}
-					>
+					<h4 className="text-2xl underline text-center my-6 block lg:text-3xl">
 						Create an Account for free
 					</h4>
 					<form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">

@@ -3,13 +3,15 @@ const emailRegex = /\S+@\S+\.\S+/
 
 export function validateForm(data) {
 	const errors = {}
+	let email = validateEmail(data.email)
+	let password = validatePassword(data.password)
 
 	if (!data.full_name.trim()) {
 		errors.full_name = 'A valid name is required'
 	}
 
-	errors.email = validateEmail(data.email)
-	errors.password = validatePassword(data.password)
+	if (email) errors.email = email
+	if (password) errors.email = password
 
 	return errors
 }

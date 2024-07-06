@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import axios from '../../../api/axios'
+import api from '../../../api/axios'
 import locationIcon from '../../../assets/signup/location.svg'
 import userAvatar from '../../../assets/signup/user-avatar.png'
 import { useAuthContext } from '../../../hooks/useAuthContext'
@@ -15,31 +15,34 @@ export default function UserDetails() {
 	const { state } = useLocation()
 	const { formData: user } = state || {}
 	const [formData, setFormData] = useState({
+		...user,
 		image: null,
 		location: '',
 	})
-
-	// clear the state from the router
-	// navigate(pathname, { replace: true, state: {} })
+	const [imgUrl, setImgUrl] = useState(userAvatar)
 
 	const shortenedName = user?.full_name.split(' ')[0] || ''
 
 	function handleFileChange(e) {
+		e.preventDefault()
 		const file = e.target.files[0]
 		if (file) {
 			if (!file.type.startsWith('image/')) {
-				alert('Please select a valid image file.')
+				toast.info('Please select a valid image file.')
 				return
 			}
 
 			// Check if file size is more than 2MB
 			if (file.size > 2 * 1024 * 1024) {
-				alert('Image size should not exceed 2MB.')
+				toast.info('Image size should not exceed 2MB.')
 				return
 			}
-
-			const imageUrl = URL.createObjectURL(file)
-			setFormData((prev) => ({ ...prev, image: imageUrl }))
+			const imgFile = URL.createObjectURL(file)
+			setImgUrl(imgFile)
+			// encode image as a multipart/form-data
+			const form = new FormData()
+			form.set('image', file, file.name)
+			setFormData((prev) => ({ ...prev, image: form.get('image') }))
 		}
 	}
 
@@ -60,43 +63,62 @@ export default function UserDetails() {
 		setIsPending(true)
 		setError(null)
 
-		await axios
+		await api
 			.post(
 				'complete_profile/',
-				{ ...user, ...formData },
+				{ ...formData },
 				{
-					headers: { 'Content-Type': 'application/json' },
-					// withCredentials: true,
+					headers: { 'Content-Type': 'multipart/form-data' },
 				}
 			)
-			.then((response) => {
+			.then((res) => {
 				setIsPending(false)
 				setError(null)
-				console.log(response)
 				dispatch({
 					type: 'LOGIN',
-					token: response.data.token,
-					user: response.data.user,
+					token: res.data.token,
+					user: res.data.user,
 				})
 				navigate('/signup/user/skillset', {
 					state: {},
 					replace: true,
 				})
-				window.history.replaceState({}, '')
 			})
 			.catch((err) => {
 				let logErr =
-					err?.response.data.error ||
+					handleFetchError(err?.response?.data) ||
 					'Oops... Something went wrong! Please try again'
 				setIsPending(false)
 				setError(logErr)
 			})
 	}
 
+	useEffect(() => {
+		if (!user?.full_name) {
+			dispatch({ type: 'LOGOUT' })
+			navigate('/signup/user')
+		}
+	}, [])
+
+	// req error is in the structure: error.response.data[fieldname(s)][0]
+	// return an error message based on req error
+	function handleFetchError(resError) {
+		let fieldNames = Object.keys(formData)
+		let errors = []
+		fieldNames.forEach((fieldName) => {
+			if (resError[fieldName]) {
+				errors.push(resError[fieldName][0])
+			}
+		})
+
+		return errors.join('<br/>')
+	}
+
 	return (
 		<section className={`w-full ${layout.section}`}>
-			{error && toast.error(error)}
+			{/* {error && toast.error(error)} */}
 			<form
+				onSubmit={handleSubmit}
 				className={`bg-container relative w-full px-6 ${styles.paddingY} ${styles.paddingX}`}
 			>
 				<p className="flex absolute right-6 top-16 text-lg">Step 2/3</p>
@@ -108,7 +130,7 @@ export default function UserDetails() {
 				</p>
 				<div className="flex flex-col my-8 lg:justify-start lg:gap-20 lg:flex-row w-full items-center justify-center gap-3">
 					<img
-						src={formData.image || userAvatar}
+						src={imgUrl}
 						alt="user avatar"
 						className="w-40 h-40 object-fill object-center rounded-full"
 					/>
@@ -123,6 +145,7 @@ export default function UserDetails() {
 							className="hidden"
 						/>
 						<button
+							type="button"
 							onClick={handleBtnClicked}
 							className="w-fit rounded-md flex items-center px-8 py-3 text-white bg-ecoGreen"
 						>
@@ -161,9 +184,15 @@ export default function UserDetails() {
 						className="bg-transparent outline-0 w-full border-0"
 					/>
 				</label>
+				{error && (
+					<small className="text-center text-rose-500 font-nunito text-lg font-semibold inline-block w-full mt-2">
+						{error}
+					</small>
+				)}
 				<button
+					type="submit"
 					disabled={isPending}
-					onClick={handleSubmit}
+					// onClick={handleSubmit}
 					className="capitalize bg-ecoGreen text-white w-full py-3 lg:w-1/3 flex justify-center rounded-md text-lg mx-auto mt-16 mb-4 disabled:bg-slate-300 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none focus-within:outline-ecoGreen focus-within:outline-2 focus-within:shadow-lg focus-within:rounded-none focus-within:bg-ecoGreen/70 transition-all"
 				>
 					{isPending ? 'Loading' : 'next'}
