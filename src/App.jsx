@@ -25,6 +25,7 @@ import ErrorElement from "./utils/ErrorElement.jsx";
 import ProtectedRoute from "./utils/ProtectedRoute.jsx";
 import { Profile } from "./components/Dashboard/profile/profile.jsx";
 import { EditProfileIndex } from "./components/Dashboard/profile/Edit-Profile/index.jsx";
+import { IndividualProfile } from "./components/Dashboard/profile/IndividualProfile/profile.jsx";
 
 const App = () => {
   const { authIsReady } = useAuthContext();
@@ -71,6 +72,8 @@ const App = () => {
           {/* </Route> */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/individual-profile" element={<IndividualProfile />} />
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       )}
