@@ -9,6 +9,11 @@ import NotFound from './components/Routes/NotFound.jsx'
 import ResetPassword from './components/Routes/ResetPassword.jsx'
 import { SignIn } from './components/Routes/SignIn.jsx'
 import { SignUp } from './components/Routes/SignUp'
+import ChangePassword from './components/Settings/ChangePassword.jsx'
+import DeleteAccount from './components/Settings/DeleteAccount.jsx'
+import PrivacySettings from './components/Settings/PrivacySettings.jsx'
+import ResetAccountData from './components/Settings/ResetAccountData.jsx'
+import AccountSettings from './components/Settings/index.jsx'
 import AccountType from './components/Signup/AccountType.jsx'
 import OrgDetails from './components/Signup/Org/OrgDetails.jsx'
 import OrgVerification from './components/Signup/Org/OrgVerification.jsx'
@@ -40,6 +45,15 @@ const App = () => {
 					<Route path="reset-password" element={<ResetPassword />} />
 					<Route element={<ProtectedRoute />}>
 						<Route path="edit-skills" element={<EditSkills />} />
+					</Route>
+
+					<Route element={<ProtectedRoute />}>
+						<Route path="settings" element={<AccountSettings />}>
+							<Route path="password" element={<ChangePassword />} />
+							<Route path="privacy" element={<PrivacySettings />} />
+							<Route path="reset-data" element={<ResetAccountData />} />
+							<Route path="delete-account" element={<DeleteAccount />} />
+						</Route>
 					</Route>
 
 					<Route
