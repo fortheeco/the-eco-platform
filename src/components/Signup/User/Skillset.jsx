@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../../api/axios";
-import locationIcon from "../../../assets/signup/location.svg";
+import addSkillIcon from "../../../assets/signup/add_circle.svg";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { layout } from "../../../style";
 
@@ -75,11 +75,14 @@ export default function Skillset() {
 
   return (
     <section className={`w-full ${layout.section}`}>
-      <article className={`globe-bg relative w-full lg:pl-16 lg:pr-8 py-6`}>
+      <form
+        onSubmit={handleSubmit}
+        className={`globe-bg relative w-full lg:pl-16 lg:pr-8 py-6`}
+      >
         <div className="flex w-full justify-between items-center">
           <div className="flex items-center my-8 lg:gap-10 gap-3">
             <img
-              src={user.avatar}
+              src={user.image}
               alt={user.name}
               className="w-10 h-10 lg:w-40 lg:h-40 object-fill object-center rounded-full"
             />
@@ -96,7 +99,7 @@ export default function Skillset() {
         </p>
         <label className="flex mt-3 mb-8 pr-4 gap-3 bg-ecoGreen/10 rounded-md w-full lg:w-[95%]">
           <img
-            src={locationIcon}
+            src={addSkillIcon}
             alt="map icon"
             className="h-12  inline-block p-2"
           />
@@ -139,13 +142,13 @@ export default function Skillset() {
         )}
         <button
           type="submit"
-          onClick={handleSubmit}
+          // onClick={handleSubmit}
           disabled={isPending}
           className="capitalize bg-ecoGreen text-white w-full py-3 lg:w-1/3 flex justify-center rounded-md text-lg mx-auto mt-16 mb-4 disabled:bg-slate-300 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none focus-within:outline-ecoGreen focus-within:outline-2 focus-within:shadow-lg focus-within:rounded-none focus-within:bg-ecoGreen/70 transition-all"
         >
           {isPending ? "loading" : "save and continue"}
         </button>
-      </article>
+      </form>
     </section>
   );
 }

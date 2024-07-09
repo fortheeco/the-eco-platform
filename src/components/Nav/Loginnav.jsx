@@ -37,16 +37,15 @@ const LoginNav = () => {
 
           <div className=" hidden sm:flex justify-center items-center gap-5 md:text-[14px] bg-[#F9FFFB] absolute right-0 top-0 bottom-0 px-12 h-full box-shadow">
             <p>Problems 24</p>
-
             <p>Projects 24</p>
-
             <p className="w-[0.25px] h-6 bg-black"></p>
+            <Link to={"/individual-profile"}>
+              <div className="flex items-center gap-2 cursor-pointer">
+                <img src={Avatar} alt="" className={` w-[2rem] h-[2rem] `} />
 
-            <div className="flex items-center gap-2 cursor-pointer">
-              <img src={Avatar} alt="" className={` w-[2rem] h-[2rem] `} />
-
-              <IoIosArrowDown />
-            </div>
+                <IoIosArrowDown />
+              </div>
+            </Link>
 
             {/* <Link to={"/sign-in"}>
               <button className="">Problems 24</button>

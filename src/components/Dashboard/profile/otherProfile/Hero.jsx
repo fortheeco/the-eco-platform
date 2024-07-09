@@ -22,11 +22,24 @@ export const Hero = () => {
               </div>
               <span className="text-sm text-[#292D32]">Lagos, Nigeria</span>
             </div>
-            <Link
+            {/* <Link
               to={"/edit/profile-individual"}
               className="px-4 py-2 text-white rounded-full mt-2 md:mt-0 bg-[#1DB559]"
             >
-              Edit profile
+              Follow Back
+            </Link> */}
+
+            {/* <Link
+              to={"/edit/profile-individual"}
+              className="px-4 py-2 text-white rounded-full mt-2 md:mt-0 bg-[#1DB559]"
+            >
+              Follow
+            </Link> */}
+            <Link
+              to={"/edit/profile-individual"}
+              className="px-4 py-2 text-white rounded-full mt-2 md:mt-0 bg-[#85CCB3] cursor-not-allowed"
+            >
+              Following
             </Link>
           </div>
           <p className="text-sm  text-[#474747]">

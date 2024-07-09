@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import LoginNav from "../../../Nav/Loginnav.jsx";
+import LoginNav from "../../../../Nav/Loginnav.jsx";
 import { Hero } from "../Hero.jsx";
 import { ProfileProjects } from "../ProfileBody.jsx";
 import { ProfileRight } from "../profileRight.jsx";
-import { layout } from "../../../../style.js";
-import avatar from "../../../../assets/dashboard/profile/MaleMemojis.svg";
+import { layout } from "../../../../../style.js";
+import avatar from "../../../../../assets/dashboard/profile/MaleMemojis.svg";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { OrganisationInfo } from "./organisationInfo.jsx";
+import { Info } from "./info.jsx";
 import { ContactDetails } from "./contactDetails.jsx";
 import { AreasOfFocus } from "./areasOfFocus.jsx";
 import { CollaborationIntrst } from "./collaborationIntrst.jsx";
 
-export const EditProfileIndex = () => {
+export const EditIndividualProfileIndex = () => {
   const [activeTab, setActiveTab] = useState("Organization Information");
   return (
     <div className={`w-full h-[100svh] overflow-y-auto bg-gray-50`}>
@@ -33,51 +33,11 @@ export const EditProfileIndex = () => {
             </div>
           </div>
           {/* tabs */}
-          <div className="flex justify-between  cursor-pointer mt-8 mb-6">
-            <p
-              className={
-                activeTab === "Organization Information"
-                  ? "text-black font-bold  cursor-pointer text-sm"
-                  : "text-gray-500 cursor-pointer text-sm"
-              }
-              onClick={() => setActiveTab("Organization Information")}
-            >
-              Organization Information
-            </p>
-
-            <p
-              className={
-                activeTab === "Contact Details"
-                  ? "text-black font-bold cursor-pointer text-sm"
-                  : "text-gray-500 cursor-pointer text-sm"
-              }
-              onClick={() => setActiveTab("Contact Details")}
-            >
-              Contact Details{" "}
-            </p>
-            <p
-              className={
-                activeTab === "Areas of Focus"
-                  ? "text-black font-bold  cursor-pointer text-sm"
-                  : "text-gray-500 cursor-pointer text-sm"
-              }
-              onClick={() => setActiveTab("Areas of Focus")}
-            >
-              Areas of Focus
-            </p>
-            <p
-              className={
-                activeTab === "Collaboration Interests"
-                  ? "text-black font-bold  cursor-pointer text-sm"
-                  : "text-gray-500 cursor-pointer text-sm"
-              }
-              onClick={() => setActiveTab("Collaboration Interests")}
-            >
-              Collaboration Interests
-            </p>
+          <div className="mt-6">
+            <Info />
           </div>
 
-          {activeTab === "Organization Information" && (
+          {/* {activeTab === "Organization Information" && (
             <div className="flex flex-col lg:flex-row gap-10">
               {" "}
               <OrganisationInfo />
@@ -99,7 +59,7 @@ export const EditProfileIndex = () => {
             <div className="flex flex-col lg:flex-row gap-10">
               <CollaborationIntrst />
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </div>
