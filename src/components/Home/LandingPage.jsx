@@ -10,6 +10,7 @@ export const LandingPage = () => {
   return (
     <div className="h-full relative">
       <Nav />
+      <div className="pt-20"></div>
       <Hero />
       <Org />
       <ComingSoon />
