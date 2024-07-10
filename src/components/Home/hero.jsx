@@ -25,7 +25,7 @@ const Hero = () => {
         />
 
         <div className="z-10 mt-20 w-[40%]">
-          <p className="text-[#041E0E] text-[36px] font-[500]">
+          <p className="text-[#041E0E] text-[38px] font-[500]">
             Connect and Build <br /> Collaboration through <br /> Data for
             Community
           </p>
@@ -40,7 +40,7 @@ const Hero = () => {
           </div>
         </div>
 
-        <div className="bg-[#F9FFFB] p-8 border-[0.5px] border-inputBorder rounded-[12px] z-10">
+        <div className="bg-[#F9FFFB] p-8 border-[0.5px] border-inputBorder rounded-[18px] z-10">
           <div className="flex items-center mb-4 gap-8">
             <div>
               <p className="text-[#263238] text-[18px]">EcHo a Problem</p>

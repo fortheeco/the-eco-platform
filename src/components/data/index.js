@@ -1,10 +1,14 @@
 // import { organization } from "../assets/SVG";
 import Location from "../../assets/dashboard/profile/Location.svg";
 import More from "../../assets/dashboard/profile/more.svg";
+import environmentBg from "../../assets/new-landing/mdi_environment.svg";
+import communityBg from "../../assets/new-landing/mdi_account-group.svg";
+import orgBg from "../../assets/new-landing/fluent_organization-32-filled.svg";
 
 export const ORGANIZATIONS = [
   {
     title: "Environment",
+    bg: environmentBg,
     imgUrl: "src/assets/SVG/environment.svg",
     imgBgColor: "#EEFCF4",
     imgBg: "src/assets/SVG/organization-bg.svg",
@@ -13,6 +17,7 @@ export const ORGANIZATIONS = [
   },
   {
     title: "Community",
+    bg: communityBg,
     imgUrl: "src/assets/SVG/community.svg",
     imgBgColor: "#F1FAFE",
     imgBg: "src/assets/SVG/community-bg.svg",
@@ -20,7 +25,8 @@ export const ORGANIZATIONS = [
       " Data on the social and demographic characteristics of a country's population (such as age, education levels, and income) can help policymakers understand the needs and challenges facing different segments of the population and how these may be changing over time.EcHo problem and projects related to this in your community.",
   },
   {
-    title: "Environment",
+    title: "Organization",
+    bg: orgBg,
     imgUrl: "src/assets/SVG/organization.svg",
     imgBgColor: "#FFF3ED",
     imgBg: "src/assets/SVG/organization-bg.svg",

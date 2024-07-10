@@ -4,6 +4,7 @@ import Nav from "../Nav/Nav";
 import Org from "./Org";
 import ComingSoon from "./ComingSoon";
 import Faqs from "./Faqs";
+import { Join } from "./join";
 import Footer from "./Footer";
 
 export const LandingPage = () => {
@@ -12,6 +13,7 @@ export const LandingPage = () => {
       <Nav />
       <div className="pt-20"></div>
       <Hero />
+      <Join />
       <Org />
       <ComingSoon />
       <Faqs />

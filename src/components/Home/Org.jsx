@@ -4,30 +4,19 @@ import { ORGANIZATIONS } from "../data";
 
 export default function Org() {
   return (
-    <section className=" sm:px-16 px-8  py-8 flex flex-col justify-center gap-10 w-full">
-      <div className="flex flex-col items-center justify-center text-center">
-        <p className="text-[24px] font-[300] relative">
-          <p className="bg-ecoGreen w-2 h-2 text-ecoGreen text-[8px]  rounded-full absolute top-2"></p>
-          Welcome to THE ECO
-          <p className="bg-red w-2 h-2 text-red text-[8px] rounded-full absolute right-0 bottom-2"></p>
-        </p>
-        <div className="flex flex-col items-center justify-center text-center mt-2">
-          <h4 className="text-[13px] font-light mb-1">
-            The ECO is an abbreviation meaning{" "}
-          </h4>
-          <h2 className="text-[15px] font-[600]">
-            ENIVIRONMENT, COMMUNITY & ORGANIZATION
-          </h2>
-          <img src={Stroke} alt="environment images" />
-        </div>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full md:w-[80%] mx-0 md:mx-auto  gap-4 ">
+    <section className=" sm:px-16 px-8  py-8 flex flex-col justify-center gap-10 w-full mt-10">
+      <p className="text-[28px]  relative text-center tracking-wider font-[500]">
+        Create your <span className="font-bold">PALs</span>
+      </p>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full md:w-[80%] mx-0 md:mx-auto  gap-8 ">
         {ORGANIZATIONS.map((org) => (
           <OrgCard
             title={org.title}
             description={org.description}
             imgBgColor={org.imgBgColor}
             imgUrl={org.imgUrl}
+            bg={org.bg}
           />
         ))}
       </div>
@@ -41,12 +30,14 @@ export const OrgCard = ({
   imgBgColor,
   //   imgBg,
   description,
+  bg,
 }) => {
   return (
     <div
-      className="w-full rounded-[20px] shadow-3xl  py-4 px-6 bg-gray-100"
+      className="w-full rounded-[20px] shadow-3xl  py-4 px-6 bg-gray-100 relative"
       style={{ backgroundColor: imgBgColor }}
     >
+      <img src={bg} alt="" className="absolute bottom-0 right-0" />
       <div className="mt-2">
         <div
           className={`w-8 h-8 flex justify-center items-center rounded-full`}
