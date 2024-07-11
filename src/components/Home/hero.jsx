@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { styles, layout } from "../../style";
 import "./landingPage.css";
-import solvingIcon from "../../assets/new-landing/problem-solving.svg";
+import solvingIcon from "../../assets/new-landing/problem-solvingcon.png";
 import sdgIcon from "../../assets/new-landing/sdg.svg";
 import dottedbg from "../../assets/new-landing/dottedGroup.png";
 import fadedGlobe from "../../assets/landingpage/fadedGlobe.png";

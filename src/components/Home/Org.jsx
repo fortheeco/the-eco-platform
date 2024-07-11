@@ -9,7 +9,7 @@ export default function Org() {
         Create your <span className="font-bold">PALs</span>
       </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full md:w-[80%] mx-0 md:mx-auto  gap-8 ">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full md:w-[85%] mx-0 md:mx-auto  gap-8 ">
         {ORGANIZATIONS.map((org) => (
           <OrgCard
             title={org.title}

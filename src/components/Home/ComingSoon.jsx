@@ -7,67 +7,68 @@ import GoogleIcon from "../../assets/SVG/GooglePlay.svg";
 import { CustomButton } from "../utils/Button";
 import { Link } from "react-router-dom";
 import { navigate } from "@reach/router";
-import africa from "../../assets/landingpage/academicons_africarxiv.svg";
+import img1 from "../../assets/landingpage/ecobg.svg";
+import img2 from "../../assets/landingpage/project.svg";
+import img3 from "../../assets/landingpage/innovation.svg";
+import img4 from "../../assets/landingpage/ecoOrg.svg";
+
+const data = [
+  {
+    id: 1,
+    bg: img1,
+    title: "ECO Problem",
+    text: "Enim faucibus nunc non tincidunt. Libero mauris eu in suscipit molestie venenatis. Et velit sed sagittis.",
+    btnText: "EcHo Problem",
+  },
+  {
+    id: 2,
+    bg: img2,
+    title: "ECO Project",
+    text: "Enim faucibus nunc non tincidunt. Libero mauris eu in suscipit molestie venenatis. Et velit sed sagittis.",
+    btnText: "Create Organization",
+  },
+  {
+    id: 3,
+    bg: img3,
+    title: "Innovation",
+    text: "Enim faucibus nunc non tincidunt. Libero mauris eu in suscipit molestie venenatis. Et velit sed sagittis.",
+    btnText: "EcHo Innovations",
+  },
+  {
+    id: 4,
+    bg: img4,
+    title: "Organization",
+    text: "Enim faucibus nunc non tincidunt. Libero mauris eu in suscipit molestie venenatis. Et velit sed sagittis.",
+    btnText: "Create Organization",
+  },
+];
 
 export default function ComingSoon() {
   return (
-    <section className="mx-auto w-[80%] px-8 lg:px-16 relative mt-[14rem]">
-      <div className="bg-[#273238] lg:h-[400px] flex flex-col md:flex-row py-8 max-w-[989px]">
-        <img
-          src={scatterbg}
-          alt=""
-          className="absolute w-full h-full top-0 bottom-0"
-        />
-        <img
-          src={africa}
-          alt=""
-          className="absolute w-[8rem] h-[8rem] top-[-50px] right-8 "
-        />
-        <div className="w-1/2 mt-2">
-          <img
-            src={commingSoonMobile}
-            className="h-[40rem] absolute top-[-8rem] ml-[20px] md:ml-[50px] lg:ml-[100px]"
-          />
-        </div>
-
-        <div
-          className="w-1/2 mt-[430px] md:mt-[10px] lg:mt-4 px-8 lg:px-0"
-          style={{ zIndex: "10" }}
-        >
-          <div className="w-[316px]">
-            <h2 className="text-white text-[32px] font-medium">PALs Apps</h2>
-            <h3 className="text-[#32D272] text-[32px] font-bold">
-              Coming Soon!
-            </h3>
-            <p className="text-white text-md">
-              Engage with problems & Project as Partners, Ambassadors & Leaders
-              for Sustainability
-            </p>
-            <div className="mt-4 flex gap-4 mb-7">
-              <img
-                src={GoogleIcon}
-                alt="apple logo"
-                className="w-24 lg:w-2/6"
-              />
-              <img
-                src={AppleIcon}
-                alt="google logo"
-                className="w-24 lg:w-2/6"
-              />
+    <section className="mx-auto w-[85%] px-8 lg:px-16  mt-[4rem] grid grid-cols-1 sm:grid-cols-2  gap-6">
+      {data.map(({ id, bg, title, text, btnText }) => {
+        return (
+          <div className={`w-full h-[17rem] relative z-10`}>
+            <div className="z-10 flex flex-col justify-end h-full w-[80%] p-8">
+              <p className="text-[20px] text-white z-[20] font-[500]">
+                {title}
+              </p>
+              <p className="text-[20px] text-[#D8D8D8] text-sm z-[20] my-2">
+                {text}
+              </p>
+              <p className="bg-ecoGreen text-white text-sm py-1 text-center rounded-md z-20 w-[60%]">
+                {btnText}
+              </p>
             </div>
 
-            <Link to={"/pals"}>
-              <CustomButton
-                content="Join the PALs network"
-                variant="text-white px-3 py-[10px] text-center lg:text-[18px] w-[230px] lg:w-full"
-                click={() => {
-                  navigate("/pals");
-                }}
-              />
-            </Link>
+            <img
+              src={bg}
+              alt=""
+              className="absolute object-cover top-0 right-0 bottom-0 left-0 w-full h-full rounded-md "
+            />
           </div>
-        </div>
-      </div>
+        );
+      })}
     </section>
   );
 }
