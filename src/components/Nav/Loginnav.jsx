@@ -27,11 +27,11 @@ const LoginNav = () => {
                 Eco
                 {/* <IoIosArrowDown /> */}
               </li>
-              <Link to={"/pals"}>
-                <li>PALs</li>
+              <Link to={"/feeds"}>
+                <li>Feeds</li>
               </Link>
 
-              <li>Innovation</li>
+              {/* <li>Innovation</li> */}
             </ul>
           </div>
 

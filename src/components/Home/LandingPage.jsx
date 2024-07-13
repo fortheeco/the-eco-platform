@@ -13,7 +13,7 @@ export const LandingPage = () => {
   return (
     <div className="h-full relative">
       <Nav />
-      <div className="pt-6"></div>
+      <div className="pt-1"></div>
       <Hero />
       <Join />
       <Org />

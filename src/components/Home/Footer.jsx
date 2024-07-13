@@ -16,7 +16,7 @@ export default function Footer() {
           <ul className="flex flex-col md:flex-row gap-6 md:gap-12 text-center font-montserrat font-light text-[14px]">
             <li>Eco</li>
             <li>PALs</li>
-            <li>iPALs</li>
+            {/* <li>iPALs</li> */}
             <li>Innovation</li>
           </ul>
           <Link to={"/signup"}>

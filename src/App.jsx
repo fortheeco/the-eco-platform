@@ -30,6 +30,7 @@ import { EditProfileIndex } from "./components/Dashboard/profile/Edit-Profile/in
 import { IndividualProfile } from "./components/Dashboard/profile/IndividualProfile/profile.jsx";
 import { EditIndividualProfileIndex } from "./components/Dashboard/profile/IndividualProfile/Edit-Individual-profile/index.jsx";
 import { OthersProfileById } from "./components/Dashboard/profile/otherProfile/profile.jsx";
+import { FeedsHome } from "./components/Dashboard/Feeds/feeds.jsx";
 
 const App = () => {
   const { authIsReady } = useAuthContext();
@@ -95,6 +96,8 @@ const App = () => {
           />
           <Route path="/profile/:id" element={<OthersProfileById />} />
           <Route path="/individual-profile" element={<IndividualProfile />} />
+
+          <Route path="/feeds" element={<FeedsHome />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>
