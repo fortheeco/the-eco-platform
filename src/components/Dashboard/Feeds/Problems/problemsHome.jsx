@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { PostProblems } from "./postProblems";
-import { SingleProject } from "./singleProject";
+import { SingleProblem } from "./singleProblem";
 import { LatestProjectNew } from "./latest";
 import api from "../../../../api/axios";
 
@@ -86,7 +86,7 @@ export const ProblemsHome = () => {
             setDescription={setDescription}
             setIsLoading={setIsLoading}
           />
-          <SingleProject problems={problems} loadingFetch={loadingFetch} />
+          <SingleProblem problems={problems} loadingFetch={loadingFetch} />
         </div>
       </div>
 

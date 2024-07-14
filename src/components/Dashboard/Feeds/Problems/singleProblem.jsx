@@ -12,12 +12,13 @@ import Plight from "../../../../assets/dashboard/feeds/pLight.svg";
 import sdgIcon from "../../../../assets/new-landing/sdg.svg";
 import "../../../../index.css";
 
-export const SingleProject = (props) => {
+export const SingleProblem = (props) => {
   return (
     <div className="px-2">
       {props.loadingFetch ? (
-        <div className="flex items-center justify-center mt-20">
+        <div className="flex flex-col items-center justify-center mt-20">
           <img src={sdgIcon} alt="" className="rotating" />
+          <p className="mt-2 text-sm">Please wait ...</p>
         </div>
       ) : (
         <>
