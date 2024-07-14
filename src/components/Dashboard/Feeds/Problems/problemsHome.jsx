@@ -15,8 +15,11 @@ export const ProblemsHome = () => {
   const [description, setDescription] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const [loadingFetch, setLoadingFetch] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
+      setLoadingFetch(true);
       try {
         const response = await api.get("/problems/");
 
@@ -24,6 +27,7 @@ export const ProblemsHome = () => {
         setProblems(response.data.results);
         // console.log(response.data);
         //  setData(response.data);
+        setLoadingFetch(false);
       } catch (error) {
         //  setError(error);
         console.log(error);
@@ -82,7 +86,7 @@ export const ProblemsHome = () => {
             setDescription={setDescription}
             setIsLoading={setIsLoading}
           />
-          <SingleProject problems={problems} />
+          <SingleProject problems={problems} loadingFetch={loadingFetch} />
         </div>
       </div>
 
