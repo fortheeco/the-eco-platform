@@ -41,26 +41,38 @@ export const ProblemsHome = () => {
     console.log("I want to make a post");
     setIsLoading(true);
 
-    const payload = {
-      title: category.name,
-      content: description,
-      location: location,
-      category_id: category.id,
-      goal_id: goal.id,
-      images: [
-        { image: ImgData[0] },
-        { image: ImgData[1] },
-        { image: ImgData[2] },
-      ],
-    };
+    // Prepare the images array
+    const imagesArray = selectedFiles.map((file) => {
+      return { image: file }; // Use the file name as a placeholder
+    });
+
+    // Create the FormData object
+    const formData = new FormData();
+
+    // Append each file to formData
+    selectedFiles.forEach((file, index) => {
+      formData.append(`images`, file);
+    });
+
+    formData.append("content", description);
+    formData.append("title", goal.name);
+    formData.append("location", location);
+    formData.append("category_id", category.id);
+    formData.append("goal_id", goal.id);
 
     try {
-      const res = await api.post("/create_problem/", payload);
-      console.log(res);
+      // Post the form data to the server
+      const response = await api.post("/create_problem/", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log(response);
       setIsLoading(false);
     } catch (error) {
-      //  setStep(2);
       console.log(error);
+      setIsLoading(false);
     }
   };
 
