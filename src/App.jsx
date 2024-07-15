@@ -15,6 +15,7 @@ import PrivacySettings from './components/Settings/PrivacySettings.jsx'
 import ResetAccountData from './components/Settings/ResetAccountData.jsx'
 import AccountSettings from './components/Settings/index.jsx'
 import AccountType from './components/Signup/AccountType.jsx'
+import OrgContact from './components/Signup/Org/Contact.jsx'
 import OrgDetails from './components/Signup/Org/OrgDetails.jsx'
 import OrgVerification from './components/Signup/Org/OrgVerification.jsx'
 import Organization from './components/Signup/Org/Organization.jsx'
@@ -75,6 +76,7 @@ const App = () => {
 							<Route index element={<Organization />} />
 							<Route path="details" element={<OrgDetails />} />
 							<Route path="verification" element={<OrgVerification />} />
+							<Route path="contact" element={<OrgContact />} />
 						</Route>
 
 						<Route path="verify-email" element={<VerifyEmail />} />
