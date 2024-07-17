@@ -1,7 +1,7 @@
 import React from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
-export const Info = () => {
+export const Info = (props) => {
   return (
     <div className="w-full h-full flex flex-col gap-4">
       <div className="w-full  text-[#595959] text-sm">
@@ -17,7 +17,7 @@ export const Info = () => {
       </div>
 
       <div className="w-full text-[#595959] text-sm">
-        <p>Hashtag</p>
+        <p>Hashtag</p>s
         <input
           placeholder="Data Science"
           className="w-full p-4 mt-2 bg-inputBg border border-inputBorder rounded-md outline-none text-sm"
