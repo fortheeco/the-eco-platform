@@ -1,21 +1,22 @@
 // import { Link } from 'react-router-dom'
+import sideImg from '../../../assets/signup/innovation-bulb.svg'
 import { PrimaryBtn } from '../../utils/Button'
 import { FormInput } from '../../utils/FormInput'
 import SplitLayout from '../SplitLayout'
 
-export default function OrgDetails() {
+export default function OrgInfo() {
 	async function handleSubmit(e) {
 		e.preventDefault()
 		console.log('form submitted')
 	}
 
 	return (
-		<SplitLayout>
+		<SplitLayout img={sideImg} heading={'welcome to ECO Innovation Hub'}>
 			{/* <article className="w-full bg-slate-200"> */}
 			<div className="w-full flex justify-between items-center mb-20">
-				<p>Let&apos;s begin your organization Information 👍🏾</p>
+				<p>Let's begin your organization information 👍🏽</p>
 			</div>
-			<h4 className="text-2xl sm:text-3xl md:text-4xl underline capitalize mt-6 mb-10 block font-bold">
+			<h4 className="text-2xl sm:text-3xl md:text-4xl underline capitalize mb-10 block font-bold">
 				organization Information
 			</h4>
 
@@ -24,13 +25,11 @@ export default function OrgDetails() {
 				className="w-full flex flex-col gap-4 lg:gap-8"
 			>
 				<FormInput
-					label="organization name"
+					label={'organization name'}
 					minLength={6}
-					maxLength={30}
+					maxLength={50}
 					placeholder="Enter your organization name"
-					name="org-name"
 				/>
-
 				<label className="block w-full">
 					<span className="text-lg capitalize">type of organization</span>
 					<select
@@ -50,37 +49,62 @@ export default function OrgDetails() {
 						))}
 					</select>
 				</label>
-
-				<label className="block w-full">
-					<span className="text-lg capitalize">mission statement</span>
-					<textarea
-						required
-						minLength={9}
-						maxLength={200}
-						placeholder="Organization mission statement"
-						className="outline-0 border-0 w-full resize-none flex mt-3 px-4 h-20 gap-3 bg-nav/5 rounded-md"
-					/>
-				</label>
-
-				<label className="block w-full">
-					<span className="text-lg capitalize">organization description</span>
-					<textarea
-						required
-						minLength={9}
-						maxLength={200}
-						placeholder="Provide a brief overview of your organization, its goals and key activities"
-						className="outline-0 border-0 w-full resize-none flex mt-3 px-4 h-20 gap-3 bg-nav/5 rounded-md"
-					/>
-				</label>
 				<FormInput
-					name="year"
-					label="year established"
-					placeholder="What year was your organization established"
+					label="primary contact person"
+					minLength={4}
+					maxLength={30}
+					placeholder="First Name & Last Name"
 				/>
 				<FormInput
-					name="reg-number"
-					label="registration number"
-					placeholder="Your organization registration number"
+					name="title"
+					label="job title"
+					minLength={4}
+					maxLength={30}
+					placeholder="Enter job title"
+				/>
+				<FormInput
+					name="email"
+					type="email"
+					label="email address"
+					minLength={6}
+					maxLength={40}
+					placeholder="example@email.com"
+				/>
+				<label htmlFor="phone" className="inline-block mt-4 -mb-4 capitalize">
+					phone number
+				</label>
+				<div className="w-full flex h-12 bg-nav/5 rounded-md">
+					<select
+						name="country-code"
+						id="country-code"
+						className="h-full w-20 p-2 inline-block mr-2 bg-transparent outline-0"
+					>
+						<option value="+234">+234</option>
+					</select>
+					<input
+						type="tel"
+						name="phone"
+						id="phone"
+						required
+						minLength={10}
+						maxLength={11}
+						className="w-full h-full border-l-2 p-4 bg-transparent outline-0"
+					/>
+				</div>
+				<FormInput
+					name="address"
+					label="organization address"
+					minLength={5}
+					maxLength={50}
+					placeholder="Where is your organization located"
+				/>
+				<FormInput
+					name="org-url"
+					label="organization URL"
+					minLength={5}
+					maxLength={100}
+					placeholder="www.example.com"
+					required={false}
 				/>
 
 				<div className="w-full flex gap-4 mt-32 mb-10 justify-between items-center">
@@ -98,6 +122,8 @@ export default function OrgDetails() {
 		</SplitLayout>
 	)
 }
+
+// const contactInputs = [{}]
 
 const orgType = [
 	'NGO',
