@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { IoInformationCircleOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../../api/axios";
 import addSkillIcon from "../../../assets/signup/add_circle.svg";
 import { useAuthContext } from "../../../hooks/useAuthContext";
+import useLogout from "../../../hooks/useLogout";
 import { layout } from "../../../style";
 
 export default function Skillset() {
@@ -14,6 +16,7 @@ export default function Skillset() {
   const [skills, setSkills] = useState([]);
   const [newSkill, setNewSkill] = useState("");
   const navigate = useNavigate();
+  const { logout } = useLogout();
 
   function handleAddSkill() {
     if (newSkill.trim() === "") {
@@ -53,6 +56,8 @@ export default function Skillset() {
     e.preventDefault();
     setError(null);
     setIsPending(true);
+    if (skills.length === 0) return;
+
     try {
       await api.put("update_skills/", skills);
 
@@ -72,12 +77,14 @@ export default function Skillset() {
       setIsPending(false);
     }
   }
+  console.log(user);
 
   return (
-    <section className={`w-full ${layout.section}`}>
+    <section className={`w-full bg-[#FBFBFB] ${layout.section}`}>
       <form
+        onKeyDown={handleKeyDown}
         onSubmit={handleSubmit}
-        className={`globe-bg relative w-full lg:pl-16 lg:pr-8 py-6`}
+        className={`relative w-full bg-white lg:pl-16 lg:pr-8 py-6 border-t-4 border-ecoGreen rounded-md shadow-sm`}
       >
         <div className="flex w-full justify-between items-center">
           <div className="flex items-center my-8 lg:gap-10 gap-3">
@@ -97,6 +104,10 @@ export default function Skillset() {
         <p className="text-lg text-nav/70 my-6">
           Tell us, what skillsets are you bringing to the Eco Community?
         </p>
+        <small className="flex items-center gap-2">
+          <IoInformationCircleOutline className="text-blue-500 text-lg" /> Click
+          enter to add multiple skills
+        </small>
         <label className="flex mt-3 mb-8 pr-4 gap-3 bg-ecoGreen/10 rounded-md w-full lg:w-[95%]">
           <img
             src={addSkillIcon}
@@ -105,12 +116,11 @@ export default function Skillset() {
           />
           <input
             type="text"
-            required
+            // required
             minLength={2}
             maxLength={80}
             value={newSkill}
             onChange={(e) => setNewSkill(e.target.value)}
-            onKeyDown={handleKeyDown}
             autoComplete="off"
             autoFocus
             aria-description="add a new skillset"
@@ -143,7 +153,7 @@ export default function Skillset() {
         <button
           type="submit"
           // onClick={handleSubmit}
-          disabled={isPending}
+          disabled={isPending || skills.length === 0}
           className="capitalize bg-ecoGreen text-white w-full py-3 lg:w-1/3 flex justify-center rounded-md text-lg mx-auto mt-16 mb-4 disabled:bg-slate-300 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none focus-within:outline-ecoGreen focus-within:outline-2 focus-within:shadow-lg focus-within:rounded-none focus-within:bg-ecoGreen/70 transition-all"
         >
           {isPending ? "loading" : "save and continue"}

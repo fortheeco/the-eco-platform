@@ -27,3 +27,34 @@ export function PasswordInput({ label, value, handleChange, placeholder }) {
 		</label>
 	)
 }
+
+export const FormInput = ({
+	name,
+	label,
+	type = 'text',
+	placeholder,
+	minLength,
+	maxLength,
+	props,
+	value,
+	handleChange,
+	required = true,
+}) => {
+	return (
+		<label className="w-full block">
+			<span className="text-lg capitalize">{label}</span>
+			<input
+				name={name}
+				value={value}
+				onChange={handleChange}
+				type={type}
+				minLength={minLength}
+				maxLength={maxLength}
+				placeholder={placeholder}
+				required={required}
+				{...props}
+				className="flex mt-3 px-4 h-12 gap-3 bg-nav/5 rounded-md outline-0 border-0 w-full pr-2 focus-within:border-b-2 focus-within:border-ecoGreen transition-all duration-200"
+			/>
+		</label>
+	)
+}

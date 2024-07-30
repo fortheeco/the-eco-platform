@@ -14,6 +14,15 @@ import DeleteAccount from "./components/Settings/DeleteAccount.jsx";
 import PrivacySettings from "./components/Settings/PrivacySettings.jsx";
 import ResetAccountData from "./components/Settings/ResetAccountData.jsx";
 import AccountSettings from "./components/Settings/index.jsx";
+import ImpactAndReact from "./components/Signup/Innovation/ImpactReact.jsx";
+import InnovationDetails from "./components/Signup/Innovation/InnovationDetails.jsx";
+import InnovationHub from "./components/Signup/Innovation/InnovationHub.jsx";
+import OrgInfo from "./components/Signup/Innovation/OrgInfo.jsx";
+import Payments from "./components/Signup/Innovation/Payment.jsx";
+import Terms from "./components/Signup/Innovation/Terms.jsx";
+import AreaOfFocus from "./components/Signup/Org/AreaOfFocus.jsx";
+import CollabInterest from "./components/Signup/Org/CollabInterest.jsx";
+import OrgContact from "./components/Signup/Org/Contact.jsx";
 import AccountType from "./components/Signup/AccountType.jsx";
 import OrgDetails from "./components/Signup/Org/OrgDetails.jsx";
 import OrgVerification from "./components/Signup/Org/OrgVerification.jsx";
@@ -81,6 +90,20 @@ const App = () => {
               <Route index element={<Organization />} />
               <Route path="details" element={<OrgDetails />} />
               <Route path="verification" element={<OrgVerification />} />
+              <Route path="contact" element={<OrgContact />} />
+              <Route path="area-of-focus" element={<AreaOfFocus />} />
+              <Route
+                path="collaboration-interest"
+                element={<CollabInterest />}
+              />
+            </Route>
+            <Route path="innovation">
+              <Route index element={<InnovationHub />} />
+              <Route path="information" element={<OrgInfo />} />
+              <Route path="details" element={<InnovationDetails />} />
+              <Route path="impact-and-reach" element={<ImpactAndReact />} />
+              <Route path="terms" element={<Terms />} />
+              <Route path="payment" element={<Payments />} />
             </Route>
 
             <Route path="verify-email" element={<VerifyEmail />} />
@@ -97,7 +120,7 @@ const App = () => {
           <Route path="/profile/:id" element={<OthersProfileById />} />
           <Route path="/individual-profile" element={<IndividualProfile />} />
 
-          <Route path="/feeds" element={<FeedsHome />} />
+          <Route path="/your-Eco" element={<FeedsHome />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>

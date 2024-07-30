@@ -4,12 +4,16 @@
 
 @media screen and (min-width: 1200px) {
 	.globe-bg {
-		background-color: rgba(29, 181, 89, 0.06);
-		background-blend-mode: lighten;
-		border-radius: 0.5rem;
-		border-top: 4px solid #1db559;
+		background-color: rgba(29, 181, 89, 0.02);
+		/* background-image: url('../../assets/signup/bg-globe.png');
+		background-position: 140% 320%;
+		background-size: 90%;
+		background-repeat: no-repeat;
+		background-blend-mode: lighten; */
+		/* border-radius: 0.5rem;
+		border-top: 4px solid #1db559; */
 		position: relative;
-		/* overflow-x: hidden; */
+		overflow: hidden;
 	}
 
 	/* Place everything in the container above the pseudo element */
@@ -17,15 +21,17 @@
 		z-index: 2;
 	}
 
-	.globe-bg::before {
-		content: url('../../assets/landingpage/fadedglobe.svg');
+	.globe-bg::after {
+		overflow: hidden;
+		content: url('../../assets/signup/bg-globe.png');
 		opacity: 0.4;
-		object-fit: 150%;
-		object-position: center;
-		left: 20%;
+		object-fit: contain;
+		/* object-position: -50% 100%; */
+		right: -40%;
+		bottom: -40%;
 		display: block;
-		/* width: 100%; */
-		height: 100%;
+		width: 60rem;
+		/* height: 100%; */
 		position: absolute;
 		z-index: 1;
 	}
@@ -58,11 +64,6 @@
 	position: absolute;
 	z-index: 1;
 }
-
-/* .active {
-	background-color: #1db559;
-	color: black;
-} */
 
 .input-parent:has(:focus-within) {
 	border-bottom: 3px solid #1db559;

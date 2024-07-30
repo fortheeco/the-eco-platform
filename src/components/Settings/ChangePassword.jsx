@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../../api/axios'
 import { validatePassword } from '../../helpers/validate-form'
-import { PasswordInput } from '../utils/PasswordInput'
+import { PasswordInput } from '../utils/FormInput'
 import SettingsWrapper from './SettingsWrapper'
 
 export default function ChangePassword() {

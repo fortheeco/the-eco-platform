@@ -5,7 +5,7 @@ import api from '../../api/axios'
 import { validatePassword } from '../../helpers/validate-form'
 import { layout } from '../../style'
 import Nav from '../Nav/Nav'
-import { PasswordInput } from '../utils/PasswordInput'
+import { PasswordInput } from '../utils/FormInput'
 
 export default function ResetPassword() {
 	const [new_password, setPswd] = useState('')
