@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import countryList from '../../data/countries.json'
 import { PrimaryBtn } from '../../utils/Button'
 import { FormInput } from '../../utils/FormInput'
 import SplitLayout from '../SplitLayout'
@@ -8,7 +8,6 @@ export default function OrgContact() {
 		e.preventDefault()
 		console.log('form submitted')
 	}
-
 	return (
 		<SplitLayout>
 			{/* <article className="w-full bg-slate-200"> */}
@@ -55,7 +54,12 @@ export default function OrgContact() {
 						id="country-code"
 						className="h-full w-20 p-2 inline-block mr-2 bg-transparent outline-0"
 					>
-						<option value="+234">+234</option>
+						{countryList.map((cn) => (
+							<option value={cn.phone_code} key={cn.country_name}>
+								+{cn.phone_code}
+							</option>
+						))}
+						{/* <option value="+234">+234</option> */}
 					</select>
 					<input
 						type="tel"

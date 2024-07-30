@@ -1,8 +1,6 @@
 import { useState } from 'react'
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
-// import { toast } from 'react-toastify'
-import bannerImg from '../../assets/ecoBannerImage.png'
 import checkmarkIcon from '../../assets/signup/check.svg'
 import passwordIcon from '../../assets/signup/security-safe.svg'
 import emailIcon from '../../assets/signup/sms.svg'

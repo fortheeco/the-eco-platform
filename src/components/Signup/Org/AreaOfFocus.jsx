@@ -1,4 +1,3 @@
-// import { Link } from 'react-router-dom'
 import { PrimaryBtn } from '../../utils/Button'
 import { FormInput } from '../../utils/FormInput'
 import SplitLayout from '../SplitLayout'
