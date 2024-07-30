@@ -24,10 +24,7 @@ const Nav = () => {
             </Link>
 
             <ul className="flex gap-8 text-[#ACB2B0] text-[14px]">
-              <li className="flex items-center gap-2 cursor-pointer">
-                ECO
-                {/* <IoIosArrowDown /> */}
-              </li>
+              <li className="flex items-center gap-2 cursor-pointer">ECO</li>
               <Link to={"/pals"}>
                 <li>PALs</li>
               </Link>
