@@ -21,11 +21,11 @@ const Hero = () => {
         <img
           src={dottedbg}
           alt=""
-          className="absolute top-0 bottom-0 right-0 left-0  w-full"
+          className="absolute top-0 bottom-0 right-0 left-0  w-full animatedBg"
         />
 
         <div className="z-10 mt-20 w-[40%]">
-          <p className="text-[#041E0E] text-[38px] font-[500]">
+          <p className="text-[#041E0E] text-[32px] font-[600]">
             Connect and Build <br /> Collaboration through <br /> Data for
             Community
           </p>

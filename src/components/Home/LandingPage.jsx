@@ -11,9 +11,9 @@ import Footer from "./Footer";
 
 export const LandingPage = () => {
   return (
-    <div className="h-full relative">
+    <div className="h-full relative font-montserrat">
       <Nav />
-      <div className="pt-1"></div>
+      <div className="pt-10"></div>
       <Hero />
       <Join />
       <Org />

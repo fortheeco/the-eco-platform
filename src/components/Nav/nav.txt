@@ -9,10 +9,11 @@ import "../../index.css";
 const Nav = () => {
   return (
     <Fragment>
-      <div className="bg-white blur w-full h-12"></div>
-      <div className={`${styles.paddingX}  w-full   fixed z-20 `}>
+      <div
+        className={`  w-full px-4  border border-black  bg-[#fff] fixed z-20 left-0 font-montserrat`}
+      >
         <div
-          className={`pl-8 pr-10  py-1  box-shadow  bg-[#fff] relative h-full flex items-center justify-between`}
+          className={` ${styles.paddingX} py-2    relative h-full flex items-center justify-between`}
         >
           <div className={`${styles.flexCenter} gap-4`}>
             <Link to={"/"}>
@@ -23,7 +24,7 @@ const Nav = () => {
               />
             </Link>
 
-            <ul className="flex gap-8 text-[#ACB2B0] text-[14px]">
+            <ul className="flex gap-8 text-[#263238] text-[14px] font-montserrat font-[600]">
               <li className="flex items-center gap-2 cursor-pointer">
                 ECO
                 {/* <IoIosArrowDown /> */}
@@ -32,7 +33,10 @@ const Nav = () => {
                 <li>PALs</li>
               </Link>
 
-              <li>Innovation</li>
+              <Link to={"/innovation"}>
+                <li>INNOVATION</li>
+              </Link>
+              {/* <li>Innovationggg</li> */}
             </ul>
           </div>
 
