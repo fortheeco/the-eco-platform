@@ -25,7 +25,7 @@ const data = [
     bg: img2,
     title: "ECO Project",
     text: "Enim faucibus nunc non tincidunt. Libero mauris eu in suscipit molestie venenatis. Et velit sed sagittis.",
-    btnText: "Create Organization",
+    btnText: "EcHo Project",
   },
   {
     id: 3,
@@ -45,7 +45,7 @@ const data = [
 
 export default function ComingSoon() {
   return (
-    <section className="mx-auto w-[85%] px-8 lg:px-16  mt-[4rem] grid grid-cols-1 sm:grid-cols-2  gap-6">
+    <section className="mx-auto sm:w-[85%] px-8 lg:px-16  mt-[4rem] grid grid-cols-1 sm:grid-cols-2  gap-6">
       {data.map(({ id, bg, title, text, btnText }) => {
         return (
           <div className={`w-full h-[17rem] relative z-10`}>
@@ -56,7 +56,7 @@ export default function ComingSoon() {
               <p className="text-[20px] text-[#D8D8D8] text-sm z-[20] my-2">
                 {text}
               </p>
-              <p className="bg-ecoGreen text-white text-sm py-1 text-center rounded-md z-20 w-[60%]">
+              <p className="bg-ecoGreen text-white text-sm py-1 text-center rounded-md z-20 w-[80%] sm:w-[100%] xlg:w-[60%]">
                 {btnText}
               </p>
             </div>

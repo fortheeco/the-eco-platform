@@ -16,46 +16,66 @@ const Hero = () => {
   return (
     <div className="w-full ">
       <div
-        className={`${layout.section} ${styles.flexBetween}  w-[95%] mx-auto mt-20 relative overflow-y-hidden`}
+        className={`${layout.section} md:${styles.flexBetween}  w-[95%] mx-auto mt-14 sm:mt-[4.5rem] md:mt-20 relative overflow-y-hidden`}
       >
         <img
           src={dottedbg}
           alt=""
           className="absolute top-0 bottom-0 right-0 left-0  w-full animatedBg"
+          style={{ zIndex: "0" }}
         />
 
-        <div className="z-10 mt-20 w-[40%]">
-          <p className="text-[#041E0E] text-[32px] font-[600]">
-            Connect and Build <br /> Collaboration through <br /> Data for
-            Community
+        <div
+          className=" md:mt-20 mb-10 md:mb-0 md:w-[40%]"
+          style={{ zIndex: "20" }}
+        >
+          <p className="text-[#041E0E] text-[24px] sm:text-[30px] md:text-[32px] font-[600]">
+            Connect and Build <br className="hidden md:block" /> Collaboration
+            through <br className="hidden md:block" /> Data for Community
           </p>
           <p className="text-[#474747] text-sm my-4">
             Fames condimentum lobortis vulputate mauris rhoncus. Sit consectetur
             nulla risus ac arcu ultrices. Diam ornare
           </p>
 
-          <div className="flex items-center gap-4 mt-2">
-            <p className="bg-ecoGreen text-white py-1 px-10 rounded-lg">EcHo</p>
+          <div
+            className="flex items-center gap-4 mt-2 z-10"
+            style={{ zIndex: "20" }}
+          >
+            <Link to={"/signup"} style={{ zIndex: "20" }}>
+              <p
+                className="bg-ecoGreen text-white py-1 px-10 rounded-lg z-10"
+                style={{ zIndex: "20" }}
+              >
+                EcHo
+              </p>
+            </Link>
             <p>Contact Us</p>
           </div>
         </div>
 
-        <div className="bg-[#F9FFFB] p-8 border-[0.5px] border-inputBorder rounded-[18px] z-10">
+        <div className="bg-[#F9FFFB] p-8 border-[0.5px] border-inputBorder md:w-[50%] xlg:w-[50%] rounded-[18px] z-10">
           <div className="flex items-center mb-4 gap-8">
-            <div>
+            <div className="flex flex-col items-center md:items-start w-full">
               <p className="text-[#263238] text-[18px]">EcHo a Problem</p>
-              <p className="text-sm mt-2">
+
+              <img
+                src={solvingIcon}
+                alt=""
+                className="layerImg my-2 md:hidden"
+              />
+              <p className="text-[12px] md:text-sm mt-2 text-center md:text-left">
                 Report a problem in your Environment, Community or Organization
               </p>
             </div>
-            <img src={solvingIcon} alt="" className="layerImg" />
+            <img src={solvingIcon} alt="" className="layerImg hidden md:flex" />
           </div>
 
           {/*  */}
-          <p className="text-sm font-[500] text-[#263238] ">
+          <p className="text-sm font-[500] text-[#263238] mt-10 md:mt-0">
             Select ECO Category
           </p>
-          <ul className="flex items-center gap-4 text-[12px] mt-2 mb-4">
+          <ul className="grid  grid-cols-2 md:grid-cols-3 items-center gap-4 text-[12px] mt-2 mb-4">
             <li className="flex items-center gap-2">
               <p
                 className={`w-2 h-2  rounded-full outline outline-[0.5px] outline-offset-4  outline-[#474747] cursor-pointer ${

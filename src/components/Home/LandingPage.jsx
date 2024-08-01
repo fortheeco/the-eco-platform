@@ -14,11 +14,11 @@ export const LandingPage = () => {
     <div className="h-full relative font-montserrat">
       <Nav />
       <div className="pt-10"></div>
+
       <Hero />
       <Join />
       <Org />
       <ComingSoon />
-
       <Community />
       <BuildInnovation />
       <Faqs />

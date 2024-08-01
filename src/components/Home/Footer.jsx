@@ -13,11 +13,15 @@ export default function Footer() {
       {/* <Subscribe /> */}
       <div className="text-center flex flex-col items-center justify-center">
         <div className="flex flex-col md:flex-row gap-6 md:gap-12 items-center">
-          <ul className="flex flex-col md:flex-row gap-6 md:gap-12 text-center font-montserrat font-light text-[14px]">
+          <ul className="flex  gap-6 md:gap-12 text-center font-montserrat font-light text-[14px]">
             <li>Eco</li>
-            <li>PALs</li>
-            {/* <li>iPALs</li> */}
-            <li>Innovation</li>
+            <Link to={"/pals"}>
+              <li>PALs</li>
+            </Link>
+
+            <Link to={"/innovation"}>
+              <li>Innovation</li>
+            </Link>
           </ul>
           <Link to={"/signup"}>
             <CustomButton

@@ -1,12 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import Stroke from "../../assets/SVG/organization-stroke.svg";
 import { ORGANIZATIONS } from "../data";
+import "./landingPage.css";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export default function Org() {
+  const [value, setValue] = useState(50);
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
+
+  const slidersettings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    swipeToSlide: true,
+    autoplay: true, // Enable autoplay
+    autoplaySpeed: 4000, // Autoplay speed in milliseconds
+    vertical: true, // Enable vertical sliding
+    verticalSwiping: true, // Enable vertical swiping
+  };
   return (
-    <section className=" sm:px-16 px-8  py-8 flex flex-col justify-center gap-10 w-full mt-10">
-      <p className="text-[28px]  relative text-center tracking-wider font-[500]">
-        Create your <span className="font-bold">PALs</span>
+    <section className=" sm:px-16 px-8  py-8 flex flex-col justify-center gap-10 w-full mt-10 overflow-x-hidden">
+      <p className="text-[26px] sm:text-[28px] relative text-center tracking-wider justify-center font-[500] flex flex-col sm:flex-row gap-6">
+        Create your{" "}
+        <p className="font-bold  w-[300px]  sm:w-[12rem] mx-auto sm:mx-0 flex items-center sm:text-left">
+          <Slider {...slidersettings}>
+            <span className="text-ecoGreen">Environment</span>
+            <span className="text-ecoBlue">Community</span>
+            <span className="text-ecoOrange">Organization</span>
+          </Slider>
+        </p>
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full md:w-[85%] mx-0 md:mx-auto  gap-8 ">

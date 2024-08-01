@@ -16,14 +16,14 @@ export default function Faqs() {
   };
 
   return (
-    <section className=" mt-[8rem] mx-auto  px-4 lg:px-16 flex w-[85%] justify-between gap-10">
-      <div className=" p-3  text-[#263238]  text-[24px] flex flex-col justify-end  font-medium font-montserrat">
+    <section className=" mt-[8rem] mx-auto  px-6 lg:px-16 flex sm:flex-row flex-col sm:w-[85%] justify-between gap-10 font-montserrat ">
+      <div className=" p-3  text-[#263238]  text-[24px] flex flex-col justify-center items-center  font-montserrat font-semibold">
         Frequently Asked <br /> Questions (FAQs)
       </div>
 
-      <div className="flex flex-col mt-10 gap-4">
+      <div className="flex flex-col mt-10 sm:w-[60%] gap-4">
         {FAQs.map((item, index) => (
-          <div className="border border-[#495961] rounded-lg w-full lg:w-auto px-4">
+          <div className="border border-[#495961] rounded-lg  px-4">
             <div
               onClick={() => togglerFunction(index)}
               className="px-5 py-4 flex items-center justify-between cursor-pointer"
