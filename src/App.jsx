@@ -53,7 +53,7 @@ const App = () => {
 
           {/* Pals page */}
           <Route path="pals" element={<PalsIndex />} />
-          {/* <Route path="innovation" element={<Innovation />} /> */}
+          <Route path="innovation" element={<Innovation />} />
 
           <Route path="login" element={<SignIn />} />
           <Route path="iforgot" element={<ForgotPassword />} />
