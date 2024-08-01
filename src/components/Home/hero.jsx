@@ -141,9 +141,11 @@ const Hero = () => {
               <img src={sdgIcon} alt="" />
             </div>
 
-            <div className="bg-ecoGreen text-white text-sm  p-4 text-center rounded-[12px] mt-4">
-              EcHo Problem
-            </div>
+            <Link to={"/signup"}>
+              <div className="bg-ecoGreen text-white text-sm  p-4 text-center rounded-[12px] mt-4">
+                EcHo Problem
+              </div>
+            </Link>
           </div>
         </div>
       </div>

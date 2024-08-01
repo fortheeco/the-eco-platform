@@ -11,7 +11,10 @@ export const PalsIndex = () => {
   //   const [search, setSearch] = useState(false);
   const [palsData, setPalsData] = useState([]);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
+    setIsLoading(true);
     const fetchData = async () => {
       try {
         const response = await axios.get("/pals");
@@ -20,9 +23,11 @@ export const PalsIndex = () => {
 
         // console.log(response.data);
         //  setData(response.data);
+        setIsLoading(false);
       } catch (error) {
         //  setError(error);
         console.log(error);
+        setIsLoading(false);
       }
     };
 
@@ -64,11 +69,23 @@ export const PalsIndex = () => {
           </div>
         </div>
 
-        <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredPals?.map((data) => {
-            return <PalsCard data={data} />;
-          })}
-        </div>
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center mt-20">
+            <img
+              src={"/Ecologo.svg"}
+              alt=""
+              className={`w-[3rem] h-[3rem] sm:w-[5rem] sm:h-[5rem] rotating`}
+            />
+            {/* <img src={sdgIcon} alt="" /> */}
+            <p className="mt-2 text-sm">Please wait ...</p>
+          </div>
+        ) : (
+          <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredPals?.map((data) => {
+              return <PalsCard data={data} />;
+            })}
+          </div>
+        )}
       </section>
     </div>
   );

@@ -17,7 +17,11 @@ export const SingleProblem = (props) => {
     <div className="px-2">
       {props.loadingFetch ? (
         <div className="flex flex-col items-center justify-center mt-20">
-          <img src={sdgIcon} alt="" className="rotating" />
+          <img
+            src={"/Ecologo.svg"}
+            alt=""
+            className={`w-[3rem] h-[3rem] sm:w-[5rem] sm:h-[5rem] rotating`}
+          />
           <p className="mt-2 text-sm">Please wait ...</p>
         </div>
       ) : (
@@ -33,13 +37,18 @@ export const SingleProblem = (props) => {
               images,
               location,
               upvotes,
+              user_details,
             }) => (
               <div className="fullBox-shadow p-4 rounded-[12px] mt-6">
                 <div className="flex items-center justify-between pb-4 border-b-[0.5px] border-black">
                   <div className="w-[80%] pt-6 flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-sm text-[#3D433F]">
-                      <img src={HeroImage} alt="" className="w-6 h-6" />
-                      Gbenro Adams
+                    <div className="flex items-center gap-2 text-sm text-[#3D433F] font-semibold">
+                      <img
+                        src={user_details?.image}
+                        alt=""
+                        className="w-12 h-12 rounded-full"
+                      />
+                      {user_details.full_name}
                     </div>
 
                     <div className="flex items-center gap-2 text-[#0B0A0A] text-sm">

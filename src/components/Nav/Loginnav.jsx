@@ -7,9 +7,13 @@ import { IoIosArrowDown } from "react-icons/io";
 import "../../index.css";
 
 const LoginNav = () => {
+  const pathname = window.location.pathname;
+  const splitLocation = pathname.split("/");
   return (
     <Fragment>
-      <div className={`${styles.paddingX}  w-full  pt-12 fixed z-20 `}>
+      <div
+        className={`${styles.paddingX}  w-full  pt-12 fixed z-20 font-montserrat`}
+      >
         <div
           className={`pl-8 pr-10  py-1  box-shadow  bg-[#fff] relative h-full flex items-center justify-between`}
         >
@@ -22,13 +26,21 @@ const LoginNav = () => {
               />
             </Link>
 
-            <ul className="flex gap-8 text-[#ACB2B0] text-[14px]">
+            <ul className="flex gap-4  text-[14px] font-semibold">
               <li className="flex items-center gap-2 cursor-pointer">
                 Eco
                 {/* <IoIosArrowDown /> */}
               </li>
               <Link to={"/your-Eco"}>
-                <li>Your ECO</li>
+                <li
+                  className={`${
+                    splitLocation[1] == "your-Eco"
+                      ? "text-ecoGreen"
+                      : " text-[#0B3208]"
+                  } `}
+                >
+                  Your ECO
+                </li>
               </Link>
 
               {/* <li>Innovation</li> */}

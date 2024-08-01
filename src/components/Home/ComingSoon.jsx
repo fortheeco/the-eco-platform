@@ -56,9 +56,12 @@ export default function ComingSoon() {
               <p className="text-[20px] text-[#D8D8D8] text-sm z-[20] my-2">
                 {text}
               </p>
-              <p className="bg-ecoGreen text-white text-sm py-1 text-center rounded-md z-20 w-[80%] sm:w-[100%] xlg:w-[60%]">
-                {btnText}
-              </p>
+              <Link
+                to={"/signup"}
+                className="bg-ecoGreen text-white text-sm py-1 text-center rounded-md z-20 w-[80%] sm:w-[100%] xlg:w-[60%]"
+              >
+                <p>{btnText}</p>
+              </Link>
             </div>
 
             <img

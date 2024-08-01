@@ -25,6 +25,7 @@ export const ProblemsHome = () => {
 
         console.log(response.data.results);
         setProblems(response.data.results);
+
         // console.log(response.data);
         //  setData(response.data);
         setLoadingFetch(false);
@@ -68,6 +69,12 @@ export const ProblemsHome = () => {
         },
       });
 
+      setProblems([]);
+      setDescription("");
+      setImgData(["", "", ""]);
+      setGoal({});
+      setCategory({});
+      setLocation("");
       console.log(response);
       setIsLoading(false);
     } catch (error) {

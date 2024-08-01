@@ -1,5 +1,6 @@
 import React from "react";
 import joinPC from "../../assets/new-landing/joinnPC.svg";
+import { Link } from "react-router-dom";
 
 export const Join = () => {
   return (
@@ -15,9 +16,11 @@ export const Join = () => {
         </p>
       </div>
 
-      <p className="bg-ecoGreen text-white py-1 px-10 rounded-lg cursor-pointer">
-        EcHo Projects
-      </p>
+      <Link to={"/signup"}>
+        <p className="bg-ecoGreen text-white py-1 px-10 rounded-lg cursor-pointer">
+          EcHo Projects
+        </p>
+      </Link>
     </div>
   );
 };

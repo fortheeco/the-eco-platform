@@ -18,7 +18,10 @@ const Nav = () => {
   const splitLocation = pathname.split("/");
   return (
     <Fragment>
-      <div className=" w-full  bg-white pt-8 fixed z-20 ">
+      <div
+        className=" w-full  bg-white pt-8 fixed z-20 "
+        style={{ zIndex: "50" }}
+      >
         {/* <div className="h-12  b"></div> */}
         <div className={`${styles.paddingX}  w-full    `}>
           <div
@@ -94,9 +97,10 @@ const Nav = () => {
             <>
               <ul
                 className={`
-        xsm:hidden bg-white fixed flex flex-col  justify-between w-full xs:w-[60%] sm:w-[50%] top-0 overflow-y-auto bottom-0 py-4  pl-4 text-[20px] font-semibold
+        xsm:hidden bg-white fixed flex flex-col justify-between w-full xs:w-[60%] sm:w-[50%] top-0 overflow-y-auto bottom-0 py-4  pl-4 text-[20px] font-semibold
         duration-500 ${open ? "left-0 " : "left-[-100%] "}
        `}
+                style={{ zIndex: "50" }}
               >
                 <div
                   onClick={() => setOpen(!open)}
