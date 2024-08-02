@@ -39,7 +39,6 @@ export const ProblemsHome = () => {
   }, [isLoading]);
 
   const handlePostProblem = async () => {
-    console.log("I want to make a post");
     setIsLoading(true);
 
     // Prepare the images array
@@ -86,8 +85,8 @@ export const ProblemsHome = () => {
   console.log(selectedFiles);
 
   return (
-    <div className="  h-full flex w-full gap-10">
-      <div className="h-[600px] overflow-y-auto  w-[80%]">
+    <div className="  h-full flex flex-col sm:flex-row w-full gap-10">
+      <div className="  h-[80svh] overflow-y-auto w-full  sm:w-[80%]">
         <div className=" h-fit">
           <PostProblems
             handlePostProblem={handlePostProblem}
@@ -105,11 +104,15 @@ export const ProblemsHome = () => {
             setDescription={setDescription}
             setIsLoading={setIsLoading}
           />
-          <SingleProblem problems={problems} loadingFetch={loadingFetch} />
+          <SingleProblem
+            problems={problems}
+            loadingFetch={loadingFetch}
+            setIsLoading={setIsLoading}
+          />
         </div>
       </div>
 
-      <div>
+      <div className="hidden sm:block">
         <LatestProjectNew />
       </div>
     </div>

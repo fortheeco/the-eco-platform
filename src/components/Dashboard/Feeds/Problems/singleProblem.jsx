@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { IoMdShare } from "react-icons/io";
 import { FaLocationDot } from "react-icons/fa6";
 import HeroImage from "../../../../assets/dashboard/profile/hero-logo.svg";
@@ -11,8 +11,43 @@ import Pdislike from "../../../../assets/dashboard/feeds/pdislike.svg";
 import Plight from "../../../../assets/dashboard/feeds/pLight.svg";
 import sdgIcon from "../../../../assets/new-landing/sdg.svg";
 import "../../../../index.css";
+import api from "../../../../api/axios";
+import {
+  openNotificationWithIcon,
+  openNotificationWithIconErr,
+} from "../../../common/common";
 
 export const SingleProblem = (props) => {
+  const [postId, setPostId] = useState("");
+
+  const handleLike = async (id) => {
+    props.setIsLoading(true);
+    try {
+      const response = await api.post(`/problems/${id}/upvote/`);
+      console.log(response);
+      openNotificationWithIcon("Success", "Upvote", "success");
+      props.setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      openNotificationWithIconErr("Error", "Upvote", "error");
+      props.setIsLoading(false);
+    }
+  };
+
+  const handleDisLike = async (id) => {
+    props.setIsLoading(true);
+    try {
+      const response = await api.post(`/problems/${id}/downvote/`);
+      console.log(response);
+      openNotificationWithIcon("Success", "Downvote", "success");
+      props.setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      openNotificationWithIconErr("Error", "Downvote", "error");
+      props.setIsLoading(false);
+    }
+  };
+
   return (
     <div className="px-2">
       {props.loadingFetch ? (
@@ -35,28 +70,39 @@ export const SingleProblem = (props) => {
               downvotes,
               goal,
               images,
+              id,
               location,
               upvotes,
               user_details,
             }) => (
               <div className="fullBox-shadow p-4 rounded-[12px] mt-6">
                 <div className="flex items-center justify-between pb-4 border-b-[0.5px] border-black">
-                  <div className="w-[80%] pt-6 flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-sm text-[#3D433F] font-semibold">
+                  <div className="w-full lg:w-[80%] pt-2 lg:pt-6 flex flex-col lg:flex-row lg:items-center gap-2 lg:justify-between">
+                    <div className="flex  items-center gap-2 text-sm text-[#3D433F] font-semibold">
                       <img
                         src={user_details?.image}
                         alt=""
-                        className="w-12 h-12 rounded-full"
+                        className=" w-8 h-8 lg:w-12 lg:h-12 rounded-full"
                       />
                       {user_details.full_name}
                     </div>
+                    <div className="flex w-full items-center justify-between lg:hidden">
+                      <div className="flex items-center gap-2 text-[#0B0A0A] text-sm">
+                        <FaLocationDot className="text-[#8A8A8A]" />
+                        {location}
+                      </div>
 
-                    <div className="flex items-center gap-2 text-[#0B0A0A] text-sm">
+                      <p className="text-sm">
+                        Eco Category:{" "}
+                        <span className="text-ecoGreen">{category.name}</span>
+                      </p>
+                    </div>
+                    <div className="hidden lg:flex items-center gap-2 text-[#0B0A0A] text-sm">
                       <FaLocationDot className="text-[#8A8A8A]" />
                       {location}
                     </div>
 
-                    <p className="text-sm">
+                    <p className="hidden lg:flex text-sm">
                       Eco Category:{" "}
                       <span className="text-ecoGreen">{category.name}</span>
                     </p>
@@ -140,26 +186,40 @@ export const SingleProblem = (props) => {
             for children than non-alcohol based.
           </p> */}
 
-                  <div className="flex justify-between items-center mt-6 border-t border-inputBorder pt-4">
-                    <div className="flex  items-center gap-1 text-sm text-[#474747]">
+                  <div className="flex gap-12 items-center mt-6 border-t border-inputBorder pt-4">
+                    {/* <div className="flex  items-center gap-1 text-sm text-[#474747]">
                       <img src={Ploop} alt="" className="h-6 w-6" />
                       15
-                    </div>
-                    <div className="flex  items-center gap-1 text-sm text-[#474747]">
-                      <img src={Plike} alt="" className="h-6 w-6" />
+                    </div> */}
+                    <div
+                      className="flex cursor-pointer items-center gap-1 text-sm text-[#474747]"
+                      onClick={() => {
+                        handleLike(id);
+                      }}
+                    >
+                      <img src={Plike} alt="" className="h-8 w-8" />
                       {upvotes}
                     </div>
-                    <div className="flex  items-center gap-1 text-sm text-[#474747]">
-                      <img src={Pdislike} alt="" className="h-6 w-6" />
+                    <div
+                      className="flex cursor-pointer items-center gap-1 text-sm text-[#474747]"
+                      onClick={() => {
+                        handleDisLike(id);
+                      }}
+                    >
+                      <img
+                        src={Pdislike}
+                        alt=""
+                        className="h-[30px] w-[30px]"
+                      />
                       {downvotes}
                     </div>
                     <div className="flex  items-center gap-1 text-sm text-[#474747]">
-                      <img src={Plight} alt="" className="h-6 w-6" />
-                      225
+                      <img src={Plight} alt="" className="h-8 w-8" />
+                      {comment_count}
                     </div>
-                    <div>
+                    {/* <div>
                       <IoMdShare />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
