@@ -28,7 +28,7 @@ export const ProfileProjects = () => {
             }
             onClick={() => setActiveTab("following")}
           >
-            Following (243)
+            Following (3)
           </p>
           <p
             className={
@@ -38,7 +38,7 @@ export const ProfileProjects = () => {
             }
             onClick={() => setActiveTab("followers")}
           >
-            Followers (20)
+            Followers (11)
           </p>
 
           <p
