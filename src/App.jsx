@@ -40,6 +40,7 @@ import { IndividualProfile } from "./components/Dashboard/profile/IndividualProf
 import { EditIndividualProfileIndex } from "./components/Dashboard/profile/IndividualProfile/Edit-Individual-profile/index.jsx";
 import { OthersProfileById } from "./components/Dashboard/profile/otherProfile/profile.jsx";
 import { FeedsHome } from "./components/Dashboard/Feeds/feeds.jsx";
+import { ProfilePals } from "./components/Dashboard/my-pals/profile.jsx";
 // import ProtectedRoute from "./utils/ProtectedRoute.jsx";
 
 const App = () => {
@@ -123,6 +124,7 @@ const App = () => {
             <Route path="/individual-profile" element={<IndividualProfile />} />
 
             <Route path="/your-Eco" element={<FeedsHome />} />
+            <Route path="/eco-pals" element={<ProfilePals />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

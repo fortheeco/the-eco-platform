@@ -57,7 +57,7 @@ export const SinglePostComment = (props) => {
   };
 
   const handleLike = async (id) => {
-    props.setIsLoading(true);
+    // props.setIsLoading(true);
     try {
       const response = await api.post(`/comments/${id}/like/`);
       console.log(response);
@@ -70,7 +70,7 @@ export const SinglePostComment = (props) => {
   };
 
   const handleDisLike = async (id) => {
-    props.setIsLoading(true);
+    // props.setIsLoading(true);
     try {
       const response = await api.post(`/comments/${id}/dislike/`);
 
@@ -94,7 +94,7 @@ export const SinglePostComment = (props) => {
           onChange={(e) => setComment(e.target.value)}
         ></textarea>
         <div
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 cursor-pointer"
           onClick={() => {
             handleComment();
           }}

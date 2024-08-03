@@ -33,30 +33,29 @@ export const SingleProblem = (props) => {
   };
 
   const handleLike = async (id) => {
-    props.setIsLoading(true);
     try {
       const response = await api.post(`/problems/${id}/upvote/`);
       console.log(response);
       openNotificationWithIcon("Success", "Upvote", "success");
-      props.setIsLoading(false);
+      props.handlefetchProblemData();
+      // props.setIsLoading(false);
     } catch (error) {
       console.log(error);
       openNotificationWithIconErr("Error", "Upvote", "error");
-      props.setIsLoading(false);
+      // props.setIsLoading(false);
     }
   };
 
   const handleDisLike = async (id) => {
-    props.setIsLoading(true);
     try {
       const response = await api.post(`/problems/${id}/downvote/`);
       console.log(response);
       openNotificationWithIcon("Success", "Downvote", "success");
-      props.setIsLoading(false);
+      props.handlefetchProblemData();
     } catch (error) {
       console.log(error);
       openNotificationWithIconErr("Error", "Downvote", "error");
-      props.setIsLoading(false);
+      props.handlefetchProblemData();
     }
   };
 
@@ -192,12 +191,6 @@ export const SingleProblem = (props) => {
                 </div>
 
                 <div>
-                  {/* <p className="text-sm mt-6">
-            Alcohol based exposures through inadvertently consuming hand
-            sanitizer, have been observed to produce more negative side effects
-            for children than non-alcohol based.
-          </p> */}
-
                   <div className="flex gap-12 items-center mt-6 border-t border-inputBorder pt-4">
                     {/* <div className="flex  items-center gap-1 text-sm text-[#474747]">
                       <img src={Ploop} alt="" className="h-6 w-6" />
@@ -239,17 +232,20 @@ export const SingleProblem = (props) => {
                     </div> */}
                   </div>
                 </div>
+
+                {postId == id ? (
+                  <div className="w-full">
+                    <SinglePostComment
+                      setIsLoading={props.setIsLoading}
+                      postId={postId}
+                      handlefetchProblemData={props.handlefetchProblemData}
+                    />
+                  </div>
+                ) : (
+                  <></>
+                )}
               </div>
             )
-          )}
-          {opennComment && (
-            <div className="w-full">
-              <SinglePostComment
-                setIsLoading={props.setIsLoading}
-                postId={postId}
-                handlefetchProblemData={props.handlefetchProblemData}
-              />
-            </div>
           )}
         </>
       )}{" "}

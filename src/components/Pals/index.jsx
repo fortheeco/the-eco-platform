@@ -95,7 +95,11 @@ const PalsCard = ({ data }) => {
   return (
     <div className="border border-[#979797] p-4 rounded-lg" key={data?.id}>
       <div className="flex items-center gap-2">
-        <img src={avatar1} alt="" className="w-[50px]" />
+        <img
+          src={data?.image ? data?.image : avatar1}
+          alt=""
+          className="w-[50px] h-[50px] rounded-full object-cover"
+        />
         <div>
           <p className=" text-[14px]">{data?.full_name}</p>
           <p className="font-light mt-1 text-[13px]">Leader</p>
@@ -108,9 +112,9 @@ const PalsCard = ({ data }) => {
         {/* {data?.description} */}
       </p>
 
-      <div className="mt-4 font-light text-[12px] flex gap-2">
+      <div className="mt-4 font-light text-[12px] grid grid-col-2 sm:grid-cols-3 items-center gap-2">
         {data.skills.map((skill, index) => (
-          <p key={index} className="bg-ecoLightGreen p-1">
+          <p key={index} className="bg-ecoLightGreen p-1 text-center">
             {skill?.name}
           </p>
         ))}

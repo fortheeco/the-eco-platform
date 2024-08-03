@@ -47,10 +47,10 @@ const LoginNav = () => {
                   </li>
                 </Link>
 
-                <Link to={"/your-Eco"}>
+                <Link to={"/eco-pals"}>
                   <li
                     className={`${
-                      splitLocation[1] == "my-pals"
+                      splitLocation[1] == "eco-pals"
                         ? "text-ecoGreen"
                         : " text-[#0B3208]"
                     } `}
