@@ -30,7 +30,7 @@ const LoginNav = () => {
                 />
               </Link>
 
-              <ul className="flex gap-4 text-[12px] sm:text-[14px] font-bold sm:font-semibold">
+              <ul className="flex gap-4 lg:gap-8 text-[11px] sm:text-[14px] font-bold sm:font-semibold">
                 <li className="flex items-center gap-2 cursor-pointer">
                   Eco
                   {/* <IoIosArrowDown /> */}
@@ -44,6 +44,18 @@ const LoginNav = () => {
                     } `}
                   >
                     Your ECO
+                  </li>
+                </Link>
+
+                <Link to={"/your-Eco"}>
+                  <li
+                    className={`${
+                      splitLocation[1] == "my-pals"
+                        ? "text-ecoGreen"
+                        : " text-[#0B3208]"
+                    } `}
+                  >
+                    PALs
                   </li>
                 </Link>
 
