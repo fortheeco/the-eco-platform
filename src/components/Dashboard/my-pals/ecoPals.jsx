@@ -5,7 +5,7 @@ import addPals from "../../../assets/pals/profile-add.svg";
 export const EcoPals = (props) => {
   return (
     <div className="w-full  flex gap-10  justify-between">
-      <div className="w-[70%] flex gap-2 ">
+      <div className="w-[70%] flex items-center gap-2 ">
         <img
           src={props.pal.image ? props.pal.image : HeroImage}
           alt=""
@@ -13,8 +13,11 @@ export const EcoPals = (props) => {
         />
 
         <div className="text-sm ">
-          <p className="font-semibold mb-1">{props.pal.full_name}</p>
-          <p>{props.pal.description}</p>
+          <p className="font-semibold mb-1">
+            {props.pal.full_name}{" "}
+            <span className="text-[11px] text-[#1DB559]">~Leader</span>
+          </p>
+          <p>{props.pal.description} </p>
         </div>
       </div>
 
