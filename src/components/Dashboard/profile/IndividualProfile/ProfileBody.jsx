@@ -9,8 +9,8 @@ export const ProfileProjects = () => {
   const [activeTab, setActiveTab] = useState("Problems"); // Default active tab is 'About'
 
   return (
-    <section className=" py-4   bg-gray-50 ">
-      <div className="flex gap-4 sm:gap-10 border-b border-[#ACB2B0] cursor-pointer mb-6 lg:max-w-[900px]">
+    <section className="py-6 lg:py-4 w-full  bg-gray-50 ">
+      <div className="w-full flex gap-4 sm:gap-10 border-b border-[#ACB2B0] cursor-pointer mb-6 lg:max-w-[900px]">
         <p
           className={
             activeTab === "Problems"

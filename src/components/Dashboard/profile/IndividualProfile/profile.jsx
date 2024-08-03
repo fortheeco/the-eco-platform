@@ -5,38 +5,28 @@ import { ProfileProjects } from "./ProfileBody.jsx";
 import { ProfileRight } from "./profileRight.jsx";
 import { layout } from "../../../../style.js";
 import api from "../../../../api/axios.js";
+import { fetchUserData } from "../../../../appRedux/actions/userProfile.js";
+import { useDispatch, useSelector } from "react-redux";
 
 export const IndividualProfile = () => {
-  const [userData, setUserData] = useState([]);
+  const dispatch = useDispatch();
+  // const [userData, setUserData] = useState([]);
   useEffect(() => {
-    const fetchUserData = async () => {
-      // setLoadingFetch(true);
-      try {
-        const response = await api.get("/edit-profile/");
-
-        console.log(response.data);
-        setUserData(response.data);
-      } catch (error) {
-        //  setError(error);
-        console.log(error);
-      }
-    };
-
-    fetchUserData();
+    dispatch(fetchUserData());
   }, []);
 
   return (
     <div className={`w-full h-full overflow-y-hidden bg-gray-50`}>
       <LoginNav />
-      <div className="h-[8rem]"></div>
+      <div className="h-[6rem]"></div>
       <div
-        className={`${layout.section} h-[85svh] flex w-full gap-10 justify-center px-40`}
+        className={`${layout.section} h-[85svh] flex flex-col lg:flex-row w-full gap-10 justify-between `}
       >
-        <div className="h-full w-[70%] pl-8 overflow-y-auto">
-          <Hero userData={userData} />
+        <div className="w-full h-full lg:w-[70%] lg:pl-8 overflow-y-auto">
+          <Hero />
           <ProfileProjects />
         </div>
-        <div className="w-[25%] pr-4">
+        <div className="w-[30%] pr-4 hidden lg:block">
           <ProfileRight />
         </div>
       </div>

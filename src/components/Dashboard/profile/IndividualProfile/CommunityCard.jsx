@@ -13,7 +13,7 @@ export const CommunityCard = ({
   date,
 }) => {
   return (
-    <div className="bg-white rounded-lg mt-4 px-4 py-10">
+    <div className="bg-white rounded-lg mt-4 px-4  py-4 lg:py-10">
       <div>
         <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 border-b border-[#979797] pb-4">
           <div className="flex items-center gap-1">

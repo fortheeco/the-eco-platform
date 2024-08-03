@@ -3,10 +3,12 @@ import Avatar from "../../assets/nav/AvatarEco.svg";
 import { styles } from "../../style";
 import { Link, Outlet } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
+import { useSelector } from "react-redux";
 
 import "../../index.css";
 
 const LoginNav = () => {
+  const userData = useSelector((state) => state.userProfile.userD);
   const pathname = window.location.pathname;
   const splitLocation = pathname.split("/");
   return (
@@ -51,7 +53,11 @@ const LoginNav = () => {
 
             <Link to={"/individual-profile"} className="sm:hidden">
               <div className="flex items-center gap-2 cursor-pointer">
-                <img src={Avatar} alt="" className={` w-[2rem] h-[2rem] `} />
+                <img
+                  src={userData?.image ? userData?.image : Avatar}
+                  alt=""
+                  className={` w-[2rem] h-[2rem] rounded-full `}
+                />
               </div>
             </Link>
 
@@ -61,7 +67,11 @@ const LoginNav = () => {
               <p className="w-[0.25px] h-6 bg-black"></p>
               <Link to={"/individual-profile"}>
                 <div className="flex items-center gap-2 cursor-pointer">
-                  <img src={Avatar} alt="" className={` w-[2rem] h-[2rem] `} />
+                  <img
+                    src={userData?.image ? userData?.image : Avatar}
+                    alt=""
+                    className={` w-[2rem] h-[2rem]  rounded-full`}
+                  />
 
                   <IoIosArrowDown />
                 </div>

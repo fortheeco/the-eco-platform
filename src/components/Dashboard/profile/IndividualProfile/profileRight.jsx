@@ -58,19 +58,19 @@ export const ProfileRight = () => {
       },
       centerText: {
         text: "Community Ambassador",
-        font: "12px Arial",
+        font: "14px Monserrat",
         color: "#2EA2CF",
       },
     },
     cutout: "65%", // Controls the size of the doughnut hole
   };
   return (
-    <div className="h-full overflow-auto bg-[#FBFBFB] flex flex-col gap-5">
-      <div className="bg-white p-4 rounded-lg">
+    <div className="h-full w-full overflow-auto bg-[#FBFBFB] flex flex-col gap-5">
+      <div className="bg-white w-full p-4 flex justify-center rounded-lg">
         <Doughnut data={data} options={options} />
       </div>
 
-      <div className="bg-white p-4">
+      {/* <div className="bg-white p-4">
         <>
           <p className="mb-6">Contact Person</p>
         </>
@@ -86,7 +86,7 @@ export const ProfileRight = () => {
           <p className="">Reach Out</p>
           <p className="mt-1 text-ecoGreen text-[13px]">J.Thomas@gmail.com</p>
         </>
-      </div>
+      </div> */}
 
       <div className="w-full  bg-white rounded-lg text-center p-4">
         <div className="flex flex-col items-center">
