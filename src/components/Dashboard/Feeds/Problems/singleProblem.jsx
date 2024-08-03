@@ -16,9 +16,21 @@ import {
   openNotificationWithIcon,
   openNotificationWithIconErr,
 } from "../../../common/common";
+import { SinglePostComment } from "./comment";
+import { fetchProblemsComment } from "../../../../appRedux/actions/problems";
+import { useDispatch, useSelector } from "react-redux";
 
 export const SingleProblem = (props) => {
+  const dispatch = useDispatch();
   const [postId, setPostId] = useState("");
+
+  const [opennComment, setOpenComment] = useState(false);
+
+  const handleComment = (id) => {
+    dispatch(fetchProblemsComment(id));
+    setPostId(id);
+    setOpenComment(!opennComment);
+  };
 
   const handleLike = async (id) => {
     props.setIsLoading(true);
@@ -49,7 +61,7 @@ export const SingleProblem = (props) => {
   };
 
   return (
-    <div className="px-2">
+    <div className="px-2 pb-10">
       {props.loadingFetch ? (
         <div className="flex flex-col items-center justify-center mt-20">
           <img
@@ -213,7 +225,12 @@ export const SingleProblem = (props) => {
                       />
                       {downvotes}
                     </div>
-                    <div className="flex  items-center gap-1 text-sm text-[#474747]">
+                    <div
+                      className="flex  items-center gap-1 text-sm text-[#474747] cursor-pointer"
+                      onClick={() => {
+                        handleComment(id);
+                      }}
+                    >
                       <img src={Plight} alt="" className="h-8 w-8" />
                       {comment_count}
                     </div>
@@ -224,6 +241,15 @@ export const SingleProblem = (props) => {
                 </div>
               </div>
             )
+          )}
+          {opennComment && (
+            <div className="w-full">
+              <SinglePostComment
+                setIsLoading={props.setIsLoading}
+                postId={postId}
+                handlefetchProblemData={props.handlefetchProblemData}
+              />
+            </div>
           )}
         </>
       )}{" "}

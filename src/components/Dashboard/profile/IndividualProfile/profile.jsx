@@ -16,10 +16,6 @@ export const IndividualProfile = () => {
 
         console.log(response.data);
         setUserData(response.data);
-        // setProblems(response.data.results);
-        // console.log(response.data);
-        //  setData(response.data);
-        // setLoadingFetch(false);
       } catch (error) {
         //  setError(error);
         console.log(error);
