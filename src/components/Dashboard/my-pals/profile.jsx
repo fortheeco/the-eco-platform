@@ -6,7 +6,10 @@ import { ProfileRight } from "./profileRight.jsx";
 import { layout } from "../../../style.js";
 import { fetchUserData } from "../../../appRedux/actions/userProfile.js";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchEcoPals } from "../../../appRedux/actions/ecoPals.js";
+import {
+  fetchEcoPals,
+  fetchPalFollowing,
+} from "../../../appRedux/actions/ecoPals.js";
 
 export const ProfilePals = () => {
   const dispatch = useDispatch();
@@ -14,6 +17,7 @@ export const ProfilePals = () => {
   useEffect(() => {
     dispatch(fetchUserData());
     dispatch(fetchEcoPals());
+    dispatch(fetchPalFollowing());
   }, []);
 
   return (

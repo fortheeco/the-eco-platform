@@ -1,10 +1,14 @@
 import React from "react";
 import HeroImage from "../../../assets/dashboard/profile/hero-logo.svg";
 import addPals from "../../../assets/pals/profile-add.svg";
+import { useDispatch } from "react-redux";
+import { followEcoPals } from "../../../appRedux/actions/ecoPals";
 
 export const EcoPals = (props) => {
+  const dispatch = useDispatch();
+
   return (
-    <div className="w-full  flex gap-10  justify-between">
+    <div className="w-full  flex gap-10  justify-between items-center">
       <div className="w-[70%] flex items-center gap-2 ">
         <img
           src={props.pal.image ? props.pal.image : HeroImage}
@@ -30,6 +34,9 @@ export const EcoPals = (props) => {
           src={addPals}
           alt=""
           className="w-10 h-10 hover:border bg-ecoLightGreen rounded-lg hover:border-ecoGreen p-2"
+          onClick={() => {
+            dispatch(followEcoPals(props.pal.id));
+          }}
         />
       </div>
     </div>

@@ -1,7 +1,8 @@
 import React from "react";
 import HeroImage from "../../../assets/dashboard/profile/hero-logo.svg";
 
-export const PalsFollowing = () => {
+export const PalsFollowing = (props) => {
+  console.log("pp", props.pal);
   return (
     <div className="mb-6 flex gap-10 items-center justify-center">
       <div className="flex gap-2 ">

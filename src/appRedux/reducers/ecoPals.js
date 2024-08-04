@@ -1,8 +1,9 @@
-import { FETCH_PALS } from "../constants";
+import { FETCH_PALS, FOLLOWING } from "../constants";
 // import { getSession } from 'appRedux/store/cookies';
 
 const INIT_STATE = {
   pals: [],
+  following: [],
 };
 
 export default (state = INIT_STATE, action) => {
@@ -15,7 +16,14 @@ export default (state = INIT_STATE, action) => {
         pals: action.payload,
       };
     }
-
+    case FOLLOWING: {
+      //localStorage.setItem('user', action.payload)
+      return {
+        ...state,
+        //loader: false,
+        following: action.payload,
+      };
+    }
     default:
       return state;
   }

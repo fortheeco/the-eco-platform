@@ -9,6 +9,8 @@ export const ProfileProjects = () => {
   const [activeTab, setActiveTab] = useState("following"); // Default active tab is 'About'
   const myPals = useSelector((state) => state.ecoPals.pals);
 
+  const myFollowingPals = useSelector((state) => state.ecoPals.following);
+
   const [searchInput, setSearchInput] = useState("");
 
   const filteredmyPals = myPals?.filter((data) =>
@@ -28,7 +30,7 @@ export const ProfileProjects = () => {
             }
             onClick={() => setActiveTab("following")}
           >
-            Following (3)
+            Following ({myFollowingPals?.length})
           </p>
           <p
             className={
@@ -66,15 +68,16 @@ export const ProfileProjects = () => {
       </div>
 
       <div className="flex flex-col lg:flex-row gap-10">
-        {activeTab === "following" && (
-          <div className="flex flex-col lg:flex-row gap-10">
-            <div className="-mt-3">
-              <PalsFollowing />
-              <PalsFollowing />
-              <PalsFollowing />
+        {activeTab === "following" &&
+          (myFollowingPals?.length == 0 ? (
+            <p className="text-ecoGreen font-semibold">No PALs</p>
+          ) : (
+            <div className="flex flex-col lg:flex-row gap-10">
+              {myFollowingPals?.map((pal) => (
+                <PalsFollowing pal={pal} />
+              ))}
             </div>
-          </div>
-        )}
+          ))}
         {activeTab === "followers" && (
           <div className="flex flex-col lg:flex-row gap-10">
             <div className="-mt-3">
@@ -95,7 +98,7 @@ export const ProfileProjects = () => {
         )}
 
         {activeTab === "pals" && (
-          <div className="flex flex-col w-full gap-10">
+          <div className="flex flex-col w-full gap-4">
             {filteredmyPals?.map((pal) => (
               <EcoPals pal={pal} />
             ))}
