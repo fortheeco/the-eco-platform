@@ -14,7 +14,7 @@ import { MdLocationOn } from "react-icons/md";
 const Hero = () => {
   const [category, setCategory] = useState("Environment");
   return (
-    <div className="w-full ">
+    <div className="w-full animatedDots">
       <div
         className={`${layout.section} md:${styles.flexBetween}   mt-14 sm:mt-[4.5rem] md:mt-20 relative overflow-y-hidden`}
       >

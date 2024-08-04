@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchEcoPals,
   fetchPalFollowing,
+  fetchPalFollowres,
+  fetchPendingFollowing,
 } from "../../../appRedux/actions/ecoPals.js";
 
 export const ProfilePals = () => {
@@ -18,6 +20,8 @@ export const ProfilePals = () => {
     dispatch(fetchUserData());
     dispatch(fetchEcoPals());
     dispatch(fetchPalFollowing());
+    dispatch(fetchPalFollowres());
+    dispatch(fetchPendingFollowing());
   }, []);
 
   return (

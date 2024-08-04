@@ -11,6 +11,12 @@ export const ProfileProjects = () => {
 
   const myFollowingPals = useSelector((state) => state.ecoPals.following);
 
+  const myPalsfollowers = useSelector((state) => state.ecoPals.followers);
+
+  const myPendingfollowers = useSelector(
+    (state) => state.ecoPals.pendingFollowers
+  );
+
   const [searchInput, setSearchInput] = useState("");
 
   const filteredmyPals = myPals?.filter((data) =>
@@ -40,7 +46,7 @@ export const ProfileProjects = () => {
             }
             onClick={() => setActiveTab("followers")}
           >
-            Followers (11)
+            Followers ( {myPalsfollowers?.length + myPendingfollowers?.length} )
           </p>
 
           <p
@@ -72,28 +78,21 @@ export const ProfileProjects = () => {
           (myFollowingPals?.length == 0 ? (
             <p className="text-ecoGreen font-semibold">No PALs</p>
           ) : (
-            <div className="flex flex-col lg:flex-row gap-10">
+            <div className="flex flex-col w-full gap-10">
               {myFollowingPals?.map((pal) => (
                 <PalsFollowing pal={pal} />
               ))}
             </div>
           ))}
+
         {activeTab === "followers" && (
-          <div className="flex flex-col lg:flex-row gap-10">
-            <div className="-mt-3">
-              {/* {Community.map((com) => ( */}
-              <PalFollowers follow={"request"} />
-              <PalFollowers follow={"following"} />
-              <PalFollowers follow={"request"} />
-              <PalFollowers follow={"request"} />
-              <PalFollowers follow={"following"} />
-              <PalFollowers follow={"following"} />
-              <PalFollowers follow={"notfollowing"} />
-              <PalFollowers follow={"notfollowing"} />
-              <PalFollowers follow={"notfollowing"} />
-              <PalFollowers follow={"following"} />
-              {/* ))} */}
-            </div>
+          <div className="flex flex-col w-full gap-8">
+            {myPendingfollowers?.map((pal) => (
+              <PalFollowers follow={"request"} pal={pal} />
+            ))}
+            {myPalsfollowers?.map((pal) => (
+              <PalFollowers follow={"following"} pal={pal} />
+            ))}
           </div>
         )}
 
@@ -108,3 +107,15 @@ export const ProfileProjects = () => {
     </section>
   );
 };
+
+{
+  /* <PalFollowers follow={"following"} />
+              <PalFollowers follow={"request"} />
+              <PalFollowers follow={"request"} />
+              <PalFollowers follow={"following"} />
+              <PalFollowers follow={"following"} />
+              <PalFollowers follow={"notfollowing"} />
+              <PalFollowers follow={"notfollowing"} />
+              <PalFollowers follow={"notfollowing"} />
+              <PalFollowers follow={"following"} /> */
+}

@@ -1,9 +1,16 @@
-import { FETCH_PALS, FOLLOWING } from "../constants";
+import {
+  FETCH_PALS,
+  FOLLOWING,
+  FOLLOWERS,
+  PENDING_FOLLOWERS,
+} from "../constants";
 // import { getSession } from 'appRedux/store/cookies';
 
 const INIT_STATE = {
   pals: [],
   following: [],
+  followers: [],
+  pendingFollowers: [],
 };
 
 export default (state = INIT_STATE, action) => {
@@ -22,6 +29,22 @@ export default (state = INIT_STATE, action) => {
         ...state,
         //loader: false,
         following: action.payload,
+      };
+    }
+    case FOLLOWERS: {
+      //localStorage.setItem('user', action.payload)
+      return {
+        ...state,
+        //loader: false,
+        followers: action.payload,
+      };
+    }
+    case PENDING_FOLLOWERS: {
+      //localStorage.setItem('user', action.payload)
+      return {
+        ...state,
+        //loader: false,
+        pendingFollowers: action.payload,
       };
     }
     default:
