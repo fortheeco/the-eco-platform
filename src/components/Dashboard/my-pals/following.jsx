@@ -17,7 +17,7 @@ export const PalsFollowing = (props) => {
         </div>
       </div>
 
-      <div className="bg-[#85CCB3] w-[6rem] text-center p-2 text-white rounded-xl cursor-not-allowed text-sm">
+      <div className="bg-[#85CCB3] w-[6rem] text-center p-2 text-white rounded-xl cursor-pointer text-sm">
         Unfollow{" "}
       </div>
     </div>
