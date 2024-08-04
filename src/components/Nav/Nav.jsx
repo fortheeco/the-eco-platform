@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import Avatar from "../../assets/nav/AvatarEco.svg";
-import { styles } from "../../style";
+import { styles, layout } from "../../style";
 import { Link, Outlet } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaBars, FaTimes } from "react-icons/fa";
@@ -19,7 +19,7 @@ const Nav = () => {
   return (
     <Fragment>
       <div
-        className=" w-full  bg-white pt-8 fixed z-20 "
+        className={` w-full  bg-white pt-8 fixed z-20 `}
         style={{ zIndex: "50" }}
       >
         {/* <div className="h-12  b"></div> */}

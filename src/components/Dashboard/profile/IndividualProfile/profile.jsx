@@ -22,7 +22,7 @@ export const IndividualProfile = () => {
       <div
         className={`${layout.section} h-[85svh] flex flex-col lg:flex-row w-full gap-10 justify-between `}
       >
-        <div className="w-full h-full lg:w-[70%] lg:pl-8 overflow-y-auto">
+        <div className="w-full h-full lg:w-[70%]  overflow-y-auto">
           <Hero />
           <ProfileProjects />
         </div>

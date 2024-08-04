@@ -13,7 +13,7 @@ export const Profile = () => {
       <div
         className={`${layout.section} h-[85svh] flex w-full gap-10 justify-center px-40`}
       >
-        <div className="h-full w-[70%] pl-8 overflow-y-auto">
+        <div className="h-full w-[70%] overflow-y-auto">
           <Hero />
           <ProfileProjects />
         </div>

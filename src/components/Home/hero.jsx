@@ -16,7 +16,7 @@ const Hero = () => {
   return (
     <div className="w-full ">
       <div
-        className={`${layout.section} md:${styles.flexBetween}  w-[95%] mx-auto mt-14 sm:mt-[4.5rem] md:mt-20 relative overflow-y-hidden`}
+        className={`${layout.section} md:${styles.flexBetween}   mt-14 sm:mt-[4.5rem] md:mt-20 relative overflow-y-hidden`}
       >
         <img
           src={dottedbg}

@@ -39,10 +39,12 @@ export const PalsIndex = () => {
   );
 
   return (
-    <div className="h-full relative w-full">
+    <div className={`   h-full relative w-full`}>
       <Nav />
 
-      <section className={`${styles.sectionPT} mx-auto w-full pt-[10rem]  `}>
+      <section
+        className={`${styles.sectionPT} ${layout.section}  w-full pt-[10rem]  `}
+      >
         <p className="text-[26px] text-center tracking-[2px]">PALs Network</p>
 
         <div className="bg-ecoGreen text-white text-[10px] ss:text-[14px] flex items-center justify-center gap-4 p-2 mt-6 mb-12">
@@ -80,7 +82,7 @@ export const PalsIndex = () => {
             <p className="mt-2 text-sm">Please wait ...</p>
           </div>
         ) : (
-          <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredPals?.map((data) => {
               return <PalsCard data={data} />;
             })}
