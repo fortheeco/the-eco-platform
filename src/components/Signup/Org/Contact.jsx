@@ -94,11 +94,11 @@ export default function OrgContact() {
 					required={false}
 				/>
 
-				<div className="w-full flex gap-4 mt-32 mb-10 justify-between items-center">
+				<div className="w-full flex gap-4 mt-20 lg:mt-32 mb-10 justify-center sm:justify-between items-center">
 					<button
 						type="button"
 						onClick={() => history.back()}
-						className="capitalize bg-transparent text-ecoGreen py-3 flex justify-center rounded-full border-2 border-ecoGreen text-lg px-10 focus-within:bg-ecoGreen focus-within:text-white focus-within:shadow-lg  transition-all"
+						className="hidden capitalize bg-transparent text-ecoGreen py-3 sm:flex justify-center rounded-full border-2 border-ecoGreen text-lg px-10 focus-within:bg-ecoGreen focus-within:text-white focus-within:shadow-lg  transition-all"
 					>
 						back
 					</button>

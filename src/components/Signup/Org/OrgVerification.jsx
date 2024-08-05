@@ -14,10 +14,10 @@ export default function OrgVerification() {
 	return (
 		<SplitLayout>
 			{/* <article className="w-full bg-slate-200"> */}
-			<div className="w-full flex justify-between items-center mb-20">
+			<div className="w-full flex justify-between items-center mb-10 sm:mb-20">
 				<p>Great work, keep going 👍🏾</p>
 			</div>
-			<div className="w-full flex justify-between items-start gap-6 mb-10">
+			<div className="w-full flex flex-col-reverse sm:flex-row justify-between items-start gap-6 mb-10">
 				<div className="flex flex-col">
 					<h4 className="text-2xl sm:text-3xl md:text-4xl underline capitalize block font-bold">
 						verification documents
@@ -28,7 +28,7 @@ export default function OrgVerification() {
 				</div>
 				<Link
 					to={'/signup/organization/area-of-focus'}
-					className="font-bold text-ecoGreen text-lg"
+					className="font-bold text-ecoGreen text-lg self-end inline-block absolute top-0 right-8 sm:static"
 				>
 					Skip
 				</Link>
@@ -47,20 +47,17 @@ export default function OrgVerification() {
 					supporting document
 				</h4>
 				<Dropzone setState={setDoc} />
-				<div className="w-full flex gap-4 mt-32 mb-10 justify-between items-center">
+				<div className="w-full flex gap-4 mt-32 mb-10 justify-center sm:justify-between items-center">
 					<button
 						type="button"
 						onClick={() => history.back()}
-						className="capitalize bg-transparent text-ecoGreen py-3 flex justify-center rounded-full border-2 border-ecoGreen text-lg px-10 focus-within:bg-ecoGreen focus-within:text-white focus-within:shadow-lg  transition-all"
+						className="hidden capitalize bg-transparent text-ecoGreen py-3 sm:flex justify-center rounded-full border-2 border-ecoGreen text-lg px-10 focus-within:bg-ecoGreen focus-within:text-white focus-within:shadow-lg  transition-all"
 					>
 						back
 					</button>
 					<PrimaryBtn type="submit" content="save & continue" />
 				</div>
 			</form>
-			{/* </article> */}
 		</SplitLayout>
 	)
 }
-
-// const contactInputs = [{}]

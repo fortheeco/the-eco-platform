@@ -20,7 +20,7 @@ export default function SplitLayout({ img, heading, children }) {
 					/>
 				</div>
 			</aside>
-			<div className="w-full h-full flex items-start flex-col relative lg:pt-10 lg:pr-10">
+			<div className="w-full h-full flex items-start flex-col relative p-10 lg:pl-0 lg:pt-10 lg:pr-10">
 				{children}
 			</div>
 		</section>

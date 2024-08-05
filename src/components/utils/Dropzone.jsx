@@ -20,7 +20,7 @@ export function Dropzone({ setState }) {
 	return (
 		<div
 			{...getRootProps()}
-			className={`rounded-lg h-[10rem] flex flex-col items-center justify-center p-4 bg-dimWhite shadow-sm border-2 cursor-pointer ${
+			className={`rounded-lg sm:h-[10rem] flex flex-col items-center justify-center p-4 bg-dimWhite shadow-sm border-2 cursor-pointer ${
 				isDragActive ? 'border-ecoGreen' : 'border-nav/10 '
 			}`}
 		>

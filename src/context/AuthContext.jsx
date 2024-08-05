@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie'
 import { createContext, useEffect, useReducer, useState } from 'react'
+import api from '../api/axios'
 
 export const AuthContext = createContext()
 
@@ -28,13 +29,24 @@ export function AuthContextProvider({ children }) {
 	const [authIsReady, setAuthIsReady] = useState(false)
 
 	useEffect(() => {
-		const token = Cookies.get('token')
-		if (token) {
-			const loggedInUser = localStorage.getItem('user')
-			const user = JSON.parse(loggedInUser)
-			dispatch({ type: 'LOGIN', user, token })
+		async function getUser() {
+			let currentUser
+
+			try {
+				const res = await api.get('edit-profile/')
+				currentUser = res.data
+				if (currentUser) {
+					const token = Cookies.get('token')
+					dispatch({ type: 'LOGIN', user: currentUser, token })
+					setAuthIsReady(true)
+				}
+			} catch (err) {
+				console.error(err)
+				currentUser = null
+				dispatch({ type: 'LOGOUT' })
+			}
 		}
-		setAuthIsReady(true)
+		getUser()
 	}, [])
 
 	return (
