@@ -3,6 +3,7 @@ import { IoMdShare } from "react-icons/io";
 import { FaLocationDot } from "react-icons/fa6";
 import HeroImage from "../../../../assets/dashboard/profile/hero-logo.svg";
 import { FaReply } from "react-icons/fa6";
+import Globe from "../../../../assets/dashboard/profile/globe.svg";
 import img1 from "../../../../assets/dashboard/feeds/sunSet.svg";
 import img2 from "../../../../assets/dashboard/feeds/lakeman.svg";
 import Ploop from "../../../../assets/dashboard/feeds/loop.svg";
@@ -86,7 +87,7 @@ export const SingleProblem = (props) => {
               upvotes,
               user_details,
             }) => (
-              <div className="fullBox-shadow p-4 rounded-[12px] mt-6">
+              <div className="fullBox-shadow w-full p-4 rounded-[12px] mt-6">
                 <div className="flex items-center justify-between pb-4 border-b-[0.5px] border-black">
                   <div className="w-full lg:w-[80%] pt-2 lg:pt-6 flex flex-col lg:flex-row lg:items-center gap-2 lg:justify-between">
                     <div className="flex  items-center gap-2 text-sm text-[#3D433F] font-semibold">
@@ -165,13 +166,14 @@ export const SingleProblem = (props) => {
                 )}
 
                 {images.length == 1 ? (
-                  <div className="mt-4 h-[20rem] flex gap-2">
+                  <div className="mt-4 h-[22rem] w-full flex justify-between ">
                     {/* {images.map((img) => ( */}
                     <img
                       src={images[0].image}
                       alt=""
-                      className="w-full h-full  object-contain"
+                      className=" h-full w-[45%] object-cover object-top"
                     />
+                    <img src={Globe} alt="globe" className="w-[55%]" />
                     {/* ))} */}
                   </div>
                 ) : (

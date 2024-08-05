@@ -4,6 +4,8 @@ import { MdLocationOn } from "react-icons/md";
 import sdgIcon from "../../../../assets/new-landing/sdg.svg";
 import { AiFillPicture } from "react-icons/ai";
 import { SdgGoals, EcoCategory } from "../../../data";
+import Globe from "../../../../assets/dashboard/profile/globe.svg";
+import "../../../../index.css";
 
 export const PostProblems = (props) => {
   const [opengoal, setOpenGoal] = useState(false);
@@ -35,17 +37,22 @@ export const PostProblems = (props) => {
   };
 
   return (
-    <div className="w-full px-2 pt-8 sm:pt-12 font-montserrat">
-      <div className="w-full  rounded-[12px] fullBox-shadow bg-[#fff]">
-        <div className="w-full p-4 lg:p-8 flex flex-col">
+    <div className="w-full px-2 pt-8 sm:pt-10 font-montserrat">
+      <div className="w-full  rounded-[12px] fullBox-shadow  postProblemBg  ">
+        {/* <img
+          src={Globe}
+          alt="globe"
+          className="w-full h-full z-1 absolute object-containn"
+        /> */}
+        <div className="w-full  p-4 z-10 lg:p-8 flex flex-col ">
           <div className="relative flex items-center gap-2">
             <p
               onClick={() => {
                 handleOpenCategories();
               }}
-              className="bg-ecoGreen text-[14px] sm:text-[16px] cursor-pointer text-white font-light w-fit px-4 py-1 rounded-md flex gap-6 items-center"
+              className="bg-ecoGreen font-semibold text-[14px] cursor-pointer text-white  w-fit px-4 py-2 rounded-md flex gap-6 items-center"
             >
-              ECO category
+              Select ECO category
               {opencategory ? <IoIosArrowUp /> : <IoIosArrowDown />}
             </p>{" "}
             :{" "}
@@ -79,7 +86,7 @@ export const PostProblems = (props) => {
             cols="10"
             rows={`${props.description ? "3" : "2"} `}
             placeholder="Your Eco Problem"
-            className="w-full sm:hidden  mt-8  rounded-md outline-none text-sm"
+            className="w-full sm:hidden  mt-8 bg-transparent rounded-md outline-none text-sm"
             value={props.description}
             onChange={(e) => props.setDescription(e.target.value)}
           ></textarea>
@@ -88,9 +95,9 @@ export const PostProblems = (props) => {
             name="text"
             id=""
             cols="10"
-            rows={`${props.description ? "6" : "2"} `}
+            rows={`${props.description ? "3" : "2"} `}
             placeholder="Your Eco Problem"
-            className="w-full hidden sm:block  mt-8  rounded-md outline-none text-sm"
+            className="w-full hidden sm:block  mt-8 bg-transparent rounded-md outline-none text-sm"
             value={props.description}
             onChange={(e) => props.setDescription(e.target.value)}
           ></textarea>
