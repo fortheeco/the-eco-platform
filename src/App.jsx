@@ -40,6 +40,8 @@ import { IndividualProfile } from "./components/Dashboard/profile/IndividualProf
 import { EditIndividualProfileIndex } from "./components/Dashboard/profile/IndividualProfile/Edit-Individual-profile/index.jsx";
 import { OthersProfileById } from "./components/Dashboard/profile/otherProfile/profile.jsx";
 import { FeedsHome } from "./components/Dashboard/Feeds/feeds.jsx";
+import { ProfilePals } from "./components/Dashboard/my-pals/profile.jsx";
+// import ProtectedRoute from "./utils/ProtectedRoute.jsx";
 
 const App = () => {
   const { authIsReady } = useAuthContext();
@@ -111,17 +113,19 @@ const App = () => {
           {/* </Route> */}
           {/* </Route> */}
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/profile/edit" element={<EditProfileIndex />} />
-          <Route
-            path="/edit/profile-individual"
-            element={<EditIndividualProfileIndex />}
-          />
-          <Route path="/profile/:id" element={<OthersProfileById />} />
-          <Route path="/individual-profile" element={<IndividualProfile />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/edit" element={<EditProfileIndex />} />
+            <Route
+              path="/edit/profile-individual"
+              element={<EditIndividualProfileIndex />}
+            />
+            <Route path="/profile/:id" element={<OthersProfileById />} />
+            <Route path="/individual-profile" element={<IndividualProfile />} />
 
-          <Route path="/your-Eco" element={<FeedsHome />} />
-
+            <Route path="/your-Eco" element={<FeedsHome />} />
+            <Route path="/eco-pals" element={<ProfilePals />} />
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
       )}

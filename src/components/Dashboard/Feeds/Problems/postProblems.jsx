@@ -4,6 +4,8 @@ import { MdLocationOn } from "react-icons/md";
 import sdgIcon from "../../../../assets/new-landing/sdg.svg";
 import { AiFillPicture } from "react-icons/ai";
 import { SdgGoals, EcoCategory } from "../../../data";
+import Globe from "../../../../assets/dashboard/profile/globe.svg";
+import "../../../../index.css";
 
 export const PostProblems = (props) => {
   const [opengoal, setOpenGoal] = useState(false);
@@ -35,20 +37,29 @@ export const PostProblems = (props) => {
   };
 
   return (
-    <div className="w-full px-2 pt-12">
-      <div className="w-full  rounded-[12px] fullBox-shadow bg-[#fff]">
-        <div className="w-full p-8 flex flex-col">
+    <div className="w-full px-2 pt-8 sm:pt-10 font-montserrat">
+      <div className="w-full  rounded-[12px] fullBox-shadow  postProblemBg  ">
+        {/* <img
+          src={Globe}
+          alt="globe"
+          className="w-full h-full z-1 absolute object-containn"
+        /> */}
+        <div className="w-full  p-4 z-10 lg:p-8 flex flex-col ">
           <div className="relative flex items-center gap-2">
             <p
               onClick={() => {
                 handleOpenCategories();
               }}
-              className="bg-ecoGreen cursor-pointer text-white font-light w-fit px-4 py-1 rounded-md flex gap-6 items-center"
+              className="bg-ecoGreen font-semibold text-[14px] cursor-pointer text-white  w-fit px-4 py-2 rounded-md flex gap-6 items-center"
             >
-              ECO category
+              Select ECO category
               {opencategory ? <IoIosArrowUp /> : <IoIosArrowDown />}
             </p>{" "}
-            : <p className="ml-1 text-ecoGreen"> {props.category.name}</p>
+            :{" "}
+            <p className="ml-1 text-[12px] sm:text-sm font-bold sm:font-normal text-ecoGreen">
+              {" "}
+              {props.category.name}
+            </p>
             {opencategory ? (
               <div className="absolute w-[10rem] py-2 bg-inputBg left-[10%] mt-[11rem] p-2 border border-inputBorder rounded-sm">
                 {EcoCategory.map((category, index) => (
@@ -73,9 +84,20 @@ export const PostProblems = (props) => {
             name="text"
             id=""
             cols="10"
-            rows={`${props.description ? "6" : "2"} `}
+            rows={`${props.description ? "3" : "2"} `}
             placeholder="Your Eco Problem"
-            className="w-full  mt-8  rounded-md outline-none text-sm"
+            className="w-full sm:hidden  mt-8 bg-transparent rounded-md outline-none text-sm"
+            value={props.description}
+            onChange={(e) => props.setDescription(e.target.value)}
+          ></textarea>
+
+          <textarea
+            name="text"
+            id=""
+            cols="10"
+            rows={`${props.description ? "3" : "2"} `}
+            placeholder="Your Eco Problem"
+            className="w-full hidden sm:block  mt-8 bg-transparent rounded-md outline-none text-sm"
             value={props.description}
             onChange={(e) => props.setDescription(e.target.value)}
           ></textarea>
@@ -130,7 +152,7 @@ export const PostProblems = (props) => {
                     }}
                   />
                   <label htmlFor={`fileInput1`}>
-                    <div className="bg-[rgb(29,181,89,0.4)] py-1 px-8 text-sm rounded-sm cursor-pointer">
+                    <div className="bg-[rgb(29,181,89,0.4)] py-1 px-2 sm:px-8 text-[11px] sm:text-sm rounded-sm cursor-pointer">
                       Click to add more images
                     </div>
                   </label>
@@ -144,8 +166,8 @@ export const PostProblems = (props) => {
           )}
         </div>
 
-        <div className="w-full flex justify-between items-center border-t  pt-4 pr-4 pb-8 border-t-gray-300">
-          <div className="w-[40%] flex gap-4 items-center px-4 py-1  bg-white border-[0.4px] border-[#2D2D2D] rounded-[6px]">
+        <div className="w-full  flex flex-col lg:flex-row sm:justify-between gap-4 lg:gap-0 sm:items-center border-t px-4 lg:px-0 pt-4 lg:pr-4 pb-8 border-t-gray-300">
+          <div className="w-full lg:w-[40%] flex gap-4 items-center px-4 py-1  bg-white border-[0.4px] border-[#2D2D2D] rounded-[6px]">
             <MdLocationOn className="" />
             <input
               placeholder="Location (City, State)"
@@ -159,7 +181,7 @@ export const PostProblems = (props) => {
             onClick={() => {
               handleOpenGoals();
             }}
-            className="w-[40%] cursor-pointer flex gap-4 items-center px-4 py-1  relative border-[0.4px] border-[#2D2D2D] rounded-[6px]"
+            className="w-full lg:w-[40%] cursor-pointer flex gap-4 items-center px-4 py-1  relative border-[0.4px] border-[#2D2D2D] rounded-[6px]"
           >
             <img src={sdgIcon} alt="" className="w-[20px] h-[20px]" />
             <input
@@ -194,10 +216,48 @@ export const PostProblems = (props) => {
           </div>
 
           {/* Upload images */}
+          <div className="flex gap-2 items-center w-full lg:hidden">
+            {props.ImgData[0] ? (
+              <></>
+            ) : (
+              <div>
+                {" "}
+                <input
+                  type="file"
+                  id={`fileInput0`}
+                  accept=".png,.jpg,.jpeg"
+                  onChange={(event) => {
+                    onFileLoad(event, 0);
+                  }}
+                  style={{
+                    display: "none",
+                  }}
+                />
+                <label htmlFor={`fileInput0`}>
+                  <AiFillPicture className="text-[24px] cursor-pointer" />
+                </label>
+              </div>
+            )}
+
+            <div
+              onClick={() => {
+                props.handlePostProblem();
+              }}
+              className={`${
+                !props.location || !props.description
+                  ? "cursor-not-allowed bg-[rgb(29,181,89,0.4)]"
+                  : "bg-ecoGreen cursor-pointer text-white"
+              }  py-2 px-8 text-sm rounded-sm cursor-pointer w-full text-center`}
+            >
+              EcHo
+            </div>
+          </div>
+
+          {/* Desktop */}
           {props.ImgData[0] ? (
             <></>
           ) : (
-            <div>
+            <div className="hidden lg:flex">
               {" "}
               <input
                 type="file"
@@ -224,7 +284,7 @@ export const PostProblems = (props) => {
               !props.location || !props.description
                 ? "cursor-not-allowed bg-[rgb(29,181,89,0.4)]"
                 : "bg-ecoGreen cursor-pointer text-white"
-            }  py-1 px-8 text-sm rounded-sm cursor-pointer`}
+            }  py-1 px-8 text-sm rounded-sm cursor-pointer hidden lg:flex`}
           >
             EcHo
           </div>

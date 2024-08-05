@@ -138,3 +138,11 @@
     transform: rotate(360deg);
   }
 }
+
+.postProblemBg {
+  background: url("./assets/dashboard/profile/globe.svg") center/contain
+    no-repeat;
+  width: 100%;
+  height: 100%;
+  /* bg-[] */
+}

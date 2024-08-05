@@ -1,6 +1,7 @@
 import React from "react";
 import comBg from "../../assets/landingpage/newBgLLight.png";
 import allHands from "../../assets/landingpage/joinHands.svg";
+import { Link } from "react-router-dom";
 
 export const BuildInnovation = () => {
   return (
@@ -16,9 +17,12 @@ export const BuildInnovation = () => {
             for Sustainability.
           </p>
 
-          <p className="text-sm mt-8 z-10 bg-ecoGreen text-white w-fit py-2 px-6 rounded-md">
-            EcHo Innovations
-          </p>
+          <Link
+            to={"/signup"}
+            className="text-sm mt-8 z-10 bg-ecoGreen text-white w-fit py-2 px-6 rounded-md"
+          >
+            <p>EcHo Innovations</p>
+          </Link>
         </div>
       </div>
       <img

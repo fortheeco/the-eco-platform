@@ -11,8 +11,15 @@ import { ContactDetails } from "./contactDetails.jsx";
 import { AreasOfFocus } from "./areasOfFocus.jsx";
 import { CollaborationIntrst } from "./collaborationIntrst.jsx";
 import api from "../../../../../api/axios.js";
+import { useDispatch } from "react-redux";
+import { fetchUserData } from "../../../../../appRedux/actions/userProfile.js";
+import {
+  openNotificationWithIcon,
+  openNotificationWithIconErr,
+} from "../../../../common/common.js";
 
 export const EditIndividualProfileIndex = () => {
+  const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState("Organization Information");
   const [selectedFiles, setSelectedFiles] = useState([{}]);
   const [ImgData, setImgData] = useState([""]);
@@ -26,16 +33,11 @@ export const EditIndividualProfileIndex = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      // setLoadingFetch(true);
       try {
         const response = await api.get("/edit-profile/");
 
         console.log(response.data);
         setUserData(response.data);
-        // setProblems(response.data.results);
-        // console.log(response.data);
-        //  setData(response.data);
-        // setLoadingFetch(false);
       } catch (error) {
         //  setError(error);
         console.log(error);
@@ -45,7 +47,9 @@ export const EditIndividualProfileIndex = () => {
     fetchUserData();
   }, []);
 
-  const onFileLoad = (event, index) => {
+  const onFileLoad = async (event, index) => {
+    const formData = new FormData();
+
     const file = event.target.files[0];
 
     const newSelectedFiles = [...selectedFiles];
@@ -61,59 +65,37 @@ export const EditIndividualProfileIndex = () => {
       newPdfData[index] = reader.result;
       setImgData(newPdfData);
     };
+
+    // Append each file to formData
+    formData.append(`image`, file);
+    try {
+      // Post the form data to the server
+      const response = await api.put("/edit-profile/", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      openNotificationWithIcon("Success", "Upload", "success");
+
+      dispatch(fetchUserData());
+    } catch (error) {
+      console.log(error);
+      openNotificationWithIconErr("Error", "Upload", "error");
+      // setIsLoading(false);
+    }
   };
-
-  // const handlePostProblem = async () => {
-  //   console.log("I want to make a post");
-  //   setIsLoading(true);
-
-  //   const formData = new FormData();
-
-  //   selectedFiles.forEach((file, index) => {
-  //     formData.append(`images`, file);
-  //   });
-
-  //   formData.append("content", description);
-  //    formData.append(
-  //      "image",
-  //      selectedFiles[0]?.name
-  //        ? ImgData[0]
-  //        : userData?.image
-  //        ? userData?.image
-  //        : ''
-  //    );
-  //   formData.append("title", goal.name);
-  //   formData.append("location", location);
-  //   formData.append("full_name", userData?.full_name);
-  //   formData.append("email", userData?.email);
-
-  //   try {
-
-  //     const response = await api.post("/create_problem/", formData, {
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //       },
-  //     });
-
-  //     console.log(response);
-
-  //   } catch (error) {
-  //     console.log(error);
-
-  //   }
-  // };
 
   return (
     <div className={`w-full h-[100svh] overflow-y-auto bg-gray-50`}>
       <LoginNav />
-      <div className="h-[8rem]"></div>
+      <div className="h-[6rem] lg:h-[8rem]"></div>
       <div
-        className={`${layout.section} h-full flex w-full gap-10 justify-center px-40`}
+        className={`${layout.section} h-full flex flex-col lg:flex-row  w-full gap-10 lg:justify-center lg:px-40`}
       >
-        <div className="h-full w-[70%] p-8 bg-[#Fff] overflow-y-auto ">
+        <div className="h-full w-full lg:w-[70%] p-4 lg:p-8 bg-[#Fff] overflow-y-auto ">
           <p className="text-[20px] font-[500]">Edit Profile</p>
 
-          <div className="flex items-center gap-4 mt-12">
+          <div className="flex items-center gap-4 mt-6 lg:mt-12">
             <img
               src={
                 selectedFiles[0]?.name
@@ -145,9 +127,9 @@ export const EditIndividualProfileIndex = () => {
               </label>
             </div>
 
-            <div className="bg-red p-4  rounded-full text-white cursor-not-allowed">
+            {/* <div className="bg-red p-4  rounded-full text-white cursor-not-allowed">
               <RiDeleteBin6Line />
-            </div>
+            </div> */}
           </div>
           {/* tabs */}
           <div className="mt-6">

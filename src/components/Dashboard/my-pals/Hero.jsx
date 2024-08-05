@@ -1,7 +1,7 @@
 import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import HeroImage from "../../../../assets/dashboard/profile/hero-logo.svg";
+import HeroImage from "../../../assets/dashboard/profile/hero-logo.svg";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 

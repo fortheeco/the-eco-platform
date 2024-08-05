@@ -3,8 +3,11 @@ import { PostProblems } from "./postProblems";
 import { SingleProblem } from "./singleProblem";
 import { LatestProjectNew } from "./latest";
 import api from "../../../../api/axios";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserData } from "../../../../appRedux/actions/userProfile";
 
 export const ProblemsHome = () => {
+  const dispatch = useDispatch();
   const [problems, setProblems] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState([{}, {}, {}]);
   const [ImgData, setImgData] = useState(["", "", ""]);
@@ -18,6 +21,10 @@ export const ProblemsHome = () => {
   const [loadingFetch, setLoadingFetch] = useState(false);
 
   useEffect(() => {
+    dispatch(fetchUserData());
+  }, []);
+
+  useEffect(() => {
     const fetchData = async () => {
       setLoadingFetch(true);
       try {
@@ -25,6 +32,7 @@ export const ProblemsHome = () => {
 
         console.log(response.data.results);
         setProblems(response.data.results);
+
         // console.log(response.data);
         //  setData(response.data);
         setLoadingFetch(false);
@@ -37,8 +45,21 @@ export const ProblemsHome = () => {
     fetchData();
   }, [isLoading]);
 
+  const handlefetchProblemData = async () => {
+    try {
+      const response = await api.get("/problems/");
+
+      setProblems(response.data.results);
+
+      // console.log(response.data);
+      //  setData(response.data);
+    } catch (error) {
+      //  setError(error);
+      console.log(error);
+    }
+  };
+
   const handlePostProblem = async () => {
-    console.log("I want to make a post");
     setIsLoading(true);
 
     // Prepare the images array
@@ -68,6 +89,12 @@ export const ProblemsHome = () => {
         },
       });
 
+      setProblems([]);
+      setDescription("");
+      setImgData(["", "", ""]);
+      setGoal({});
+      setCategory({});
+      setLocation("");
       console.log(response);
       setIsLoading(false);
     } catch (error) {
@@ -79,8 +106,8 @@ export const ProblemsHome = () => {
   console.log(selectedFiles);
 
   return (
-    <div className="  h-full flex w-full gap-10">
-      <div className="h-[600px] overflow-y-auto  w-[80%]">
+    <div className="  h-full flex flex-col sm:flex-row w-full gap-10">
+      <div className="  h-[80svh] overflow-y-auto w-full  sm:w-[80%]">
         <div className=" h-fit">
           <PostProblems
             handlePostProblem={handlePostProblem}
@@ -98,11 +125,16 @@ export const ProblemsHome = () => {
             setDescription={setDescription}
             setIsLoading={setIsLoading}
           />
-          <SingleProblem problems={problems} loadingFetch={loadingFetch} />
+          <SingleProblem
+            problems={problems}
+            loadingFetch={loadingFetch}
+            setIsLoading={setIsLoading}
+            handlefetchProblemData={handlefetchProblemData}
+          />
         </div>
       </div>
 
-      <div>
+      <div className="hidden sm:block">
         <LatestProjectNew />
       </div>
     </div>

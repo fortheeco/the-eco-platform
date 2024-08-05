@@ -11,7 +11,10 @@ export const PalsIndex = () => {
   //   const [search, setSearch] = useState(false);
   const [palsData, setPalsData] = useState([]);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
+    setIsLoading(true);
     const fetchData = async () => {
       try {
         const response = await axios.get("/pals");
@@ -20,9 +23,11 @@ export const PalsIndex = () => {
 
         // console.log(response.data);
         //  setData(response.data);
+        setIsLoading(false);
       } catch (error) {
         //  setError(error);
         console.log(error);
+        setIsLoading(false);
       }
     };
 
@@ -34,10 +39,12 @@ export const PalsIndex = () => {
   );
 
   return (
-    <div className="h-full relative w-full">
+    <div className={`   h-full relative w-full`}>
       <Nav />
 
-      <section className={`${styles.sectionPT} mx-auto w-full pt-[10rem]  `}>
+      <section
+        className={`${styles.sectionPT} ${layout.section}  w-full pt-[10rem]  `}
+      >
         <p className="text-[26px] text-center tracking-[2px]">PALs Network</p>
 
         <div className="bg-ecoGreen text-white text-[10px] ss:text-[14px] flex items-center justify-center gap-4 p-2 mt-6 mb-12">
@@ -64,11 +71,23 @@ export const PalsIndex = () => {
           </div>
         </div>
 
-        <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredPals?.map((data) => {
-            return <PalsCard data={data} />;
-          })}
-        </div>
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center mt-20">
+            <img
+              src={"/Ecologo.svg"}
+              alt=""
+              className={`w-[3rem] h-[3rem] sm:w-[5rem] sm:h-[5rem] rotating`}
+            />
+            {/* <img src={sdgIcon} alt="" /> */}
+            <p className="mt-2 text-sm">Please wait ...</p>
+          </div>
+        ) : (
+          <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredPals?.map((data) => {
+              return <PalsCard data={data} />;
+            })}
+          </div>
+        )}
       </section>
     </div>
   );
@@ -78,7 +97,11 @@ const PalsCard = ({ data }) => {
   return (
     <div className="border border-[#979797] p-4 rounded-lg" key={data?.id}>
       <div className="flex items-center gap-2">
-        <img src={avatar1} alt="" className="w-[50px]" />
+        <img
+          src={data?.image ? data?.image : avatar1}
+          alt=""
+          className="w-[50px] h-[50px] rounded-full object-cover"
+        />
         <div>
           <p className=" text-[14px]">{data?.full_name}</p>
           <p className="font-light mt-1 text-[13px]">Leader</p>
@@ -91,9 +114,9 @@ const PalsCard = ({ data }) => {
         {/* {data?.description} */}
       </p>
 
-      <div className="mt-4 font-light text-[12px] flex gap-2">
+      <div className="mt-4 font-light text-[12px] grid grid-col-2 sm:grid-cols-3 items-center gap-2">
         {data.skills.map((skill, index) => (
-          <p key={index} className="bg-ecoLightGreen p-1">
+          <p key={index} className="bg-ecoLightGreen p-1 text-center">
             {skill?.name}
           </p>
         ))}

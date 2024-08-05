@@ -1,8 +1,8 @@
 import React from "react";
-import Globe from "../../../../assets/dashboard/profile/globe.svg";
+import Globe from "../../../assets/dashboard/profile/globe.svg";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
-import { ListItem } from "../../my-pals/ListItem.jsx";
+import { ListItem } from "./ListItem.jsx";
 import { Doughnut } from "react-chartjs-2";
 
 // Register necessary elements with Chart.js
