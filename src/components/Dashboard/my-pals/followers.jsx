@@ -1,6 +1,9 @@
 import React from "react";
 import HeroImage from "../../../assets/dashboard/profile/hero-logo.svg";
-import { acceptOrDeclinePalReq } from "../../../appRedux/actions/ecoPals";
+import {
+  acceptOrDeclinePalReq,
+  unFollowPal,
+} from "../../../appRedux/actions/ecoPals";
 import { useDispatch } from "react-redux";
 
 export const PalFollowers = (props) => {
@@ -29,9 +32,14 @@ export const PalFollowers = (props) => {
             </div>
           </div>
 
-          <div className="bg-[#85CCB3] w-[6rem] text-center p-2 text-white rounded-xl cursor-pointer text-[12px] font-semibold">
+          {/* <div
+            onClick={() => {
+              dispatch(unFollowPal(props.pal.id));
+            }}
+            className="bg-[#85CCB3] w-[6rem] text-center p-2 text-white rounded-xl cursor-pointer text-[12px] font-semibold"
+          >
             Unfollow
-          </div>
+          </div> */}
         </div>
       );
 
@@ -89,9 +97,7 @@ export const PalFollowers = (props) => {
             <div
               className="border border-red w-[6rem] text-center p-2 text-red font-semibold rounded-xl cursor-pointer "
               onClick={() => {
-                dispatch(
-                  acceptOrDeclinePalReq(props.pal.sender_info.id, "decline")
-                );
+                dispatch(acceptOrDeclinePalReq(props.pal.id, "decline"));
               }}
             >
               Decline
@@ -99,9 +105,7 @@ export const PalFollowers = (props) => {
             <div
               className="bg-ecoGreen w-[6rem] text-center p-2 text-white rounded-xl cursor-pointer font-semibold "
               onClick={() => {
-                dispatch(
-                  acceptOrDeclinePalReq(props.pal.sender_info.id, "accept")
-                );
+                dispatch(acceptOrDeclinePalReq(props.pal.id, "accept"));
               }}
             >
               Accept

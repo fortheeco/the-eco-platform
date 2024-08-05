@@ -114,6 +114,29 @@ export const acceptOrDeclinePalReq = (id, actionType) => {
   };
 };
 
+export const unFollowPal = (id) => {
+  return (dispatch) => {
+    const url = `/unfollow/${id}/`;
+
+    api
+      .delete(url)
+      .then((res) => {
+        dispatch(fetchPalFollowing());
+        openNotificationWithIcon("Success", `Unfollow`, "success");
+        dispatch(fetchPalFollowres());
+        dispatch(fetchPendingFollowing());
+      })
+
+      .catch((error) => {
+        // dispatch({
+        //   type: SEND_FOLLOW_REQ,
+        //   payload: { loading: false, message: error },
+        // });
+        openNotificationWithIconErr("Error", "Followed", "error");
+      });
+  };
+};
+
 export const followEcoPals = (id) => {
   return (dispatch) => {
     const url = `/follow/`;

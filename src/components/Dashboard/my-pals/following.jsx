@@ -1,7 +1,14 @@
 import React from "react";
 import HeroImage from "../../../assets/dashboard/profile/hero-logo.svg";
+import {
+  acceptOrDeclinePalReq,
+  unFollowPal,
+} from "../../../appRedux/actions/ecoPals";
+import { useDispatch } from "react-redux";
 
 export const PalsFollowing = (props) => {
+  const dispatch = useDispatch();
+
   console.log("pp", props.pal);
   return (
     <div className="w-full mb-6 flex gap-10 items-center justify-between">
@@ -24,7 +31,12 @@ export const PalsFollowing = (props) => {
         </div>
       </div>
 
-      <div className="bg-[#85CCB3] w-[6rem] text-center p-2 text-white rounded-xl cursor-pointer text-sm">
+      <div
+        onClick={() => {
+          dispatch(unFollowPal(props.pal.id));
+        }}
+        className="bg-[#85CCB3] w-[6rem] text-center p-2 text-white rounded-xl cursor-pointer text-sm"
+      >
         Unfollow{" "}
       </div>
     </div>
