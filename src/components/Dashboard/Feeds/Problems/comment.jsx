@@ -88,7 +88,7 @@ export const SinglePostComment = (props) => {
         <textarea
           name="text"
           id=""
-          placeholder="Share an idea on this problem"
+          placeholder="Share an idea for the problem"
           className="resize-none w-full outline-none rounded-md focus:bg-inputBg p-2"
           value={comment}
           onChange={(e) => setComment(e.target.value)}
