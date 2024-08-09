@@ -24,7 +24,7 @@ export default function AccountType() {
 						<div
 							key={card.id}
 							onClick={() => setActiveLink(card.link)}
-							className={`w-full h-72 flex flex-col items-center justify-center gap-5 px-10 py-20 rounded-xl bg-white hover:shadow-xl transition-all duration-100 cursor-pointer shadow-md ${
+							className={`w-full h-72 relative flex flex-col items-center justify-center gap-5 px-10 py-20 rounded-xl bg-white hover:shadow-xl transition-all duration-100 cursor-pointer shadow-md ${
 								activeLink === card.link
 									? 'border-2 border-ecoGreen text-ecoGreen'
 									: ''
@@ -40,6 +40,17 @@ export default function AccountType() {
 							<h4 className="flex whitespace-nowrap md:text-xl capitalize">
 								{card.name}
 							</h4>
+							{card.amount && (
+								<button
+									className={
+										card.amount === 'free'
+											? 'inline-block -mt-4'
+											: 'bg-ecoGreen text-white p-2 rounded-sm inline-block absolute right-0 top-0 rounded-tr-lg'
+									}
+								>
+									{card.amount}
+								</button>
+							)}
 							{/* <small className="capitalize text-base">free</small> */}
 						</div>
 					))}
@@ -69,6 +80,7 @@ const accountTypeObj = [
 		name: 'Individual Account',
 		icon: { black: userIconBlack, green: userIconGreen },
 		link: 'user',
+		amount: 'free',
 	},
 	{
 		id: 2,
@@ -81,5 +93,6 @@ const accountTypeObj = [
 		name: 'ECO hub innovation',
 		icon: { black: innovIconBlack, green: innovIconGreen },
 		link: 'innovation',
+		amount: 'N100,000/yr',
 	},
 ]
