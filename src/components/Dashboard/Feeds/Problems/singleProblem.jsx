@@ -20,6 +20,7 @@ import {
 import { SinglePostComment } from "./comment";
 import { fetchProblemsComment } from "../../../../appRedux/actions/problems";
 import { useDispatch, useSelector } from "react-redux";
+import { CaseUpper } from "lucide-react";
 
 export const SingleProblem = (props) => {
   const dispatch = useDispatch();
@@ -104,9 +105,11 @@ export const SingleProblem = (props) => {
                         {location}
                       </div>
 
-                      <p className="text-sm">
-                        Eco Category:{" "}
-                        <span className="text-ecoGreen">{category.name}</span>
+                      <p className="text-sm capitalize font-semibold">
+                        ECO CATEGORY :
+                        <span className="text-ecoGreen ml-2 capitalize">
+                          {category.name}
+                        </span>
                       </p>
                     </div>
                     <div className="hidden lg:flex items-center gap-2 text-[#0B0A0A] text-sm">
@@ -114,9 +117,11 @@ export const SingleProblem = (props) => {
                       {location}
                     </div>
 
-                    <p className="hidden lg:flex text-sm">
-                      Eco Category:{" "}
-                      <span className="text-ecoGreen">{category.name}</span>
+                    <p className="hidden lg:flex text-sm capitalize font-semibold">
+                      ECO CATEGORY :{" "}
+                      <span className="text-ecoGreen ml-2 capitalize">
+                        {category.name}
+                      </span>
                     </p>
                   </div>
                 </div>

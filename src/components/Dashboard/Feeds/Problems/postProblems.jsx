@@ -86,7 +86,7 @@ export const PostProblems = (props) => {
             cols="10"
             rows={`${props.description ? "3" : "2"} `}
             placeholder="Your Eco Problem"
-            className="w-full sm:hidden  mt-8 bg-transparent rounded-md outline-none text-sm"
+            className="w-full sm:hidden  mt-8 bg-transparent rounded-md outline-none text-sm "
             value={props.description}
             onChange={(e) => props.setDescription(e.target.value)}
           ></textarea>

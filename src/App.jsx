@@ -54,7 +54,6 @@ const App = () => {
 					{/* <Route path="/" element={<Nav />}> */}
 					<Route index element={<LandingPage />} />
 
-					{/* Pals page */}
 					<Route path="pals" element={<PalsIndex />} />
 					<Route path="innovation" element={<Innovation />} />
 
