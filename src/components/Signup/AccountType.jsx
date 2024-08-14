@@ -1,5 +1,7 @@
 import { useState } from 'react'
+// import { TbCurrencyNaira } from 'react-icons/tb'
 import { Link } from 'react-router-dom'
+import ecoIcon from '../../assets/SVG/nav-logo.svg'
 import innovIconGreen from '../../assets/signup/innov-green.svg'
 import innovIconBlack from '../../assets/signup/innovation-hub-icon.svg'
 import orgIconBlack from '../../assets/signup/org-icon-black.svg'
@@ -19,42 +21,30 @@ export default function AccountType() {
 				<h4 className="capitalize text-2xl underline text-center my-6 block lg:text-3xl">
 					select Account type
 				</h4>
-				<div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-20 w-full justify-between mt-16">
-					{accountTypeObj.map((card) => (
-						<div
-							key={card.id}
-							onClick={() => setActiveLink(card.link)}
-							className={`w-full h-72 relative flex flex-col items-center justify-center gap-5 px-10 py-20 rounded-xl bg-white hover:shadow-xl transition-all duration-100 cursor-pointer shadow-md ${
-								activeLink === card.link
-									? 'border-2 border-ecoGreen text-ecoGreen'
-									: ''
-							}`}
-						>
-							<img
-								src={
-									activeLink === card.link ? card.icon.green : card.icon.black
-								}
-								alt="new user avatar"
-								className="w-2/3 max-w-[10rem] aspect-square mt-6 object-fill"
-							/>
-							<h4 className="flex whitespace-nowrap md:text-xl capitalize">
-								{card.name}
-							</h4>
-							{card.amount && (
-								<button
-									className={
-										card.amount === 'free'
-											? 'inline-block -mt-4'
-											: 'bg-ecoGreen text-white p-2 rounded-sm inline-block absolute right-0 top-0 rounded-tr-lg'
-									}
-								>
-									{card.amount}
-								</button>
-							)}
-							{/* <small className="capitalize text-base">free</small> */}
-						</div>
-					))}
-				</div>
+				<section className="flex flex-col gap-0 w-full justify-center items-center mt-16">
+					<AccountCard
+						card={accountTypeObj.individual}
+						activeLink={activeLink}
+						setActiveLink={setActiveLink}
+					/>
+					<img
+						src={ecoIcon}
+						alt="ECO icon"
+						className="w-20 aspect-square object-fill hidden sm:inline-block"
+					/>
+					<div className="flex flex-col sm:flex-row gap-4 items-center justify-center w-fit mx-auto mt-6 sm:-mt-28">
+						<AccountCard
+							card={accountTypeObj.hub}
+							activeLink={activeLink}
+							setActiveLink={setActiveLink}
+						/>
+						<AccountCard
+							card={accountTypeObj.org}
+							activeLink={activeLink}
+							setActiveLink={setActiveLink}
+						/>
+					</div>
+				</section>
 			</article>
 			<div className="w-full flex flex-col-reverse sm:flex-row gap-8 sm:gap-4 mt-28 mb-10 justify-between items-center">
 				<a
@@ -74,25 +64,56 @@ export default function AccountType() {
 	)
 }
 
-const accountTypeObj = [
-	{
+const AccountCard = ({ card, activeLink, setActiveLink }) => {
+	return (
+		<div
+			onClick={() => setActiveLink(card.link)}
+			className={`h-[15rem] xs:h-[20rem] aspect-square relative flex flex-col items-center justify-center gap-2 p-10 xs:p-20 rounded-full bg-white hover:shadow-xl transition-all duration-100 cursor-pointer shadow-md ${
+				activeLink === card.link ? 'border-2 border-ecoGreen text-ecoGreen' : ''
+			}`}
+		>
+			<img
+				src={activeLink === card.link ? card.icon.green : card.icon.black}
+				alt="new user avatar"
+				className="w-2/3 max-w-[10rem] aspect-square mt-6 object-contain"
+			/>
+			<h4 className="flex whitespace-nowrap font-semibold md:text-xl capitalize">
+				{card.name}
+			</h4>
+			{card.amount && (
+				<button
+					className={
+						card.amount === 'free'
+							? 'inline-block'
+							: 'bg-ecoGreen text-white p-2 rounded-full flex'
+					}
+				>
+					{card.amount}
+				</button>
+			)}
+		</div>
+	)
+}
+
+const accountTypeObj = {
+	individual: {
 		id: 1,
 		name: 'Individual Account',
 		icon: { black: userIconBlack, green: userIconGreen },
 		link: 'user',
 		amount: 'free',
 	},
-	{
+	org: {
 		id: 2,
 		name: 'organization account',
 		icon: { black: orgIconBlack, green: orgIconGreen },
 		link: 'organization',
 	},
-	{
+	hub: {
 		id: 3,
 		name: 'ECO hub innovation',
 		icon: { black: innovIconBlack, green: innovIconGreen },
 		link: 'innovation',
 		amount: 'N100,000/yr',
 	},
-]
+}

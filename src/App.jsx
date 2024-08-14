@@ -12,7 +12,6 @@ import { LandingPage } from './components/Home/LandingPage.jsx'
 import { PalsIndex } from './components/Pals/index.jsx'
 import EditSkills from './components/Routes/EditSkills.jsx'
 import ForgotPassword from './components/Routes/ForgotPassword.jsx'
-import Innovation from './components/Routes/Innovation.jsx'
 import NotFound from './components/Routes/NotFound.jsx'
 import ResetPassword from './components/Routes/ResetPassword.jsx'
 import { SignIn } from './components/Routes/SignIn.jsx'
@@ -39,6 +38,7 @@ import Individual from './components/Signup/User/Individual.jsx'
 import Skillsets from './components/Signup/User/Skillset.jsx'
 import UserDetails from './components/Signup/User/UserDetails.jsx'
 import VerifyEmail from './components/Signup/VerifyEmail.jsx'
+import InnovationPage from './components/innovation/index.jsx'
 import { useAuthContext } from './hooks/useAuthContext.jsx'
 import ErrorElement from './utils/ErrorElement.jsx'
 import ProtectedRoute from './utils/ProtectedRoute.jsx'
@@ -55,7 +55,7 @@ const App = () => {
 					<Route index element={<LandingPage />} />
 
 					<Route path="pals" element={<PalsIndex />} />
-					<Route path="innovation" element={<Innovation />} />
+					<Route path="innovation" element={<InnovationPage />} />
 
 					<Route path="login" element={<SignIn />} />
 					<Route path="iforgot" element={<ForgotPassword />} />
