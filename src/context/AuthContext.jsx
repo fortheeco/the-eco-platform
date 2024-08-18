@@ -33,7 +33,7 @@ export function AuthContextProvider({ children }) {
 			let currentUser
 
 			try {
-				const res = await api.get('edit-profile/', { timeout: 5000 })
+				const res = await api.get('edit-profile/', { timeout: 6000 })
 				currentUser = res?.data
 				if (currentUser) {
 					const token = Cookies.get('token')
@@ -43,6 +43,7 @@ export function AuthContextProvider({ children }) {
 				console.error(err)
 				currentUser = null
 				dispatch({ type: 'LOGOUT' })
+				Cookies.remove('token')
 			} finally {
 				setAuthIsReady(true)
 			}

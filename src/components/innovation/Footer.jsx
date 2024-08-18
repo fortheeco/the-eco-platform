@@ -1,6 +1,6 @@
-import { FaFacebookF, FaLinkedinIn, FaXTwitter } from 'react-icons/fa6'
 import { Link } from 'react-router-dom'
 import arrowUp from '../../assets/innovation/uparrow.png'
+import logo from '../../assets/SVG/nav-logo.svg'
 
 export default function Footer() {
 	const currentYear = new Date().getFullYear()
@@ -26,40 +26,44 @@ export default function Footer() {
 					className="w-10 aspect-square object-contain hover:scale-110 hover:shadow-md transition-all active:scale-95"
 				/>
 			</button>
-			<div className="text-center flex flex-col items-center justify-center">
-				<div className="flex flex-col sm:flex-row gap-6 sm:gap-6 items-center">
-					<ul className="flex gap-6 md:gap-12 text-center font-montserrat font-light text-sm">
-						<li>Eco</li>
-						<li>PALs</li>
-						<li>iPALs</li>
-						<li>Innovation</li>
-					</ul>
-					<Link
-						to={'/signup'}
-						className=" bg-ecoGreen capitalize text-white w-fit mx-auto inline-block rounded-md text-lg px-10 py-3 font-semibold hover:bg-ecoGreen/70 focus-within:outline-ecoGreen focus-within:outline-2 focus-within:shadow-lg focus-within:rounded-none focus-within:bg-ecoGreen/70 transition-all"
-					>
-						create account
-					</Link>
-				</div>
+			<div className="w-full flex flex-wrap gap-10 sm:gap-20 items-start justify-between px-10 lg:px-20">
+				<img
+					src={logo}
+					alt="ECO logo"
+					className="w-16 sm:w-32 object-fill aspect-square"
+				/>
+				<ul className="flex flex-col gap-4 items-center">
+					{ECOLINKS.map((link) => (
+						<Link
+							to={link.link}
+							key={link.text}
+							className="text-xl lg:text-2xl object-contain capitalize whitespace-nowrap"
+							title={link.text}
+						>
+							{link.text}
+						</Link>
+					))}
+				</ul>
+
 				<div className="mt-6 mb-6">
-					<ul className="flex gap-14 items-center">
+					<ul className="flex flex-col gap-4 items-center w-40">
 						{SOCIALS.map((social) => (
 							<a
 								href={social.link}
 								key={social.title}
-								className="w-8 text-xl lg:text-2xl object-contain"
+								className="text-xl lg:text-2xl object-contain capitalize"
 								target="_blank"
 								title={social.title}
 							>
-								<social.icon />
+								{social.title}
 							</a>
 						))}
 					</ul>
 				</div>
-				<p className="font-montserrat font-light text-xs">
-					&copy; {currentYear} Eco Africa. All rights reserved.
-				</p>
 			</div>
+			<p className="font-montserrat font-light text-xs w-fit mx-auto">
+				&copy; {currentYear} Eco Africa. All rights reserved.
+			</p>
 		</footer>
 	)
 }
@@ -68,16 +72,21 @@ const SOCIALS = [
 	{
 		title: 'facebook',
 		link: 'www.facebook.com/eco',
-		icon: FaFacebookF,
 	},
 	{
 		title: 'twitter',
 		link: 'www.twitter.com/eco',
-		icon: FaXTwitter,
 	},
 	{
 		title: 'linkedin',
 		link: 'www.linkedin.com/in/eco',
-		icon: FaLinkedinIn,
 	},
+]
+
+const ECOLINKS = [
+	{ text: 'home', link: '/' },
+	{ text: 'the ECO', link: '#' },
+	{ text: 'PALs app', link: '#' },
+	{ text: 'Tech4Good', link: '#' },
+	{ text: 'services', link: '#' },
 ]

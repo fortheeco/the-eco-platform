@@ -3,6 +3,7 @@ import { IoInformationCircleOutline } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import api from '../../../api/axios'
+import defaultAvatar from '../../../assets/avatar/blank-user.png'
 import addSkillIcon from '../../../assets/signup/add_circle.svg'
 import { useAuthContext } from '../../../hooks/useAuthContext'
 import { layout } from '../../../style'
@@ -80,13 +81,12 @@ export default function Skillset() {
 		<section className={`w-full bg-[#FBFBFB] ${layout.section}`}>
 			<article
 				onKeyDown={handleKeyDown}
-				// onSubmit={handleSubmit}
-				className={`relative w-full bg-white lg:pl-16 lg:pr-8 py-6 border-t-4 border-ecoGreen rounded-md shadow-sm`}
+				className="relative w-full bg-white lg:pl-16 lg:pr-8 py-6 border-t-4 border-ecoGreen rounded-md shadow-sm"
 			>
 				<div className="flex w-full justify-between items-center">
 					<div className="flex items-center my-8 lg:gap-10 gap-3">
 						<img
-							src={user?.image}
+							src={user?.image || defaultAvatar}
 							alt={user.name}
 							className="w-10 h-10 lg:w-40 lg:h-40 object-fill object-center rounded-full"
 						/>
@@ -113,7 +113,6 @@ export default function Skillset() {
 					/>
 					<input
 						type="text"
-						// required
 						minLength={2}
 						maxLength={80}
 						value={newSkill}
