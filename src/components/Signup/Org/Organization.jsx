@@ -1,15 +1,83 @@
+import Cookies from 'js-cookie'
 import { useState } from 'react'
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import api from '../../../api/axios'
+import { validateEmail, validatePassword } from '../../../helpers/validate-form'
 import { PrimaryBtn } from '../../utils/Button'
 import SplitLayout from '../SplitLayout'
 
+const initialState = {
+	email: '',
+	recovery_phone_number: '',
+	password: '',
+}
+function validateNumber(phoneNumber) {
+	let error
+
+	if (!phoneNumber.trim() || !Number(phoneNumber)) {
+		error = 'A valid recovery number is required'
+	}
+
+	return error
+}
+
 export default function Organization() {
 	const [showPswd, setShowPswd] = useState(false)
+	const [formData, setFormData] = useState(initialState)
+	const [isPending, setIsPending] = useState(false)
+	const [error, setError] = useState(null)
+	const [formError, setFormError] = useState({})
+	const navigate = useNavigate()
+	const { dispatch } = useAuthContext()
+
+	function handleChange(e) {
+		const { name, value } = e.target
+		setFormData((prev) => ({ ...prev, [name]: value }))
+		// clear previous error for current input
+		setFormError((prev) => ({ ...prev, [name]: null }))
+	}
 
 	async function handleSubmit(e) {
 		e.preventDefault()
-		console.log('form submitted')
+		const email = validateEmail(formData.email)
+		const password = validatePassword(formData.password)
+		const recovery_phone_number = validateNumber(formData.recovery_phone_number)
+
+		// is there any input error
+		if (email || password || recovery_phone_number) {
+			setFormError({ email, password, recovery_phone_number })
+			return
+		}
+
+		setIsPending(true)
+		setError(null)
+
+		await api
+			.post('organisation/signup', formData)
+			.then((res) => {
+				setError(null)
+				toast.success(res.data?.message)
+				console.log(res)
+				Cookies.set('token', res.data?.token)
+				setTimeout(() => {
+					navigate('details')
+				}, 2000)
+			})
+			.catch((err) => {
+				console.error(err)
+				let logErr =
+					err?.response.data.message ||
+					err?.message ||
+					'Oops... Something went wrong! Please try again'
+				toast.error(logErr)
+				setError(logErr)
+			})
+			.finally(() => {
+				setIsPending(false)
+			})
+		return
 	}
 
 	return (
@@ -31,42 +99,61 @@ export default function Organization() {
 			<form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
 				<label className="block w-full">
 					<span className="text-lg capitalize">email address</span>
-					<div className="flex h-12 mt-3 px-4 gap-3 bg-ecoGreen/10 rounded-md">
-						<input
-							type="email"
-							required
-							minLength={6}
-							maxLength={30}
-							placeholder="email@eco.com"
-							className="bg-transparent outline-0 w-full border-0 pr-2 focus:border-b-2"
-						/>
-					</div>
+					<input
+						type="email"
+						disabled={isPending}
+						name="email"
+						value={formData.email}
+						onChange={handleChange}
+						placeholder="example@email.com"
+						className={`mt-3 gap-3 h-10 rounded-md relative input-parent transition-all bg-nav/10 inline-block outline-0 w-full border-0 focus-within:border-b-2 focus-within:border-ecoGreen p-4 duration-200 ${
+							formError.email ? 'border-2 border-red' : ''
+						}`}
+					/>
+					{formError.email && (
+						<small className="text-base text-rose-500 mt-2 inline-block">
+							{formError.email}
+						</small>
+					)}
 				</label>
 
 				<label className="block w-full">
 					<span className="text-lg capitalize">account recovery number</span>
-					<div className="flex mt-3 px-4 h-12 gap-3 bg-ecoGreen/10 rounded-md">
-						<input
-							type="tel"
-							required
-							minLength={9}
-							maxLength={80}
-							placeholder="Enter phone number"
-							className="bg-transparent outline-0 border-0 w-full pr-2"
-						/>
-					</div>
+					<input
+						type="tel"
+						name="recovery_phone_number"
+						disabled={isPending}
+						// minLength={9}
+						maxLength={80}
+						value={formData.recovery_phone_number}
+						onChange={handleChange}
+						placeholder="Enter phone number"
+						className={`mt-3 gap-3 h-10 rounded-md relative input-parent transition-all bg-nav/10 inline-block outline-0 w-full border-0 focus-within:border-b-2 focus-within:border-ecoGreen p-4 duration-200 ${
+							formError.recovery_phone_number ? 'border-2 border-red' : ''
+						}`}
+					/>
+					{formError.recovery_phone_number && (
+						<small className="text-base text-rose-500 mt-2 inline-block">
+							{formError.recovery_phone_number}
+						</small>
+					)}
 				</label>
 
 				<label className="block w-full">
 					<span className="text-lg capitalize">password</span>
-					<div className="flex mt-3 px-4 h-12 gap-3 bg-ecoGreen/10 rounded-md">
+					<div
+						className={`flex mt-3 gap-3 rounded-md relative input-parent bg-nav/10 transition-all duration-200 ${
+							formError.password ? 'input-error' : ''
+						}`}
+					>
 						<input
 							type={showPswd ? 'text' : 'password'}
-							required
-							minLength={6}
-							maxLength={100}
+							disabled={isPending}
+							name="password"
+							value={formData.password}
+							onChange={handleChange}
 							placeholder="*******"
-							className="bg-transparent outline-0 border-0 w-full pr-2"
+							className="h-10 rounded-md inline-block outline-0 w-full border-0 bg-transparent px-4"
 						/>
 						<div
 							className="flex w-10 items-center justify-center text-2xl"
@@ -75,6 +162,11 @@ export default function Organization() {
 							{showPswd ? <IoEyeOutline /> : <IoEyeOffOutline />}
 						</div>
 					</div>
+					{formError.password && (
+						<small className="text-base text-rose-500 mt-2 inline-block">
+							{formError.password}
+						</small>
+					)}
 				</label>
 				<div className="w-full flex gap-4 mt-20 lg:mt-32 mb-10 justify-center sm:justify-between items-center">
 					<Link
@@ -83,8 +175,27 @@ export default function Organization() {
 					>
 						back
 					</Link>
-					<PrimaryBtn type="submit" content="save & continue" />
+					<PrimaryBtn
+						type="submit"
+						props={{ disabled: isPending }}
+						variant={
+							'disabled:bg-slate-300 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none'
+						}
+						content={isPending ? 'loading...' : 'save & continue'}
+					/>
+					{/* <button
+						type="submit"
+						disabled={isPending}
+						className="capitalize bg-ecoGreen text-white w-fit py-3 px-16 rounded-full text-lg font-semibold disabled:bg-slate-300 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none focus-within:outline-ecoGreen focus-within:outline-2 focus-within:shadow-lg focus-within:rounded-none focus-within:bg-ecoGreen/70 transition-all"
+					>
+						{isPending ? 'loading...' : 'save & continue'}
+					</button> */}
 				</div>
+				{error && (
+					<small className="text-center text-rose-500 font-nunito text-lg font-semibold inline-block w-full max-w-screen-sm mx-auto mt-2">
+						{error}
+					</small>
+				)}
 			</form>
 			{/* </article> */}
 		</SplitLayout>

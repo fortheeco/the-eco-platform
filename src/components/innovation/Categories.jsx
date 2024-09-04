@@ -93,12 +93,14 @@ export default function Categories() {
 					<button
 						onClick={() => toggleLayout(true)}
 						className={`w-8 xs:w-12 p-2 cursor-pointer rounded-md transition-all duration-500 ease-in-out ${
-							!isGrid ? 'bg-white' : 'bg-ecoGreen'
+							!isGrid ? 'bg-white text-black' : 'bg-ecoGreen text-white'
 						}`}
 					>
 						<img
 							src={gridIcon}
-							className={`w-full ${!isGrid ? 'invert-0' : 'invert'}`}
+							className={`w-full text-white ${
+								!isGrid ? 'invert-0s' : 'inverts'
+							}`}
 						/>
 					</button>
 				</div>
