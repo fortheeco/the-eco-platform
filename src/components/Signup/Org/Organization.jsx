@@ -30,7 +30,7 @@ export default function Organization() {
 	const [error, setError] = useState(null)
 	const [formError, setFormError] = useState({})
 	const navigate = useNavigate()
-	const { dispatch } = useAuthContext()
+	// const { dispatch } = useAuthContext()
 
 	function handleChange(e) {
 		const { name, value } = e.target
@@ -59,8 +59,11 @@ export default function Organization() {
 			.then((res) => {
 				setError(null)
 				toast.success(res.data?.message)
-				console.log(res)
+				// console.log(res)
 				Cookies.set('token', res.data?.token)
+				// TODO Debug Mode
+				localStorage.setItem('token', res.data?.token)
+
 				setTimeout(() => {
 					navigate('details')
 				}, 2000)
@@ -179,17 +182,10 @@ export default function Organization() {
 						type="submit"
 						props={{ disabled: isPending }}
 						variant={
-							'disabled:bg-slate-300 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none'
+							'disabled:bg-ecoGreen/30 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none'
 						}
 						content={isPending ? 'loading...' : 'save & continue'}
 					/>
-					{/* <button
-						type="submit"
-						disabled={isPending}
-						className="capitalize bg-ecoGreen text-white w-fit py-3 px-16 rounded-full text-lg font-semibold disabled:bg-slate-300 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none focus-within:outline-ecoGreen focus-within:outline-2 focus-within:shadow-lg focus-within:rounded-none focus-within:bg-ecoGreen/70 transition-all"
-					>
-						{isPending ? 'loading...' : 'save & continue'}
-					</button> */}
 				</div>
 				{error && (
 					<small className="text-center text-rose-500 font-nunito text-lg font-semibold inline-block w-full max-w-screen-sm mx-auto mt-2">

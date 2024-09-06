@@ -1,11 +1,74 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import api from '../../../api/axios'
 import { PrimaryBtn } from '../../utils/Button'
 import { FormInput } from '../../utils/FormInput'
 import SplitLayout from '../SplitLayout'
 
+const initialState = {
+	primary_area_of_focus: '',
+	secondary_area_of_focus: '',
+	sdg_goals_targeted: '',
+	geographical_area_of_operation_one: '',
+}
+
 export default function AreaOfFocus() {
+	const [formData, setFormData] = useState(initialState)
+	const [focusCheckedState, setFocusCheckedState] = useState(
+		new Array(focusArray.length).fill(false)
+	)
+
+	const [SDGCheckedState, setSDGCheckedState] = useState(
+		new Array(SDGArray.length).fill(false)
+	)
+
+	const [isPending, setIsPending] = useState(false)
+	const [error, setError] = useState(null)
+
+	// const [formError, setFormError] = useState({})
+	const navigate = useNavigate()
+
+	const isDisabled =
+		Object.values(formData).some((input) => !Boolean(input)) || isPending
+
+	function handleChange(e) {
+		const { name, value } = e.target
+		setFormData((prev) => ({ ...prev, [name]: value }))
+		// clear previous error for current input
+		// setFormError((prev) => ({ ...prev, [name]: null }))
+	}
+
 	async function handleSubmit(e) {
 		e.preventDefault()
-		console.log('form submitted')
+		console.log(formData)
+
+		setIsPending(true)
+		setError(null)
+
+		await api
+			.post('organisation/add_organisation_details', formData)
+			.then((res) => {
+				setError(null)
+				// toast.success(res.data?.message)
+				console.log(res)
+				setTimeout(() => {
+					navigate('/signup/organization/contact')
+				}, 2000)
+			})
+			.catch((err) => {
+				console.error(err)
+				let logErr =
+					err?.response.data.detail ||
+					err?.message ||
+					'Oops... Something went wrong! Please try again'
+				// toast.error(logErr)
+				setError(logErr)
+			})
+			.finally(() => {
+				setIsPending(false)
+			})
+		return
 	}
 
 	return (
@@ -25,7 +88,9 @@ export default function AreaOfFocus() {
 				<label className="block w-full">
 					<span className="text-lg capitalize">primary area of focus</span>
 					<select
-						name="org-type"
+						name="primary_area_of_focus"
+						value={formData.primary_area_of_focus}
+						onChange={handleChange}
 						className="flex mt-3 p-2 gap-3 bg-nav/5 rounded-md input-parent transition-all duration-200 outline-0 border-0 w-full"
 					>
 						<option value="">Select area of focus</option>
@@ -98,6 +163,12 @@ export default function AreaOfFocus() {
 					</div>
 				</fieldset>
 
+				{error && (
+					<small className="text-center text-rose-500 font-nunito text-lg font-semibold inline-block w-full max-w-screen-sm mx-auto mt-2">
+						{error}
+					</small>
+				)}
+
 				<div className="w-full flex gap-4 mt-32 mb-10 justify-center sm:justify-between items-center">
 					<button
 						type="button"
@@ -106,7 +177,14 @@ export default function AreaOfFocus() {
 					>
 						back
 					</button>
-					<PrimaryBtn type="submit" content="save & continue" />
+					<PrimaryBtn
+						type="submit"
+						props={{ disabled: isDisabled }}
+						variant={
+							'disabled:bg-ecoGreen/30 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none'
+						}
+						content={isPending ? 'loading...' : 'save & continue'}
+					/>
 				</div>
 			</form>
 			{/* </article> */}
