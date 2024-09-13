@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import DatePicker from 'react-multi-date-picker'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import api from '../../../api/axios'
@@ -14,6 +15,7 @@ const initialState = {
 	phone_number: '',
 	organisation_address: '',
 	organisation_url: '',
+	year_established: new Date(),
 }
 
 export default function OrgContact() {
@@ -21,40 +23,34 @@ export default function OrgContact() {
 	const [countryCode, setCode] = useState(countryList[0].phone_code)
 	const [isPending, setIsPending] = useState(false)
 	const [error, setError] = useState(null)
+	const navigate = useNavigate()
 	const isDisabled =
 		Object.values(formData).some((input) => !Boolean(input)) || isPending
-
-	// const [formError, setFormError] = useState({})
-	const navigate = useNavigate()
 
 	function handleChange(e) {
 		const { name, value } = e.target
 		setFormData((prev) => ({ ...prev, [name]: value }))
-		// clear previous error for current input
-		// setFormError((prev) => ({ ...prev, [name]: null }))
 	}
 
-	// https://theeco.pythonanywhere.com/api/organisation/contact_info
 	async function handleSubmit(e) {
 		e.preventDefault()
-
 		setIsPending(true)
 		setError(null)
-
-		console.log(formData)
+		let orgUrl = formatUrl(formData.organisation_url)
 
 		await api
 			.post('organisation/contact_info', {
 				...formData,
-				phone_number: countryCode + prev.phone_number,
+				phone_number: `+${countryCode + formData.phone_number}`,
+				organisation_url: orgUrl,
 			})
 			.then((res) => {
 				setError(null)
 				toast.success(res.data?.message)
 				console.log(res)
-				// setTimeout(() => {
-				// 	navigate('/signup/organization/verification')
-				// }, 2000)
+				setTimeout(() => {
+					navigate('/signup/organization/verification')
+				}, 2000)
 			})
 			.catch((err) => {
 				console.error(err)
@@ -80,7 +76,6 @@ export default function OrgContact() {
 			<h4 className="text-2xl sm:text-3xl md:text-4xl underline capitalize mb-10 block font-bold">
 				contact Information
 			</h4>
-
 			<form
 				onSubmit={handleSubmit}
 				className="w-full flex flex-col gap-4 lg:gap-8"
@@ -130,7 +125,6 @@ export default function OrgContact() {
 								+{cn.phone_code}
 							</option>
 						))}
-						{/* <option value="+234">+234</option> */}
 					</select>
 					<input
 						type="tel"
@@ -163,6 +157,18 @@ export default function OrgContact() {
 					maxLength={100}
 					placeholder="www.example.com"
 				/>
+				<label className="w-full flex flex-col">
+					<span className="text-lg capitalize">year established</span>
+					<DatePicker
+						value={formData.year_established}
+						onChange={handleChange}
+						name="year_established"
+						onlyYearPicker
+						maxDate={formData.year_established}
+						inputClass="flex mt-3 px-4 h-12 gap-3 bg-nav/5 rounded-md outline-0 border-0 w-full pr-2 focus-within:border-b-2 focus-within:border-ecoGreen transition-all duration-200"
+					/>
+				</label>
+
 				{error && (
 					<small className="text-center text-rose-500 font-nunito text-lg font-semibold inline-block w-full max-w-screen-sm mx-auto mt-2">
 						{error}
@@ -192,4 +198,7 @@ export default function OrgContact() {
 	)
 }
 
-// const contactInputs = [{}]
+// api requires url to start with https
+function formatUrl(url) {
+	return url.startsWith('https') ? url : `https://${url}`
+}

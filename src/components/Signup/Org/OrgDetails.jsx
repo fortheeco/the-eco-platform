@@ -19,8 +19,6 @@ export default function OrgDetails() {
 	const [formData, setFormData] = useState(initialState)
 	const [isPending, setIsPending] = useState(false)
 	const [error, setError] = useState(null)
-
-	// const [formError, setFormError] = useState({})
 	const navigate = useNavigate()
 
 	const isDisabled =
@@ -29,14 +27,10 @@ export default function OrgDetails() {
 	function handleChange(e) {
 		const { name, value } = e.target
 		setFormData((prev) => ({ ...prev, [name]: value }))
-		// clear previous error for current input
-		// setFormError((prev) => ({ ...prev, [name]: null }))
 	}
 
 	async function handleSubmit(e) {
 		e.preventDefault()
-		console.log(formData)
-
 		setIsPending(true)
 		setError(null)
 
@@ -44,8 +38,7 @@ export default function OrgDetails() {
 			.post('organisation/add_organisation_details', formData)
 			.then((res) => {
 				setError(null)
-				// toast.success(res.data?.message)
-				console.log(res)
+				toast.success(res.data?.message)
 				setTimeout(() => {
 					navigate('/signup/organization/contact')
 				}, 2000)
@@ -116,6 +109,7 @@ export default function OrgDetails() {
 						required
 						name="mission_statement"
 						value={formData.mission_statement}
+						spellCheck
 						onChange={handleChange}
 						minLength={9}
 						maxLength={200}
@@ -130,6 +124,7 @@ export default function OrgDetails() {
 						required
 						name="description"
 						value={formData.description}
+						spellCheck
 						onChange={handleChange}
 						minLength={9}
 						maxLength={200}
@@ -144,7 +139,7 @@ export default function OrgDetails() {
 					minLength={4}
 					value={formData.registration_year}
 					handleChange={handleChange}
-					label="year established"
+					label="registration year"
 					placeholder="What year was your organization established"
 				/>
 				<FormInput

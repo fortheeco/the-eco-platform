@@ -2,12 +2,16 @@ import { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import uploadIcon from '../../assets/signup/featured-icon.svg'
 
-export function Dropzone({ setState }) {
+export function Dropzone({ setState, name }) {
 	const [img, setImg] = useState(null)
+	const formData = new FormData()
+
 	const onDrop = useCallback((acceptedFiles) => {
 		let file = acceptedFiles[0]
 		const imgUrl = handleFileChange(file)
-		setState(file)
+
+		formData.set(name, file, file.name)
+		setState((prev) => ({ ...prev, [name]: formData.get(name) }))
 		setImg(imgUrl)
 	}, [])
 
