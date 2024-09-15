@@ -31,10 +31,10 @@ export function SignIn() {
 	async function handleSubmit(e) {
 		e.preventDefault()
 		let emailError = validateEmail(formData.email)
-		let pswdError = validatePassword(formData.password)
-		setFormError({ email: emailError, password: pswdError })
+		// let pswdError = validatePassword(formData.password)
+		setFormError({ email: emailError })
 
-		if (emailError || pswdError) {
+		if (emailError) {
 			return
 		}
 		await signin(formData.email, formData.password)

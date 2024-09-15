@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import DatePicker from 'react-multi-date-picker'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import api from '../../../api/axios'
@@ -11,12 +12,13 @@ const initialState = {
 	organization_type: '',
 	mission_statement: '',
 	description: '',
-	registration_year: new Date().getFullYear(),
+	registration_year: new Date(),
 	registration_number: '',
 }
 
 export default function OrgDetails() {
 	const [formData, setFormData] = useState(initialState)
+	const [date, setDate] = useState(initialState.registration_year)
 	const [isPending, setIsPending] = useState(false)
 	const [error, setError] = useState(null)
 	const navigate = useNavigate()
@@ -31,6 +33,7 @@ export default function OrgDetails() {
 
 	async function handleSubmit(e) {
 		e.preventDefault()
+		setFormData((prev) => ({ ...prev, registration_year: date }))
 		setIsPending(true)
 		setError(null)
 
@@ -132,7 +135,7 @@ export default function OrgDetails() {
 						className="outline-0 border-0 w-full resize-none flex mt-3 px-4 h-20 gap-3 bg-nav/5 rounded-md"
 					/>
 				</label>
-				<FormInput
+				{/* <FormInput
 					name="registration_year"
 					type="number"
 					maxLength={4}
@@ -141,7 +144,19 @@ export default function OrgDetails() {
 					handleChange={handleChange}
 					label="registration year"
 					placeholder="What year was your organization established"
-				/>
+				/> */}
+				<label className="w-full flex flex-col">
+					<span className="text-lg capitalize">registration year</span>
+					<DatePicker
+						value={date}
+						onChange={setDate}
+						name="registration_year"
+						onlyYearPicker
+						maxDate={formData.registration_year}
+						inputClass="flex mt-3 px-4 h-12 gap-3 bg-nav/5 rounded-md outline-0 border-0 w-full pr-2 focus-within:border-b-2 focus-within:border-ecoGreen transition-all duration-200"
+					/>
+				</label>
+
 				<FormInput
 					name="registration_number"
 					type="number"
