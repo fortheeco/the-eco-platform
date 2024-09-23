@@ -1,90 +1,106 @@
 import React from "react";
 import { IoMdShare } from "react-icons/io";
 import { FaLocationDot } from "react-icons/fa6";
+import { useSelector } from "react-redux";
 
 export const ProjectDetail = (props) => {
+  const myprojectsdetails = useSelector(
+    (state) => state.projects.projectDetails
+  );
+
+  console.log(myprojectsdetails);
   return (
     <div className="w-full px-2 pt-4">
       <div className="border border-[#979797] p-4 rounded-[12px] ">
         <div className="flex flex-col gap-4 pb-4 border-b-2 border-inputBorder">
-          <p className="font-[600]">
-            Website Design for a NGO on children's health
+          <p className="font-[600] text-sm md:">
+            {myprojectsdetails?.project_title}
             <span className="text-ecoBlue text-[11px] ml-2 font-light">
-              ~Community
+              ~{myprojectsdetails?.eco_category}
             </span>
           </p>
 
-          <div className="  flex items-start justify-between">
-            <p className="text-sm">Bangman Group</p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 items-center md:hidden w-full gap-4">
+            <p className="text-[12px] md:text-sm">Bangman Group</p>
 
-            <p className="text-sm">
-              Eco Category: <br />{" "}
+            <p className="text-[11px] md:text-sm">
+              Eco Category: {myprojectsdetails?.eco_category} <br />{" "}
             </p>
 
             <div className="flex items-center gap-2 text-[#0B0A0A] text-sm">
               <FaLocationDot className="text-[#8A8A8A]" />
-              Ikeja, Lagos
+              {myprojectsdetails?.location}
+            </div>
+
+            <IoMdShare />
+          </div>
+          {/*  */}
+          <div className=" items-center justify-between hidden md:flex">
+            <p className="text-sm ">Bangman Group</p>
+
+            <p className="text-sm">
+              Eco Category: {myprojectsdetails?.eco_category} <br />{" "}
+            </p>
+
+            <div className="flex items-center gap-2 text-[#0B0A0A] text-sm">
+              <FaLocationDot className="text-[#8A8A8A]" />
+              {myprojectsdetails?.location}
             </div>
 
             <IoMdShare />
           </div>
         </div>
 
+        <p className="text-sm font-[500] mt-6 md:hidden">
+          {myprojectsdetails?.unsd_goals[0]}
+        </p>
         <div className="border-b-2 border-inputBorder pb-4">
           <div className="mt-6 flex  justify-between w-full ">
-            <p className="text-sm font-[500]">
-              Clean water and <br /> Sanitation
+            <p className="text-sm font-[500] hidden md:block">
+              {myprojectsdetails?.unsd_goals[0]}
             </p>
 
             <div className="flex gap-4">
               <p className="text-[13px] font-[500]">Required Skills:</p>
-              <ul className="grid grid-cols-3 gap-2  items-center  text-[10.5px] font-[600]">
-                <li className="border-[0.5px] border-ecoGreen px-2 py-1 rounded-md">
-                  Data analytics (5)
-                </li>
-                <li className="border-[0.5px] border-ecoGreen px-2 py-1 rounded-md">
-                  Data science (3)
-                </li>
-                <li className="border-[0.5px] border-ecoGreen px-2 py-1 rounded-md">
-                  Programming (9)
-                </li>
-                <li className="border-[0.5px] border-ecoGreen px-2 py-1 rounded-md">
-                  Data analytics (0)
-                </li>
-                <li className="border-[0.5px] border-ecoGreen px-2 py-1 rounded-md">
-                  Data analytics (0)
-                </li>
+              <ul className="grid grid-cols-2 md:grid-cols-3 gap-2  items-center  text-[10.5px] font-[600]">
+                {myprojectsdetails.required_skills?.map(({ name }) => {
+                  return (
+                    <li className="border-[0.5px] border-ecoGreen px-2 py-1 rounded-md">
+                      {name}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>
-          <p className="mt-6 text-sm">
-            Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
-            sint. Velit officia consequat duis enim velit mollit nostru.
-            Exercitation veniam consequat sunt nostru.Velit officia mollit
-            consequat duis enim velit mollit.{" "}
+          <p className="mt-6 text-[13px]">
+            {myprojectsdetails?.project_description}
           </p>
         </div>
 
-        <div className="mt-4 flex w-full justify-between gap-5 font-[500]">
+        <div className="mt-4 grid grid-cols-2 md:grid-cols-4 w-full justify-between gap-5 font-[500]">
           <p className="text-[12px]">
-            <span className="text-ecoGreen "> Tasks </span> <br />5
+            <span className="text-ecoGreen "> Status </span> <br />
+            {myprojectsdetails?.status}
           </p>
           <p className="text-[12px]">
-            <span className="text-ecoGreen "> Duration of Task </span> <br />5
-            weeks
+            <span className="text-ecoGreen "> Duration of Task </span> <br />
+            {myprojectsdetails?.duration_in_weeks} weeks
           </p>
           <p className="text-[12px]">
             <span className="text-ecoGreen ">Start Date </span> <br />
-            22nd June,2022
+            {myprojectsdetails?.task_start_date}
           </p>
           <p className="text-[12px]">
             <span className="text-ecoGreen "> No. of need participant </span>{" "}
             <br />
-            15
+            {myprojectsdetails?.number_of_people_required}
           </p>
           <p className="text-[12px]">
-            <span className="text-ecoGreen "> Reward </span> <br />
-            N15,999
+            <span className="text-ecoGreen "> Reward </span> <br />N{" "}
+            {myprojectsdetails?.amount_per_person
+              ? myprojectsdetails?.amount_per_person
+              : "_"}
           </p>
         </div>
 

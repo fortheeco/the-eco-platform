@@ -3,7 +3,10 @@ import { AllProjects } from "./Projects";
 import { ProjectDetail } from "./ProjectDetail";
 import api from "../../../../api/axios";
 import { IoSearch } from "react-icons/io5";
-import { fetchProjects } from "../../../../appRedux/actions/projects";
+import {
+  fetchProjects,
+  fetchprojectDetails,
+} from "../../../../appRedux/actions/projects";
 import { useDispatch } from "react-redux";
 import Globe from "../../../../assets/dashboard/profile/globe.svg";
 import { FaArrowLeft } from "react-icons/fa6";
@@ -27,6 +30,11 @@ export const ProjectHome = () => {
     dispatch(fetchProjects());
   }, []);
 
+  const handleFetchDetails = (id) => {
+    setViewProjectDetails(true);
+    dispatch(fetchprojectDetails(id));
+  };
+
   return (
     <div className="h-full w-full ">
       <div className="pt-4 flex w-full items-center cursor-pointer text-ecoGreen text-[14px] font-bold">
@@ -41,7 +49,7 @@ export const ProjectHome = () => {
           </p>
         )}
         <div className=" w-full flex justify-end  items-center gap-6">
-          <IoSearch className="font-bold" />
+          <IoSearch className="font-bold text-[18px]" />
           <p className="bg-ecoGreen text-sm text-white px-6 py-2 rounded-lg cursor-pointer w-fit">
             Echo project
           </p>
@@ -53,6 +61,7 @@ export const ProjectHome = () => {
           <AllProjects
             setViewProjectDetails={setViewProjectDetails}
             viewProjectDetails={viewProjectDetails}
+            handleFetchDetails={handleFetchDetails}
           />
         </div>
 
@@ -61,6 +70,7 @@ export const ProjectHome = () => {
             <AllProjects
               setViewProjectDetails={setViewProjectDetails}
               viewProjectDetails={viewProjectDetails}
+              handleFetchDetails={handleFetchDetails}
             />
           </div>
         )}
@@ -76,6 +86,7 @@ export const ProjectHome = () => {
               <ProjectDetail
                 setViewProjectDetails={setViewProjectDetails}
                 viewProjectDetails={viewProjectDetails}
+                handleFetchDetails={handleFetchDetails}
               />
             </div>
           </div>

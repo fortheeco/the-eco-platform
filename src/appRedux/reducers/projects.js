@@ -1,8 +1,9 @@
-import { FETCH_PROJECTS_LIST } from "../constants";
+import { FETCH_PROJECTS_LIST, FETCH_PROJECTS_DETAILS } from "../constants";
 // import { getSession } from 'appRedux/store/cookies';
 
 const INIT_STATE = {
   projectlists: [],
+  projectDetails: [],
 };
 
 export default (state = INIT_STATE, action) => {
@@ -15,7 +16,13 @@ export default (state = INIT_STATE, action) => {
         projectlists: action.payload,
       };
     }
+    case FETCH_PROJECTS_DETAILS: {
+      return {
+        ...state,
 
+        projectDetails: action.payload,
+      };
+    }
     default:
       return state;
   }
