@@ -5,6 +5,14 @@ import environmentBg from "../../assets/new-landing/mdi_environment.svg";
 import communityBg from "../../assets/new-landing/mdi_account-group.svg";
 import orgBg from "../../assets/new-landing/fluent_organization-32-filled.svg";
 
+// Eco Data center Maps
+import asiamap from "../../assets/Eco-map/asia.svg";
+import northamericamap from "../../assets/Eco-map/northAmerica.svg";
+import southamericamap from "../../assets/Eco-map/southAmerica.svg";
+import africamap from "../../assets/Eco-map/asia.svg";
+// import asiamap from "../../assets/Eco-map/asia.svg";
+// import asiamap from "../../assets/Eco-map/asia.svg";
+
 export const ORGANIZATIONS = [
   {
     title: "Environment",
@@ -159,8 +167,43 @@ export const SdgGoals = [
   { id: 17, name: "Partnerships for the Goals" },
 ];
 
+export const CommunitySdgGoals = [
+  { id: 1, name: "No Poverty" },
+  { id: 2, name: "Zero Hunger" },
+  { id: 3, name: "Good Health and Well-being" },
+  { id: 4, name: "Quality Education" },
+  { id: 11, name: "Sustainable Cities and Communities" },
+  { id: 16, name: "Peace, Justice, and Strong Institutions" },
+];
+
+export const OrgSdgGoals = [
+  { id: 5, name: "Gender Equality" },
+  { id: 8, name: "Decent Work and Economic Growth" },
+  { id: 9, name: "Industry, Innovation, and Infrastructure" },
+  { id: 10, name: "Reduced Inequality" },
+  { id: 12, name: "Responsible Consumption and Production" },
+  { id: 17, name: "Partnerships for Goals" },
+];
+
+export const EnvironmentSdgGoals = [
+  { id: 6, name: "Clean Water and Sanitation" },
+  { id: 7, name: "Affordable and Clean Energy" },
+  { id: 13, name: "Climate Action" },
+  { id: 14, name: "Life Below Water" },
+  { id: 15, name: "Life on Land" },
+];
+
 export const EcoCategory = [
   { id: 1, name: "Environment" },
   { id: 2, name: "Community" },
   { id: 3, name: "Organization" },
+];
+
+export const EcodataMaps = [
+  { img: "", continent: "Asia", desc: "Coming Soon" },
+  { img: "", continent: "North America", desc: "Coming Soon" },
+  { img: "", continent: "South America", desc: "Coming Soon" },
+  { img: "", continent: "Africa", desc: "" },
+  { img: "", continent: "Europe", desc: "Coming Soon" },
+  { img: "", continent: "Antarctica", desc: "Coming Soon" },
 ];

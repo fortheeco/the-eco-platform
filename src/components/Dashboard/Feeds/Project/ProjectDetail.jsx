@@ -2,7 +2,7 @@ import React from "react";
 import { IoMdShare } from "react-icons/io";
 import { FaLocationDot } from "react-icons/fa6";
 
-export const ProjectDetail = () => {
+export const ProjectDetail = (props) => {
   return (
     <div className="w-full px-2 pt-4">
       <div className="border border-[#979797] p-4 rounded-[12px] ">
