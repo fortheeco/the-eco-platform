@@ -1,12 +1,97 @@
+import { useState } from 'react'
+// import DatePicker from 'react-multi-date-picker'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import api from '../../../api/axios'
 import sideImg from '../../../assets/signup/innovation-bulb.svg'
 import { PrimaryBtn } from '../../utils/Button'
+import { Dropzone } from '../../utils/Dropzone'
 import { FormInput } from '../../utils/FormInput'
 import SplitLayout from '../SplitLayout'
 
+// launch_date: new Date(),
+const initialState = {
+	innovation_name: '',
+	type_of_innovation: '',
+	innovation_type: '',
+	area_of_innovation: '',
+	description: '',
+	category: '',
+	target_user: '',
+	website_url: '',
+	attachments: [],
+}
+// innovation_location: '',
+
 export default function InnovationDetails() {
+	const checkboxInitialState = new Array(category.length).fill(false)
+	const [formData, setFormData] = useState(initialState)
+	// const [date, setDate] = useState(initialState.launch_date)
+	const [checkboxState, setCheckboxState] = useState(checkboxInitialState)
+	const [isPending, setIsPending] = useState(false)
+	const [error, setError] = useState(null)
+	const navigate = useNavigate()
+
+	const isDisabled =
+		Object.values(formData).some((input) => !Boolean(input)) || isPending
+
+	function handleChange(e) {
+		const { name, value } = e.target
+		setFormData((prev) => ({ ...prev, [name]: value }))
+	}
+
+	function stringFromCheckbox(itemIndex) {
+		const updatedState = checkboxState.map((item, index) =>
+			// invert checkbox state (true/false)
+			index === itemIndex ? !item : item
+		)
+
+		// create new array from checkbox values
+		let arrValues = []
+		updatedState.filter((item, index) => {
+			if (item === true) {
+				arrValues.push(category[index])
+			}
+		})
+		let categoryString = arrValues.join(',')
+		// set state
+		// setCheckboxValues(categoryString)
+		setFormData((prev) => ({ ...prev, category: categoryString }))
+		setCheckboxState(updatedState)
+	}
+	// TODO test/complete this
 	async function handleSubmit(e) {
 		e.preventDefault()
-		console.log('form submitted')
+		setIsPending(true)
+		setError(null)
+		console.log(formData)
+		// https://theeco.pythonanywhere.com/api/organisation/innovation-details
+		await api
+			.post('organisation/innovation-details', formData, {
+				headers: { 'Content-Type': 'multipart/form-data' },
+			})
+			.then((res) => {
+				setError(null)
+				console.log(res)
+				toast.success(res.data?.message)
+				setTimeout(() => {
+					navigate('/signup/organization/impact-and-reach')
+				}, 2000)
+			})
+			.catch((err) => {
+				console.error(err)
+				let logErr =
+					err?.response.data.error ||
+					err?.response.data.detail ||
+					err?.message ||
+					'Oops... Something went wrong! Please try again'
+				// toast.error(logErr)
+				setError(logErr)
+			})
+			.finally(() => {
+				setIsPending(false)
+			})
+		return
 	}
 
 	return (
@@ -25,6 +110,9 @@ export default function InnovationDetails() {
 			>
 				<FormInput
 					label="innovation name"
+					value={formData.innovation_name}
+					handleChange={handleChange}
+					name="innovation_name"
 					minLength={6}
 					maxLength={30}
 					placeholder="Enter your innovation name"
@@ -33,7 +121,9 @@ export default function InnovationDetails() {
 				<label className="block w-full">
 					<span className="text-lg capitalize">type of innovation</span>
 					<select
-						name="org-type"
+						name="type_of_innovation"
+						value={formData.type_of_innovation}
+						onChange={handleChange}
 						className="flex mt-3 p-2 gap-3 bg-nav/5 rounded-md input-parent transition-all duration-200 outline-0 border-0 w-full pr-2"
 						required
 					>
@@ -52,7 +142,9 @@ export default function InnovationDetails() {
 				<label className="block w-full">
 					<span className="text-lg capitalize">innovation type</span>
 					<select
-						name="org-type"
+						name="innovation_type"
+						value={formData.innovation_type}
+						onChange={handleChange}
 						className="flex mt-3 p-2 gap-3 bg-nav/5 rounded-md input-parent transition-all duration-200 outline-0 border-0 w-full pr-2"
 						required
 					>
@@ -68,7 +160,9 @@ export default function InnovationDetails() {
 				<label className="block w-full">
 					<span className="text-lg capitalize">area of innovation</span>
 					<select
-						name="org-type"
+						name="area_of_innovation"
+						value={formData.area_of_innovation}
+						onChange={handleChange}
 						className="flex mt-3 p-2 gap-3 bg-nav/5 rounded-md input-parent transition-all duration-200 outline-0 border-0 w-full pr-2"
 						required
 					>
@@ -89,8 +183,11 @@ export default function InnovationDetails() {
 					<span className="text-lg capitalize">description</span>
 					<textarea
 						required
+						value={formData.description}
+						onChange={handleChange}
+						name="description"
 						minLength={9}
-						maxLength={200}
+						// maxLength={200}
 						placeholder="Provide a detailed description of your innovation, including its
                         purpose, features, and benefits"
 						className="outline-0 border-0 w-full resize-none flex mt-3 px-4 h-20 gap-3 bg-nav/5 rounded-md"
@@ -101,10 +198,12 @@ export default function InnovationDetails() {
 						innovation category
 					</legend>
 					<div className="flex w-full gap-x-5 gap-y-6 flex-wrap">
-						{category.map((item) => (
+						{category.map((item, index) => (
 							<label key={item} className="w-fit flex items-center gap-2">
 								<input
 									type="checkbox"
+									checked={checkboxState[index]}
+									onChange={() => stringFromCheckbox(index)}
 									name={item}
 									id={item.replace(/\s+/g, '-')}
 									value={item}
@@ -118,7 +217,9 @@ export default function InnovationDetails() {
 				<label className="block w-full">
 					<span className="text-lg capitalize">target user</span>
 					<select
-						name="org-type"
+						name="target_user"
+						value={formData.target_user}
+						onChange={handleChange}
 						className="flex mt-3 p-2 gap-3 bg-nav/5 rounded-md input-parent transition-all duration-200 outline-0 border-0 w-full pr-2"
 						required
 					>
@@ -134,24 +235,45 @@ export default function InnovationDetails() {
 						))}
 					</select>
 				</label>
-				<label className="w-full block">
+				{/* <label className="w-full flex flex-col">
 					<span className="text-lg capitalize">launch date</span>
-					<input
-						type="date"
-						placeholder="DD/MM/YY"
-						required
-						className="flex mt-3 px-4 h-12 gap-3 bg-nav/5 rounded-md outline-0 border-0 w-full pr-2 focus-within:border-b-2 focus-within:border-ecoGreen transition-all duration-200"
+					<DatePicker
+						value={date}
+						onChange={setDate}
+						format="DD-MM-YYYY"
+						placeholder="DD-MM-YYYY"
+						name="launch_date"
+						minDate={formData.launch_date}
+						inputClass="block mt-3 px-4 h-12 bg-nav/5 rounded-md outline-0 border-0 w-full pr-2 focus-within:border-b-2 focus-within:border-ecoGreen transition-all duration-200"
 					/>
-				</label>
-				<FormInput label="website or demo URL" placeholder="www.website.com" />
-				<FormInput name="location" label="innovation location" placeholder="" />
+				</label> */}
 				<FormInput
-					name="image"
-					label="upload screenshots or promotional material"
-					type="file"
-					props={{ accept: 'image/*' }}
-					placeholder="click to upload"
+					value={formData.website_url}
+					handleChange={handleChange}
+					name="website_url"
+					label="website or demo URL"
+					placeholder="www.website.com"
 				/>
+				{/* <FormInput
+					name="innovation_location"
+					value={formData.innovation_location}
+					handleChange={handleChange}
+					label="innovation location"
+					placeholder=""
+				/> */}
+				<label className="w-full block">
+					<span className="text-lg capitalize my-4 inline-block">
+						supporting documents
+					</span>
+
+					<Dropzone setState={setFormData} name={'attachments'} maxFiles={5} />
+				</label>
+
+				{error && (
+					<small className="text-center text-rose-500 font-nunito text-lg font-semibold inline-block w-full max-w-screen-sm mx-auto mt-2">
+						{error}
+					</small>
+				)}
 
 				<div className="w-full flex gap-4 mt-32 mb-10 justify-between items-center">
 					<button
@@ -161,15 +283,21 @@ export default function InnovationDetails() {
 					>
 						back
 					</button>
-					<PrimaryBtn type="submit" content="save & continue" />
+					<PrimaryBtn
+						type="submit"
+						props={{ disabled: isDisabled }}
+						variant={
+							'disabled:bg-ecoGreen/30 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none'
+						}
+						content={isPending ? 'loading...' : 'save & continue'}
+					/>
 				</div>
 			</form>
-			{/* </article> */}
 		</SplitLayout>
 	)
 }
 
-const innovType = ['product', 'service', 'rsearch']
+const innovType = ['product', 'service', 'research']
 
 const innovArea = ['energy', 'media', 'data', 'digital', 'design']
 
