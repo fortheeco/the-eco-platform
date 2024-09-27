@@ -39,6 +39,7 @@ import Skillsets from './components/Signup/User/Skillset.jsx'
 import UserDetails from './components/Signup/User/UserDetails.jsx'
 import VerifyEmail from './components/Signup/VerifyEmail.jsx'
 import InnovationPage from './components/innovation/index.jsx'
+import InnovationProfile from './components/innovation/innovationPage/index.jsx'
 import { useAuthContext } from './hooks/useAuthContext.jsx'
 import ErrorElement from './utils/ErrorElement.jsx'
 import ProtectedRoute from './utils/ProtectedRoute.jsx'
@@ -55,7 +56,10 @@ const App = () => {
 					<Route index element={<LandingPage />} />
 
 					<Route path="pals" element={<PalsIndex />} />
-					<Route path="innovation" element={<InnovationPage />} />
+					<Route path="innovation">
+						<Route index element={<InnovationPage />} />
+						<Route path=":id" element={<InnovationProfile />} />
+					</Route>
 
 					<Route path="login" element={<SignIn />} />
 					<Route path="iforgot" element={<ForgotPassword />} />
