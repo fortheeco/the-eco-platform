@@ -1,0 +1,24 @@
+Heap out of memory issue:
+
+Issues with Heap out of memory issues
+- complex debug
+- infrastructuire cost
+- system instability
+
+
+
+Memory Allocation:
+Two main memory Allocation block in Javascript
+- Stack
+- Heap 
+
+
+Javascript is a high level, garbage-collected language and memory is managed by the engine itself
+
+
+There are ways to create memory leaks in JS:
+1. Unused Event Listener 
+2. Circular references
+3. Keeping connections oopen
+4. Variable references for Timers or interval
+5. Variables that grow up indefinitely  - clean the data ... data = {}
