@@ -6,7 +6,6 @@ Issues with Heap out of memory issues
 - system instability
 
 
-
 Memory Allocation:
 Two main memory Allocation block in Javascript
 - Stack
