@@ -6,7 +6,7 @@ import webIcon from '../../../assets/innovation/web-icon.svg'
 export default function Intro() {
 	return (
 		<>
-			<div className="w-full flex items-center gap-4 my-4">
+			<div className="w-full flex flex-col sm:flex-row items-center gap-4 my-4">
 				<img
 					src={icon}
 					alt="innovation icon"

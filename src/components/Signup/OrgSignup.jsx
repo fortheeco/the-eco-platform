@@ -6,6 +6,7 @@ import { toast } from 'react-toastify'
 import api from '../../api/axios'
 import { validateEmail, validatePassword } from '../../helpers/validate-form'
 import { PrimaryBtn } from '../utils/Button'
+import SignupSteps from './SignupSteps'
 
 const initialState = {
 	email: '',
@@ -187,6 +188,7 @@ export default function OrgSignup() {
 					</small>
 				)}
 			</form>
+			<SignupSteps length={5} activeStep={2} />
 			{/* </article> */}
 		</>
 	)

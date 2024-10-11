@@ -9,6 +9,7 @@ import orgIconGreen from '../../assets/signup/org-icon-green.svg'
 import userIconBlack from '../../assets/signup/user-icon-black.svg'
 import userIconGreen from '../../assets/signup/user-icon-green.svg'
 import AuthNav from './AuthNav'
+import SignupSteps from './SignupSteps'
 import SplitLayout from './SplitLayout'
 import './signup.css'
 
@@ -60,6 +61,7 @@ export default function AccountType() {
 					save & continue
 				</Link>
 			</div>
+			<SignupSteps length={6} activeStep={1} />
 		</SplitLayout>
 	)
 }

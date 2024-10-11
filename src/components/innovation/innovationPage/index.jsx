@@ -16,7 +16,7 @@ export default function InnovationProfile() {
 			<Nav />
 			<section className="w-full pt-20 bg-dimWhite font-nunito">
 				<Header />
-				<section className="w-full relative block md:max-w-[80%] mx-auto">
+				<section className="w-full relative block md:max-w-[80%] mx-auto px-6">
 					<Intro />
 					<MediaResources />
 					<Info />

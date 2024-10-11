@@ -17,14 +17,8 @@ export function Dropzone({ setState, name, maxFiles = 1 }) {
 			formData.set(name, file)
 			setState((prev) => ({ ...prev, [name]: formData.get(name) }))
 		} else {
-			// if it's a single file, set state as an array
-			// TODO fixed multiple uploads
-			const files = acceptedFiles.map((file, index) => {
-				formData.set(`${name}_${index}`, file)
-				return formData.get(`${name}_${index}`)
-			})
-			// console.log(files)
-			setState((prev) => ({ ...prev, [name]: files }))
+			// transform file in parent component
+			setState(acceptedFiles)
 		}
 	}, [])
 

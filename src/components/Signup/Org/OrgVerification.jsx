@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 import api from '../../../api/axios'
 import { PrimaryBtn } from '../../utils/Button'
 import { Dropzone } from '../../utils/Dropzone'
+import SignupSteps from '../SignupSteps'
 import SplitLayout from '../SplitLayout'
 
 const initialState = {
@@ -113,6 +114,7 @@ export default function OrgVerification() {
 					/>
 				</div>
 			</form>
+			<SignupSteps length={6} activeStep={4} />
 		</SplitLayout>
 	)
 }

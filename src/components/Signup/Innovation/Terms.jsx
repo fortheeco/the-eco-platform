@@ -5,6 +5,7 @@ import api from '../../../api/axios'
 import sideImg from '../../../assets/signup/innovation-bulb.svg'
 import { useAuthContext } from '../../../hooks/useAuthContext'
 import { PrimaryBtn } from '../../utils/Button'
+import SignupSteps from '../SignupSteps'
 import SplitLayout from '../SplitLayout'
 
 export default function Terms() {
@@ -97,6 +98,7 @@ export default function Terms() {
 					/>
 				</div>
 			</form>
+			<SignupSteps length={6} activeStep={6} />
 		</SplitLayout>
 	)
 }

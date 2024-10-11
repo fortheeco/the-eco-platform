@@ -84,7 +84,7 @@ export default function AreaOfFocus() {
 			.catch((err) => {
 				console.error(err)
 				let logErr =
-					err?.response.data.detail ||
+					err?.response.data.message ||
 					err?.message ||
 					'Oops... Something went wrong! Please try again'
 				// toast.error(logErr)

@@ -5,6 +5,7 @@ import api from '../../../api/axios'
 import sideImg from '../../../assets/signup/innovation-bulb.svg'
 import { PrimaryBtn } from '../../utils/Button'
 import { FormInput } from '../../utils/FormInput'
+import SignupSteps from '../SignupSteps'
 import SplitLayout from '../SplitLayout'
 
 const initialState = {
@@ -49,36 +50,33 @@ export default function ImpactAndReact() {
 		setFormData((prev) => ({ ...prev, sdg_goals_targeted: arrValues }))
 		setCheckboxState(updatedState)
 	}
-	// TODO test/complete this
+
 	async function handleSubmit(e) {
 		e.preventDefault()
 		setIsPending(true)
 		setError(null)
 		// https://theeco.pythonanywhere.com/api/organisation/innovation-impact
-		await api
-			.post('organisation/innovation-impact', formData)
-			.then((res) => {
-				setError(null)
-				console.log(res)
-				toast.success(res.data?.message)
-				setTimeout(() => {
-					navigate('/signup/organization/terms')
-				}, 2000)
-			})
-			.catch((err) => {
-				console.error(err)
-				let logErr =
-					err?.response.data.error ||
-					err?.response.data.detail ||
-					err?.message ||
-					'Oops... Something went wrong! Please try again'
-				// toast.error(logErr)
-				setError(logErr)
-			})
-			.finally(() => {
-				setIsPending(false)
-			})
-		return
+		try {
+			const res = await api.post('organisation/innovation-impact', formData)
+
+			console.log(res)
+			toast.success(res.data?.message)
+			setTimeout(() => {
+				navigate('/signup/innovation/terms')
+			}, 2000)
+			setError(null)
+			setIsPending(false)
+		} catch (err) {
+			console.error(err)
+			let logErr =
+				err?.response.data.error ||
+				err?.response.data.detail ||
+				err?.message ||
+				'Oops... Something went wrong! Please try again'
+			// toast.error(logErr)
+			setError(logErr)
+			setIsPending(false)
+		}
 	}
 
 	return (
@@ -213,6 +211,7 @@ export default function ImpactAndReact() {
 					/>
 				</div>
 			</form>
+			<SignupSteps length={6} activeStep={5} />
 		</SplitLayout>
 	)
 }

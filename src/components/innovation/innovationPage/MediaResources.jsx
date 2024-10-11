@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import testImage from '../../../assets/jackets.jpg'
 
-const mediaImages = [testImage, testImage]
+const mediaImages = [testImage]
 
 export default function MediaResources() {
 	return (
@@ -28,7 +28,8 @@ function DisplayImages() {
 		setOverlay(true)
 		console.log('showing overlay')
 	}
-	function hideOverlay() {
+	function hideOverlay(e) {
+		// e.stopImmediatePropagation()
 		setOverlay(false)
 	}
 
@@ -49,15 +50,18 @@ function DisplayImages() {
 			/>
 			{showOverlay &&
 				createPortal(
-					<aside className="w-screen h-screen overflow-y-scroll bg-black/80 fixed inset-0 flex flex-col items-center justify-center gap-5 p-10 z-50">
+					<aside
+						className="w-screen h-screen overflow-y-scroll bg-black/80 fixed inset-0 flex flex-col items-center justify-center gap-5 p-10 z-50"
+						onClick={hideOverlay}
+					>
 						{mediaImages.map((img) => (
 							<img
 								src={img}
 								key={img}
 								className="w-full max-w-lg aspect-square object-contain object-center"
 								alt=""
-								draggable
-								onDragEnd={hideOverlay}
+								// draggable
+								// onDragEnd={hideOverlay}
 							/>
 						))}
 					</aside>,

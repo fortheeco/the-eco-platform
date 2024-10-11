@@ -7,6 +7,7 @@ import sideImg from '../../../assets/signup/innovation-bulb.svg'
 import { PrimaryBtn } from '../../utils/Button'
 import { Dropzone } from '../../utils/Dropzone'
 import { FormInput } from '../../utils/FormInput'
+import SignupSteps from '../SignupSteps'
 import SplitLayout from '../SplitLayout'
 
 // launch_date: new Date(),
@@ -19,13 +20,14 @@ const initialState = {
 	category: '',
 	target_user: '',
 	website_url: '',
-	attachments: [],
+	// attachments: [],
 }
 // innovation_location: '',
 
 export default function InnovationDetails() {
 	const checkboxInitialState = new Array(category.length).fill(false)
 	const [formData, setFormData] = useState(initialState)
+	const [documents, setDocuments] = useState([])
 	// const [date, setDate] = useState(initialState.launch_date)
 	const [checkboxState, setCheckboxState] = useState(checkboxInitialState)
 	const [isPending, setIsPending] = useState(false)
@@ -55,42 +57,57 @@ export default function InnovationDetails() {
 		})
 		let categoryString = arrValues.join(',')
 		// set state
-		// setCheckboxValues(categoryString)
 		setFormData((prev) => ({ ...prev, category: categoryString }))
 		setCheckboxState(updatedState)
 	}
 	// TODO test/complete this
 	async function handleSubmit(e) {
 		e.preventDefault()
+		if (documents.length === 0) {
+			toast.error('Supporting document(s) are required!')
+			return
+		}
+
+		const formToSubmit = new FormData()
+		// append form fields to formData
+		for (const key in formData) {
+			formToSubmit.append(key, formData[key])
+		}
+
+		Array.from(documents).map((file, index) => {
+			formToSubmit.append(`attachments[${index}]`, file)
+		})
+
 		setIsPending(true)
 		setError(null)
-		console.log(formData)
+		console.log(formToSubmit)
 		// https://theeco.pythonanywhere.com/api/organisation/innovation-details
-		await api
-			.post('organisation/innovation-details', formData, {
-				headers: { 'Content-Type': 'multipart/form-data' },
-			})
-			.then((res) => {
-				setError(null)
-				console.log(res)
-				toast.success(res.data?.message)
-				setTimeout(() => {
-					navigate('/signup/organization/impact-and-reach')
-				}, 2000)
-			})
-			.catch((err) => {
-				console.error(err)
-				let logErr =
-					err?.response.data.error ||
-					err?.response.data.detail ||
-					err?.message ||
-					'Oops... Something went wrong! Please try again'
-				// toast.error(logErr)
-				setError(logErr)
-			})
-			.finally(() => {
-				setIsPending(false)
-			})
+		try {
+			const res = await api.post(
+				'organisation/innovation-details',
+				formToSubmit,
+				{
+					headers: { 'Content-Type': 'multipart/form-data' },
+				}
+			)
+
+			setIsPending(false)
+			setError(null)
+			console.log(res)
+			toast.success(res.data?.message)
+			setTimeout(() => {
+				navigate('/signup/organization/impact-and-reach')
+			}, 2000)
+		} catch (err) {
+			console.error(err)
+			let logErr =
+				err?.response.data.error ||
+				err?.response.data.detail ||
+				err?.message ||
+				'Oops... Something went wrong! Please try again'
+			setError(logErr)
+			setIsPending(false)
+		}
 		return
 	}
 
@@ -266,7 +283,7 @@ export default function InnovationDetails() {
 						supporting documents
 					</span>
 
-					<Dropzone setState={setFormData} name={'attachments'} maxFiles={5} />
+					<Dropzone setState={setDocuments} maxFiles={5} />
 				</label>
 
 				{error && (
@@ -293,6 +310,7 @@ export default function InnovationDetails() {
 					/>
 				</div>
 			</form>
+			<SignupSteps length={6} activeStep={4} />
 		</SplitLayout>
 	)
 }

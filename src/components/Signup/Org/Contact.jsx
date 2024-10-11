@@ -6,6 +6,7 @@ import api from '../../../api/axios'
 import countryList from '../../data/countries.json'
 import { PrimaryBtn } from '../../utils/Button'
 import { FormInput } from '../../utils/FormInput'
+import SignupSteps from '../SignupSteps'
 import SplitLayout from '../SplitLayout'
 
 const initialState = {
@@ -20,6 +21,7 @@ const initialState = {
 
 export default function OrgContact() {
 	const [formData, setFormData] = useState(initialState)
+	const [date, setDate] = useState(initialState.year_established)
 	const [countryCode, setCode] = useState(countryList[0].phone_code)
 	const [isPending, setIsPending] = useState(false)
 	const [error, setError] = useState(null)
@@ -37,12 +39,14 @@ export default function OrgContact() {
 		setIsPending(true)
 		setError(null)
 		let orgUrl = formatUrl(formData.organisation_url)
+		console.log(formData)
 
 		await api
 			.post('organisation/contact_info', {
 				...formData,
 				phone_number: `+${countryCode + formData.phone_number}`,
 				organisation_url: orgUrl,
+				year_established: new Date(date).getFullYear(),
 			})
 			.then((res) => {
 				setError(null)
@@ -55,7 +59,7 @@ export default function OrgContact() {
 			.catch((err) => {
 				console.error(err)
 				let logErr =
-					err?.response.data.detail ||
+					err?.response.data.message ||
 					err?.message ||
 					'Oops... Something went wrong! Please try again'
 				// toast.error(logErr)
@@ -160,8 +164,8 @@ export default function OrgContact() {
 				<label className="w-full flex flex-col">
 					<span className="text-lg capitalize">year established</span>
 					<DatePicker
-						value={formData.year_established}
-						onChange={handleChange}
+						value={date}
+						onChange={setDate}
 						name="year_established"
 						onlyYearPicker
 						maxDate={formData.year_established}
@@ -193,6 +197,7 @@ export default function OrgContact() {
 					/>
 				</div>
 			</form>
+			<SignupSteps length={5} activeStep={3} />
 			{/* </article> */}
 		</SplitLayout>
 	)

@@ -1,5 +1,6 @@
 import sideImg from '../../../assets/signup/innovation-bulb.svg'
 import { PrimaryBtn } from '../../utils/Button'
+import SignupSteps from '../SignupSteps'
 import SplitLayout from '../SplitLayout'
 
 export default function Payments() {
@@ -32,6 +33,7 @@ export default function Payments() {
 					<PrimaryBtn type="submit" content="save & continue" />
 				</div>
 			</form>
+			<SignupSteps length={6} activeStep={6} />
 		</SplitLayout>
 	)
 }
