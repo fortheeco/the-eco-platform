@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import testImage from '../../../assets/jackets.jpg'
+import Overlay from '../../utils/Overlay'
 
 const mediaImages = [testImage]
 
@@ -40,33 +41,29 @@ function DisplayImages() {
 				onClick={toggleOverlay}
 				alt=""
 				className="w-1/4 aspect-square object-fill object-center cursor-pointer"
-				onError={'no image here'}
 			/>
-			<img
-				src={mediaImages[1]}
-				onClick={toggleOverlay}
-				alt=""
-				className="w-1/4 aspect-square object-fill object-center cursor-pointer"
-			/>
-			{showOverlay &&
-				createPortal(
-					<aside
-						className="w-screen h-screen overflow-y-scroll bg-black/80 fixed inset-0 flex flex-col items-center justify-center gap-5 p-10 z-50"
-						onClick={hideOverlay}
-					>
-						{mediaImages.map((img) => (
-							<img
-								src={img}
-								key={img}
-								className="w-full max-w-lg aspect-square object-contain object-center"
-								alt=""
-								// draggable
-								// onDragEnd={hideOverlay}
-							/>
-						))}
-					</aside>,
-					document.body
-				)}
+			{mediaImages[1] && (
+				<img
+					src={mediaImages[1]}
+					onClick={toggleOverlay}
+					alt=""
+					className="w-1/4 aspect-square object-fill object-center cursor-pointer"
+				/>
+			)}
+			{showOverlay && (
+				<Overlay hideOverlay={hideOverlay}>
+					{mediaImages.map((img) => (
+						<img
+							src={img}
+							key={img}
+							className="w-full max-h-screen aspect-square object-contain object-center"
+							alt=""
+							// draggable
+							// onDragEnd={hideOverlay}
+						/>
+					))}
+				</Overlay>
+			)}
 		</div>
 	)
 }
