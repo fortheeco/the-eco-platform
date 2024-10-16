@@ -44,6 +44,11 @@ import { useAuthContext } from './hooks/useAuthContext.jsx'
 import ErrorElement from './utils/ErrorElement.jsx'
 import ProtectedRoute from './utils/ProtectedRoute.jsx'
 // import ProtectedRoute from "./utils/ProtectedRoute.jsx";
+import InnovationImpact from './components/innovation/profile/ImpactAndReach.jsx'
+import InnovationProfileDetails from './components/innovation/profile/InnovationProfileDetails.jsx'
+import Media from './components/innovation/profile/Media.jsx'
+import OrgInformation from './components/innovation/profile/OrgInformation.jsx'
+import InnovationSettings from './components/innovation/profile/index.jsx'
 
 const App = () => {
 	const { authIsReady } = useAuthContext()
@@ -58,7 +63,15 @@ const App = () => {
 					<Route path="pals" element={<PalsIndex />} />
 					<Route path="innovation">
 						<Route index element={<InnovationPage />} />
+						{/* individual innovation */}
 						<Route path=":id" element={<InnovationProfile />} />
+						{/* innovation settings */}
+						<Route path="profile" element={<InnovationSettings />}>
+							<Route path="information" element={<OrgInformation />} />
+							<Route path="details" element={<InnovationProfileDetails />} />
+							<Route path="impact-and-reach" element={<InnovationImpact />} />
+							<Route path="media" element={<Media />} />
+						</Route>
 					</Route>
 
 					<Route path="login" element={<SignIn />} />
