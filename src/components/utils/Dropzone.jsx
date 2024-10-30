@@ -49,7 +49,7 @@ export function Dropzone({ setState, name, maxFiles = 1 }) {
 	return (
 		<div
 			{...getRootProps()}
-			className={`rounded-lg sm:min-h-[10rem] flex flex-col items-center justify-center p-4 bg-dimWhite shadow-sm border-2 cursor-pointer ${
+			className={`rounded-lg sm:min-h-[10rem] flex flex-col items-center justify-center p-4 bg-white shadow-sm border-2 cursor-pointer ${
 				isDragActive ? 'border-ecoGreen' : 'border-nav/10 '
 			}`}
 		>

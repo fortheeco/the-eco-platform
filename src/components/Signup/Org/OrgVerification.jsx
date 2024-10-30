@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import api from '../../../api/axios'
+import { formatResError } from '../../../helpers/FormatErrorMessage'
 import { PrimaryBtn } from '../../utils/Button'
 import { Dropzone } from '../../utils/Dropzone'
 import SignupSteps from '../SignupSteps'
@@ -40,11 +41,7 @@ export default function OrgVerification() {
 			})
 			.catch((err) => {
 				console.error(err)
-				let logErr =
-					err?.response.data.detail ||
-					err?.message ||
-					'Oops... Something went wrong! Please try again'
-				// toast.error(logErr)
+				let logErr = formatResError(err)
 				setError(logErr)
 			})
 			.finally(() => {

@@ -4,6 +4,7 @@ import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import api from '../../api/axios'
+import { formatResError } from '../../helpers/FormatErrorMessage'
 import { validateEmail, validatePassword } from '../../helpers/validate-form'
 import { PrimaryBtn } from '../utils/Button'
 import SignupSteps from './SignupSteps'
@@ -53,29 +54,22 @@ export default function OrgSignup() {
 		setIsPending(true)
 		setError(null)
 
-		await api
-			.post('organisation/signup', formData)
-			.then((res) => {
-				setError(null)
-				toast.success(res.data?.message)
-				Cookies.set('token', res.data?.token)
+		try {
+			const res = await api.post('organisation/signup', formData)
+			toast.success(res.data?.message)
+			Cookies.set('token', res.data?.token)
+			setError(null)
 
-				setTimeout(() => {
-					navigate('details')
-				}, 2000)
-			})
-			.catch((err) => {
-				console.error(err)
-				let logErr =
-					err?.response.data.message ||
-					err?.message ||
-					'Oops... Something went wrong! Please try again'
-				toast.error(logErr)
-				setError(logErr)
-			})
-			.finally(() => {
-				setIsPending(false)
-			})
+			setTimeout(() => {
+				navigate('details')
+			}, 2000)
+		} catch (err) {
+			console.error(err)
+			let logErr = formatResError(err)
+			setError(logErr)
+		} finally {
+			setIsPending(false)
+		}
 		return
 	}
 

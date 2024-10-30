@@ -31,11 +31,11 @@ export default function useLogin() {
 			Cookies.set('token', token, { expires: 7 })
 			setError(null)
 			setIsPending(false)
-			if (user.skills.length === 0) {
-				navigate('/signup/user/skillset', { replace: true })
-			} else {
-				navigate('/your-Eco', { replace: true })
-			}
+			// if (user.skills.length === 0) {
+			// 	navigate('/signup/user/skillset', { replace: true })
+			// } else {
+			// }
+			navigate('/your-Eco', { replace: true })
 		} catch (err) {
 			console.error(err)
 			// check if error is due to invalid credentials, else it's a network error

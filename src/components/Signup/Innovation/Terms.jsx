@@ -1,9 +1,6 @@
-import Cookies from 'js-cookie'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import api from '../../../api/axios'
 import sideImg from '../../../assets/signup/innovation-bulb.svg'
-import { useAuthContext } from '../../../hooks/useAuthContext'
 import { PrimaryBtn } from '../../utils/Button'
 import SignupSteps from '../SignupSteps'
 import SplitLayout from '../SplitLayout'
@@ -14,7 +11,6 @@ export default function Terms() {
 	const [isPending, setIsPending] = useState(false)
 	const [error, setError] = useState(null)
 	const navigate = useNavigate()
-	const { dispatch } = useAuthContext()
 
 	function toggleCheckbox(itemIndex) {
 		const updatedState = checkboxState.map((item, index) =>
@@ -31,12 +27,9 @@ export default function Terms() {
 
 		setIsPending(true)
 		setError(null)
-		// TODO complete this
-		const res = await api.get(
-			'https://theeco.pythonanywhere.com/api/organisation/get-innovation'
-		)
-		dispatch({ type: 'LOGIN', token: res.token, user: res.data })
-		navigate('/innovation')
+		setTimeout(() => {
+			navigate('/signup/innovation/details')
+		}, 2000)
 	}
 
 	return (
@@ -98,7 +91,7 @@ export default function Terms() {
 					/>
 				</div>
 			</form>
-			<SignupSteps length={6} activeStep={6} />
+			<SignupSteps length={4} activeStep={1} />
 		</SplitLayout>
 	)
 }

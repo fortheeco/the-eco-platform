@@ -3,6 +3,7 @@ import DatePicker from 'react-multi-date-picker'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import api from '../../../api/axios'
+import { formatResError } from '../../../helpers/FormatErrorMessage'
 import countryList from '../../data/countries.json'
 import { PrimaryBtn } from '../../utils/Button'
 import { FormInput } from '../../utils/FormInput'
@@ -39,35 +40,26 @@ export default function OrgContact() {
 		setIsPending(true)
 		setError(null)
 		let orgUrl = formatUrl(formData.organisation_url)
-		console.log(formData)
 
-		await api
-			.post('organisation/contact_info', {
+		try {
+			const res = await api.post('organisation/contact_info', {
 				...formData,
 				phone_number: `+${countryCode + formData.phone_number}`,
 				organisation_url: orgUrl,
 				year_established: new Date(date).getFullYear(),
 			})
-			.then((res) => {
-				setError(null)
-				toast.success(res.data?.message)
-				console.log(res)
-				setTimeout(() => {
-					navigate('/signup/organization/verification')
-				}, 2000)
-			})
-			.catch((err) => {
-				console.error(err)
-				let logErr =
-					err?.response.data.message ||
-					err?.message ||
-					'Oops... Something went wrong! Please try again'
-				// toast.error(logErr)
-				setError(logErr)
-			})
-			.finally(() => {
-				setIsPending(false)
-			})
+			setError(null)
+			toast.success(res.data?.message)
+			setTimeout(() => {
+				navigate('/signup/organization/verification')
+			}, 2000)
+		} catch (err) {
+			console.error(err)
+			let logErr = formatResError(err)
+			setError(logErr)
+		} finally {
+			setIsPending(false)
+		}
 		return
 	}
 

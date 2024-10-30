@@ -2,8 +2,10 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import api from '../../../api/axios'
+import { formatResError } from '../../../helpers/FormatErrorMessage'
 import { PrimaryBtn } from '../../utils/Button'
 import { FormInput } from '../../utils/FormInput'
+import SignupSteps from '../SignupSteps'
 import SplitLayout from '../SplitLayout'
 
 const initialState = {
@@ -83,11 +85,7 @@ export default function AreaOfFocus() {
 			})
 			.catch((err) => {
 				console.error(err)
-				let logErr =
-					err?.response.data.message ||
-					err?.message ||
-					'Oops... Something went wrong! Please try again'
-				// toast.error(logErr)
+				let logErr = formatResError(err)
 				setError(logErr)
 			})
 			.finally(() => {
@@ -221,7 +219,7 @@ export default function AreaOfFocus() {
 					/>
 				</div>
 			</form>
-			{/* </article> */}
+			<SignupSteps length={6} activeStep={5} />
 		</SplitLayout>
 	)
 }

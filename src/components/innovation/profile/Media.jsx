@@ -1,7 +1,10 @@
+import { useState } from 'react'
+import { UploadModal } from '../../utils/UploadModal'
 import ProfileWrapper from './ProfileWrapper'
 
 export default function Media() {
-	const media = []
+	const [showModal, setShowModal] = useState(false)
+	const [media, setMedia] = useState([])
 
 	return (
 		<ProfileWrapper>
@@ -10,17 +13,25 @@ export default function Media() {
 				{media.map((image) => (
 					<img
 						key={image}
-						src={image}
+						src={URL.createObjectURL(image)}
 						className="h-40 aspect-square object-fill object-center"
 					/>
 				))}
 			</div>
 			<button
 				type="button"
+				onClick={() => setShowModal(true)}
 				className="capitalize bg-ecoGreen text-white py-3 w-fit flex items-center justify-center rounded-lg mx-auto mt-8 text-lg px-8 focus-within:outline-ecoGreen focus-within:outline-2 focus-within:shadow-lg focus-within:rounded-lg focus-within:bg-ecoGreen/70 hover:bg-ecoBlue transition-all"
 			>
 				edit images
 			</button>
+			{showModal && (
+				<UploadModal
+					setState={setMedia}
+					hideModal={() => setShowModal(false)}
+					maxFiles={5}
+				/>
+			)}
 		</ProfileWrapper>
 	)
 }

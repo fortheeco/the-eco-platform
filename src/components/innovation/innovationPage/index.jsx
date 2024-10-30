@@ -12,7 +12,6 @@ import Reviews from './Review'
 export default function InnovationProfile() {
 	const { id } = useParams()
 
-	console.log(id)
 	return (
 		<div className="w-full block relative">
 			<Nav />
@@ -22,7 +21,7 @@ export default function InnovationProfile() {
 					<Intro />
 					<MediaResources />
 					<Info />
-					<Reviews reviews={reviews} />
+					<Reviews reviews={reviews} id={id} />
 				</section>
 				<CTA />
 				<Footer />

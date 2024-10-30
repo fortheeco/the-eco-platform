@@ -33,11 +33,11 @@ export default function AccountType() {
 						alt="ECO icon"
 						className="w-20 aspect-square object-fill hidden sm:inline-block"
 					/>
-					<div className="flex flex-col sm:flex-row gap-4 items-center justify-center w-fit mx-auto mt-6 sm:-mt-28">
+					<div className="flex flex-col sm:flex-row gap-4 items-center justify-center w-fit mx-auto mt-6 sm:-mt-20">
 						<AccountCard
 							card={accountTypeObj.hub}
 							activeLink={activeLink}
-							setActiveLink={setActiveLink}
+							setActiveLink={() => {}}
 						/>
 						<AccountCard
 							card={accountTypeObj.org}
@@ -76,7 +76,7 @@ const AccountCard = ({ card, activeLink, setActiveLink }) => {
 		>
 			<img
 				src={activeLink === card.link ? card.icon.green : card.icon.black}
-				alt="new user avatar"
+				alt=""
 				className="w-2/3 max-w-[10rem] aspect-square mt-6 object-contain"
 			/>
 			<h4 className="flex whitespace-nowrap font-semibold md:text-xl capitalize">
@@ -85,9 +85,7 @@ const AccountCard = ({ card, activeLink, setActiveLink }) => {
 			{card.amount && (
 				<button
 					className={
-						card.amount === 'free'
-							? 'inline-block'
-							: 'bg-ecoGreen text-white p-2 rounded-full flex'
+						card.amount === 'free' ? 'inline-block' : 'text-ecoGreen italic'
 					}
 				>
 					{card.amount}
@@ -113,9 +111,9 @@ const accountTypeObj = {
 	},
 	hub: {
 		id: 3,
-		name: 'ECO hub innovation',
+		name: 'ECO idea hub',
 		icon: { black: innovIconBlack, green: innovIconGreen },
-		link: 'innovation',
-		amount: 'N100,000/yr',
+		link: '#',
+		amount: 'Coming Soon',
 	},
 }

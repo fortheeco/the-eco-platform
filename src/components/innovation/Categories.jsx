@@ -68,7 +68,7 @@ export default function Categories() {
 						<button
 							key={category}
 							onClick={() => setSelectedCategory(category)}
-							className={`px-4 py-2 font-semibold font-nunito text-2xl capitalize whitespace-nowrap w-fit transition-all duration-500 ease-in-out ${
+							className={`px-4 py-2 text-xl sm:font-semibold font-nunito sm:text-2xl capitalize whitespace-nowrap w-fit transition-all duration-500 ease-in-out ${
 								category === selectedCategory
 									? 'bg-ecoGreen text-white rounded-md'
 									: 'text-black'
@@ -98,9 +98,7 @@ export default function Categories() {
 					>
 						<img
 							src={gridIcon}
-							className={`w-full text-white ${
-								!isGrid ? 'invert-0s' : 'inverts'
-							}`}
+							className={`w-full text-white ${!isGrid ? 'invert-0' : 'invert'}`}
 						/>
 					</button>
 				</div>
@@ -172,44 +170,6 @@ const CATEGORY_LIST = [
 		link: 'www.sendlify.com ',
 		tag: 'finance',
 	},
-	{
-		img: womenImg,
-		category: 'fintech',
-		id: 2,
-		title: 'Sendlify: Send and receive money like texts',
-		text: 'Introducing our cutting-edge fintech app, designed to revolutionize the way you manage your finances.',
-		link: 'www.sendlify.com ',
-		tag: 'finance',
-	},
-
-	{
-		img: jacketImg,
-		category: 'fintech',
-		id: 3,
-		title: 'Sendlify: Send and receive money like texts',
-		text: 'Introducing our cutting-edge fintech app, designed to revolutionize the way you manage your finances. Take control of your money like never before with powerful features and intuitive tools at your fingertips. Track your expenses in real-time, effortlessly categorize transactions, and gain valuable insights into your spending habits.',
-		link: 'www.sendlify.com ',
-		tag: 'finance',
-	},
-	{
-		img: menImg,
-		category: 'fintech',
-		id: 4,
-		title: 'Sendlify: Send and receive money like texts',
-		text: 'Introducing our cutting-edge fintech app, designed to revolutionize the way you manage your finances. Take control of your money like never before with powerful features and intuitive tools at your fingertips. Track your expenses in real-time, effortlessly categorize transactions, and gain valuable insights into your spending habits.',
-		link: 'www.sendlify.com ',
-		tag: 'finance',
-	},
-	{
-		img: jacketImg,
-		category: 'fintech',
-		id: 5,
-		title:
-			'Take control of your money like never before with powerful features and intuitive tools at your fingertips',
-		text: 'Introducing our cutting-edge fintech app, designed to revolutionize the way you manage your finances. Take control of your money like never before with powerful features and intuitive tools at your fingertips. Track your expenses in real-time, effortlessly categorize transactions, and gain valuable insights into your spending habits.',
-		link: 'www.sendlify.com ',
-		tag: 'finance',
-	},
 ]
 
 const categories = [
@@ -217,7 +177,7 @@ const categories = [
 	'finTech',
 	'agrotech',
 	'health Tech',
-	'AI (Artificial Intelligence)',
+	'AI',
 	'eduTech',
 	'cleantech',
 	'biotech',

@@ -211,21 +211,21 @@ export default function ImpactAndReact() {
 					/>
 				</div>
 			</form>
-			<SignupSteps length={6} activeStep={5} />
+			<SignupSteps length={4} activeStep={3} />
 		</SplitLayout>
 	)
 }
 
-const focusArray = [
-	'environmental sustainability',
-	'community development',
-	'quality education',
-	'economic development',
-	'education',
-	'health',
-	'social services',
-	'others',
-]
+// const focusArray = [
+// 	'environmental sustainability',
+// 	'community development',
+// 	'quality education',
+// 	'economic development',
+// 	'education',
+// 	'health',
+// 	'social services',
+// 	'others',
+// ]
 
 const SDGArray = [
 	'no poverty',

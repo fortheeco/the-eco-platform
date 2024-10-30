@@ -3,6 +3,7 @@ import DatePicker from 'react-multi-date-picker'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import api from '../../../api/axios'
+import { formatResError } from '../../../helpers/FormatErrorMessage'
 import { PrimaryBtn } from '../../utils/Button'
 import { FormInput } from '../../utils/FormInput'
 import SignupSteps from '../SignupSteps'
@@ -34,31 +35,29 @@ export default function OrgDetails() {
 
 	async function handleSubmit(e) {
 		e.preventDefault()
-		setFormData((prev) => ({ ...prev, registration_year: date }))
-		setIsPending(true)
-		setError(null)
+		let year = new Date(date).getFullYear()
+		setFormData((prev) => ({ ...prev, registration_year: year }))
 
-		await api
-			.post('organisation/add_organisation_details', formData)
-			.then((res) => {
-				setError(null)
-				toast.success(res.data?.message)
-				setTimeout(() => {
-					navigate('/signup/organization/contact')
-				}, 2000)
-			})
-			.catch((err) => {
-				console.error(err)
-				let logErr =
-					err?.response.data.detail ||
-					err?.message ||
-					'Oops... Something went wrong! Please try again'
-				// toast.error(logErr)
-				setError(logErr)
-			})
-			.finally(() => {
-				setIsPending(false)
-			})
+		try {
+			setIsPending(true)
+			setError(null)
+			// console.log(formData)
+			await api
+				.post('organisation/add_organisation_details', formData)
+				.then((res) => {
+					setError(null)
+					toast.success(res.data?.message)
+					setTimeout(() => {
+						navigate('/signup/organization/contact')
+					}, 2000)
+				})
+		} catch (err) {
+			console.error(err)
+			let logErr = formatResError(err)
+			setError(logErr)
+		} finally {
+			setIsPending(false)
+		}
 		return
 	}
 
@@ -160,7 +159,6 @@ export default function OrgDetails() {
 
 				<FormInput
 					name="registration_number"
-					type="number"
 					value={formData.registration_number}
 					handleChange={handleChange}
 					label="registration number"

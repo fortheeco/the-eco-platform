@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 import api from '../../../api/axios'
 import defaultAvatar from '../../../assets/avatar/blank-user.png'
 import addSkillIcon from '../../../assets/signup/add_circle.svg'
+import { formatResError } from '../../../helpers/FormatErrorMessage'
 import { useAuthContext } from '../../../hooks/useAuthContext'
 import { layout } from '../../../style'
 
@@ -67,11 +68,9 @@ export default function Skillset() {
 			}, 2000)
 			setError(null)
 		} catch (err) {
-			let logErr =
-				err?.response?.data?.detail ||
-				'Something went wrong... please refresh and try again'
-			setError(logErr)
 			console.error(err)
+			let logErr = formatResError(err)
+			setError(logErr)
 		} finally {
 			setIsPending(false)
 		}

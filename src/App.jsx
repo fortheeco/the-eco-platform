@@ -116,9 +116,9 @@ const App = () => {
 								element={<CollabInterest />}
 							/>
 						</Route>
-						<Route path="innovation">
+						<Route path="innovation" element={<ProtectedRoute />}>
 							<Route index element={<InnovationHub />} />
-							<Route path="information" element={<OrgInfo />} />
+							{/* <Route path="information" element={<OrgInfo />} /> */}
 							<Route path="details" element={<InnovationDetails />} />
 							<Route path="impact-and-reach" element={<ImpactAndReact />} />
 							<Route path="terms" element={<Terms />} />
