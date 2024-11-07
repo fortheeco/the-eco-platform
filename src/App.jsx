@@ -64,13 +64,17 @@ const App = () => {
 					<Route path="innovation">
 						<Route index element={<InnovationPage />} />
 						{/* individual innovation */}
-						<Route path=":id" element={<InnovationProfile />} />
-						{/* innovation settings */}
-						<Route path="profile" element={<InnovationSettings />}>
-							<Route path="information" element={<OrgInformation />} />
-							<Route path="details" element={<InnovationProfileDetails />} />
-							<Route path="impact-and-reach" element={<InnovationImpact />} />
-							<Route path="media" element={<Media />} />
+						<Route path=":id" element={<ProtectedRoute />}>
+							<Route index element={<InnovationProfile />} />
+							{/* <Route element={<ProtectedRoute />}> */}
+							{/* innovation settings */}
+							<Route path="profile" element={<InnovationSettings />}>
+								<Route path="information" element={<OrgInformation />} />
+								<Route path="details" element={<InnovationProfileDetails />} />
+								<Route path="impact-and-reach" element={<InnovationImpact />} />
+								<Route path="media" element={<Media />} />
+							</Route>
+							{/* </Route> */}
 						</Route>
 					</Route>
 

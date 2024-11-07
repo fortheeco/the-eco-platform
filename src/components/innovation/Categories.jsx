@@ -1,30 +1,52 @@
 import { SearchIcon } from 'lucide-react'
-import { useState } from 'react'
-import jacketImg from '../../assets/jackets.jpg'
-import menImg from '../../assets/shirtmen.jpg'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import api from '../../api/axios'
 import gridIcon from '../../assets/SVG/grid-icon.svg'
 import listIcon from '../../assets/SVG/list-icon.svg'
-import womenImg from '../../assets/women.jpg'
+import { getImgUrl } from '../../helpers/get-img-url'
 import { layout } from '../../style'
 
 export default function Categories() {
 	const [isGrid, toggleLayout] = useState(true)
 	const [showCat, setShowCat] = useState(true)
 	const [searchInput, setSearchInput] = useState('')
+	const [innovations, setInnovations] = useState([])
 	const [selectedCategory, setSelectedCategory] = useState('all')
 	const innovationData =
 		selectedCategory === 'all'
-			? CATEGORY_LIST
-			: CATEGORY_LIST.filter(
-					(card) => card.category === selectedCategory.toLocaleLowerCase()
+			? innovations
+			: innovations.filter(
+					(item) => item.category === selectedCategory.toLocaleLowerCase()
 			  )
 	const cardList = innovationData.filter((data) =>
-		data.title.toLocaleLowerCase().includes(searchInput.toLocaleLowerCase())
+		data.innovation_name
+			.toLocaleLowerCase()
+			.includes(searchInput.toLocaleLowerCase())
 	)
 
 	function toggleShowCat() {
 		setShowCat((prev) => !prev)
 	}
+
+	useEffect(() => {
+		const controller = new AbortController()
+
+		async function getInnovations() {
+			try {
+				const res = await api.get('organisation/all-innovations', {
+					signal: controller.signal,
+				})
+				setInnovations(res.data.data)
+				console.log(res.data)
+			} catch (err) {
+				console.error(err)
+			}
+		}
+		getInnovations()
+
+		return () => controller.abort('request ended abruptly')
+	}, [])
 
 	return (
 		<article
@@ -105,7 +127,7 @@ export default function Categories() {
 				<ul className="w-full flex justify-center sm:justify-start flex-wrap gap-x-20 gap-y-12 items-start">
 					{cardList.length !== 0 ? (
 						cardList.map((card) => (
-							<Card key={card.id} isGrid={isGrid} {...card} />
+							<Card key={card.id} isGrid={isGrid} innovation={card} />
 						))
 					) : (
 						<p className="w-full text-center font-semibold text-lg my-5">
@@ -118,59 +140,61 @@ export default function Categories() {
 	)
 }
 
-const Card = ({ img, title, text, tag, link, isGrid }) => {
+const Card = ({ innovation, isGrid }) => {
+	// console.log(getImgUrl(innovation?.profile_image))
 	return (
-		<article
-			className={`bg-white rounded-md shadow-md p-2 flex gap-2 ${
+		<Link
+			to={`${innovation.id}`}
+			state={innovation}
+			className={`bg-dimWhite rounded-md shadow-md p-2 flex gap-2 ${
 				isGrid
 					? 'w-full flex-col xs:w-60'
 					: 'flex-col sm:flex-row w-full gap-5 sm:pl-8'
 			}`}
 		>
-			<img
-				src={img}
-				alt={title}
-				className="w-full sm:max-w-xs object-fill h-60 rounded-md"
-			/>
+			{innovation?.innovation_attachements ? (
+				<img
+					src={getImgUrl(innovation?.innovation_attachements[0])}
+					alt={innovation?.innovation_name}
+					className="w-full sm:max-w-xs object-fill h-60 rounded-md bg-ecoLightGreen"
+				/>
+			) : (
+				<div
+					aria-hidden
+					className="w-full sm:max-w-xs object-fill h-60 rounded-md bg-ecoLightGreen"
+				></div>
+			)}
 			<div className="w-full flex flex-col justify-evenly gap-1">
-				<h5 className="font-semibold text-lg md:text-xl">{title}</h5>
+				<h5 className="font-semibold text-lg md:text-xl">
+					{innovation?.innovation_name}
+				</h5>
 				<div className="flex items-center gap-1">
 					<small aria-hidden className="w-2 h-2 rounded-full bg-black"></small>
-					<h6 className="text-xs capitalize text-nav/70">{tag}</h6>
+					<h6 className="text-xs capitalize text-nav/70">
+						{innovation?.type_of_innovation}
+					</h6>
 				</div>
 				<p
 					className={`text-nav/70 leading-relaxed ${
 						isGrid ? 'hidden' : 'block'
 					}`}
 				>
-					{text}
+					{innovation?.description}
 				</p>
-				<a
-					target="_blank"
-					href={`https://${link}`}
-					rel="noreferrer noopener"
+				<p
+					// target="_blank"
+					// href={`https://${innovation?.website_url}`}
+					// rel="noreferrer noopener"
 					className={`text-black underline font-bold text-xs ${
 						isGrid ? 'hidden' : 'inline-block'
 					}`}
 				>
-					{link}
-				</a>
+					{innovation?.website_url}
+				</p>
 			</div>
-		</article>
+		</Link>
 	)
 }
-
-const CATEGORY_LIST = [
-	{
-		img: menImg,
-		category: 'fintech',
-		id: 1,
-		title: 'Sendlify: Send and receive money like texts',
-		text: 'Introducing our cutting-edge fintech app, designed to revolutionize the way you manage your finances. Take control of your money like never before with powerful features and intuitive tools at your fingertips. Track your expenses in real-time, effortlessly categorize transactions, and gain valuable insights into your spending habits.',
-		link: 'www.sendlify.com ',
-		tag: 'finance',
-	},
-]
 
 const categories = [
 	'all',

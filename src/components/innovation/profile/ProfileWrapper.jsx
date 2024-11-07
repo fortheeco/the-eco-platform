@@ -1,21 +1,102 @@
+import { useEffect, useState } from 'react'
 import { FaStar } from 'react-icons/fa6'
-import { NavLink } from 'react-router-dom'
-import { UploadModal } from '../../utils/UploadModal'
-// import icon from '../../../assets/innovation/chowdeck_icon.png'
-// import heroImg from '../../../assets/innovation/innovation-header.png'
-import { useState } from 'react'
+import { NavLink, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import api from '../../../api/axios'
 import editIcon from '../../../assets/SVG/edit-2.svg'
+import { formatResError } from '../../../helpers/FormatErrorMessage'
+// import { useFetch } from '../../../hooks/useFetch'
+import { getImgUrl } from '../../../helpers/get-img-url'
 import { layout } from '../../../style'
-import { Dropzone } from '../../utils/Dropzone'
-import Overlay from '../../utils/Overlay'
+import { UploadModal } from '../../utils/UploadModal'
 
 export default function ProfileWrapper({ children }) {
 	const [showProfileModal, setShowProfileModal] = useState(false)
 	const [showLogoModal, setShowLogoModal] = useState(false)
+	// const {
+	// 	data,
+	// 	error: isError,
+	// 	isPending: fetching,
+	// } = useFetch('organisation/all-innovations')
+	const { id } = useParams()
+	// const innovation = data[id]
+	const [isPending, setIsPending] = useState(false)
+	const [error, setError] = useState(null)
+	const [innovation, setInnovation] = useState([])
 	const [images, setState] = useState({
 		profile: null,
 		logo: null,
 	})
+
+	useEffect(() => {
+		const controller = new AbortController()
+
+		async function getInnovations() {
+			try {
+				const res = await api.get('organisation/all-innovations', {
+					signal: controller.signal,
+				})
+				setInnovation(res.data.data[id])
+				setState((prev) => ({
+					...prev,
+					profile: getImgUrl(innovation.profile_image),
+					logo: getImgUrl(innovation.logo),
+				}))
+				console.log(res.data)
+			} catch (err) {
+				console.error(err)
+			}
+		}
+		getInnovations()
+
+		return () => controller.abort('request ended abruptly')
+	}, [])
+
+	async function uploadProfile() {
+		setError(null)
+		setIsPending(true)
+		try {
+			const res = await api.post(
+				'organisation/upload-innovation-profile',
+				{
+					'profile-image': images.profile,
+				},
+				{ headers: { 'Content-Type': 'multipart/form-data' } }
+			)
+			console.log(res)
+			toast.success(res.data.message)
+			setIsPending(false)
+			setShowProfileModal(false)
+			// setState(prev => ({...prev, profile}))
+		} catch (err) {
+			// console.error(err)
+			let logError = formatResError(err)
+			setError(logError)
+		}
+	}
+
+	async function uploadLogo() {
+		setError(null)
+		setIsPending(true)
+		try {
+			const res = await api.post(
+				'organisation/upload-innovation-logo',
+				{
+					logo: images.logo,
+				},
+				{ headers: { 'Content-Type': 'multipart/form-data' } }
+			)
+			// console.log(res)
+			toast.success(res.data.message)
+			setIsPending(false)
+			setShowLogoModal(false)
+			// setState(prev => ({...prev, profile}))
+		} catch (err) {
+			// console.error(err)
+			let logError = formatResError(err)
+			setError(logError)
+		}
+	}
 
 	return (
 		<section className={`w-full bg-white text-black ${layout.section}`}>
@@ -24,7 +105,7 @@ export default function ProfileWrapper({ children }) {
 					<div className="w-full relative h-[20rem] bg-inputBorder">
 						{images.profile && (
 							<img
-								src={URL.createObjectURL(images.profile)}
+								src={images.profile}
 								alt="innovation header image"
 								className="w-full h-full object-fill object-center"
 							/>
@@ -42,10 +123,10 @@ export default function ProfileWrapper({ children }) {
 						</button>
 					</div>
 					<div className="w-full flex items-center gap-4 my-4">
-						<div className="w-12 aspect-square rounded-full sm:w-20 md:w-32 inline-block relative bg-inputBorder border-1 border-ecoGreen shadow-sm">
+						<div className="w-16 aspect-square rounded-full sm:w-20 md:w-32 inline-block relative bg-inputBorder border-1 border-ecoGreen shadow-sm">
 							{images.logo && (
 								<img
-									src={URL.createObjectURL(images.logo)}
+									src={images.logo}
 									alt="innovation icon"
 									className="w-full aspect-square object-fill object-center rounded-full"
 								/>
@@ -65,21 +146,21 @@ export default function ProfileWrapper({ children }) {
 
 						<div className="inline-block">
 							<h4 className="text-2xl font-semibold md:text-3xl capitalize">
-								chowdeck
+								{innovation.innovation_name}
 							</h4>
-							<p className="flex">
+							<p className="flex items-center">
 								<FaStar role="button" className="text-2xl text-orange pr-1" />
-								{4.7}
+								{innovation.review_average}
 							</p>
 						</div>
-						<p className="text-base ml-20">{200} likes</p>
+						<p className="text-base ml-20">{innovation.liked_by} likes</p>
 					</div>
 				</div>
 				<nav className="w-full max-w-screen-md flex items-center justify-start mt-16 mb-8 gap-5 md:gap-12 border-b-2">
 					{navLinks.map((link) => (
 						<NavLink
 							key={link.url}
-							to={`/innovation/profile/${link.url}`}
+							to={`/innovation/${id}/profile/${link.url}`}
 							className={({ isActive }) =>
 								`${
 									isActive
@@ -99,6 +180,9 @@ export default function ProfileWrapper({ children }) {
 					setState={setState}
 					name={'profile'}
 					hideModal={() => setShowProfileModal(false)}
+					handleSubmit={uploadProfile}
+					isDisable={isPending}
+					error={error}
 				/>
 			)}
 			{showLogoModal && (
@@ -106,6 +190,9 @@ export default function ProfileWrapper({ children }) {
 					setState={setState}
 					name={'logo'}
 					hideModal={() => setShowLogoModal(false)}
+					handleSubmit={uploadLogo}
+					isDisable={isPending}
+					error={error}
 				/>
 			)}
 		</section>

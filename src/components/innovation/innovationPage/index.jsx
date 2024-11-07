@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import testImage from '../../../assets/jackets.jpg'
 import Nav from '../../Nav/Nav'
 import CTA from '../CTA'
@@ -10,18 +10,20 @@ import MediaResources from './MediaResources'
 import Reviews from './Review'
 
 export default function InnovationProfile() {
-	const { id } = useParams()
+	// const { id } = useParams()
+	const { state } = useLocation()
+	// TODO get innovation by id instead of passing through state
 
 	return (
 		<div className="w-full block relative">
 			<Nav />
 			<section className="w-full pt-20 bg-dimWhite font-nunito">
-				<Header />
+				<Header profileImg={state?.profile_image} />
 				<section className="w-full relative block md:max-w-[80%] mx-auto px-6">
-					<Intro />
-					<MediaResources />
-					<Info />
-					<Reviews reviews={reviews} id={id} />
+					<Intro innovation={state} />
+					<MediaResources media={state?.innovation_attachements} />
+					<Info innovation={state} />
+					<Reviews name={state?.innovation_name} id={state?.id} />
 				</section>
 				<CTA />
 				<Footer />
@@ -29,22 +31,3 @@ export default function InnovationProfile() {
 		</div>
 	)
 }
-
-const reviews = [
-	{
-		name: 'ahmed david',
-		count: 4,
-		id: 1,
-		avatar: null,
-		review:
-			'Sem lacus pharetra sit malesuada velit faucibus sed. Pellentesque semper adipiscing mattis accumsan egestas. Integer morbi ipsum ullamcorper dictum cras ultrices eu adipiscing mi. Velit et congue pulvinar id et augue facilisis',
-	},
-	{
-		name: 'john doe',
-		count: 4,
-		id: 2,
-		avatar: testImage,
-		review:
-			'Sem lacus pharetra sit malesuada velit faucibus sed. Pellentesque semper adipiscing mattis accumsan egestas. Integer morbi ipsum ullamcorper dictum cras ultrices eu adipiscing mi. Velit et congue pulvinar id et augue facilisis',
-	},
-]

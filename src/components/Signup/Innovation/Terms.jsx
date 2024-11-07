@@ -28,7 +28,7 @@ export default function Terms() {
 		setIsPending(true)
 		setError(null)
 		setTimeout(() => {
-			navigate('/signup/innovation/details')
+			navigate('/signup/innovation/payment')
 		}, 2000)
 	}
 

@@ -10,7 +10,11 @@ export default function ProtectedRoute() {
 		<Outlet />
 	) : (
 		<>
-			<Navigate to="/login" state={{ from: location }} replace={true} />
+			<Navigate
+				to={`/login?next=${location.pathname}`}
+				state={{ from: location }}
+				replace={true}
+			/>
 			{toast.error('please login first')}
 		</>
 	)

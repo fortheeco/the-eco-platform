@@ -1,14 +1,14 @@
 import Cookies from 'js-cookie'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import axios from '../api/axios'
 import { useAuthContext } from './useAuthContext'
 
 export default function useLogin() {
 	const { dispatch } = useAuthContext()
 	const navigate = useNavigate()
-	// const location = useLocation()
-	// const from = location.state?.from?.pathname || '/your-Eco'
+	const location = useLocation()
+	const from = location.state?.from?.pathname || '/your-Eco'
 	const [error, setError] = useState(null)
 	const [isPending, setIsPending] = useState(false)
 
@@ -35,7 +35,7 @@ export default function useLogin() {
 			// 	navigate('/signup/user/skillset', { replace: true })
 			// } else {
 			// }
-			navigate('/your-Eco', { replace: true })
+			navigate(from, { replace: true })
 		} catch (err) {
 			console.error(err)
 			// check if error is due to invalid credentials, else it's a network error

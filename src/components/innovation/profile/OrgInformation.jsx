@@ -1,7 +1,30 @@
+import { useEffect, useState } from 'react'
+import api from '../../../api/axios'
 import { FormInput } from '../../utils/FormInput'
 import ProfileWrapper from './ProfileWrapper'
 
 export default function OrgInformation() {
+	const [orgDetails, setOrgDetails] = useState(null)
+
+	useEffect(() => {
+		const controller = new AbortController()
+
+		async function getOrgDetails() {
+			try {
+				const res = await api.get('organisation/details', {
+					signal: controller.signal,
+				})
+				setOrgDetails(res.data.data)
+				console.log(res.data)
+			} catch (err) {
+				console.error(err)
+			}
+		}
+		getOrgDetails()
+
+		return () => controller.abort('request ended abruptly')
+	}, [])
+
 	async function handleSubmit(e) {
 		e.preventDefault()
 	}
@@ -16,6 +39,8 @@ export default function OrgInformation() {
 					minLength={6}
 					maxLength={50}
 					placeholder="Enter your organization name"
+					value={orgDetails?.organisation_name}
+					props={{ disabled: true }}
 				/>
 				<label className="block w-full">
 					<span className="text-lg capitalize">type of organization</span>
@@ -23,8 +48,11 @@ export default function OrgInformation() {
 						name="org-type"
 						className="flex mt-3 p-2 gap-3 bg-nav/5 rounded-md input-parent transition-all duration-200 outline-0 border-0 w-full pr-2"
 						required
+						disabled
 					>
-						<option value="">Select organization type</option>
+						<option value={orgDetails?.organisation_type}>
+							{orgDetails?.organisation_type}
+						</option>
 						{orgType.map((item) => (
 							<option
 								className="capitalize"
@@ -41,6 +69,8 @@ export default function OrgInformation() {
 					minLength={4}
 					maxLength={30}
 					placeholder="First Name & Last Name"
+					value={orgDetails?.first_contact_person}
+					props={{ disabled: true }}
 				/>
 				<FormInput
 					name="title"
@@ -48,50 +78,50 @@ export default function OrgInformation() {
 					minLength={4}
 					maxLength={30}
 					placeholder="Enter job title"
+					value={orgDetails?.job_title}
+					props={{ disabled: true }}
 				/>
 				<FormInput
 					name="email"
 					type="email"
 					label="email address"
-					minLength={6}
-					maxLength={40}
 					placeholder="example@email.com"
+					value={orgDetails?.first_person_email}
+					props={{ disabled: true }}
 				/>
 				<label htmlFor="phone" className="inline-block mt-4 -mb-4 capitalize">
 					phone number
 				</label>
 				<div className="w-full flex h-12 bg-nav/5 rounded-md">
-					<select
+					{/* <select
 						name="country-code"
 						id="country-code"
 						className="h-full w-20 p-2 inline-block mr-2 bg-transparent outline-0"
 					>
 						<option value="+234">+234</option>
-					</select>
+					</select> */}
 					<input
 						type="tel"
 						name="phone"
 						id="phone"
-						required
-						minLength={10}
-						maxLength={11}
-						className="w-full h-full border-l-2 p-4 bg-transparent outline-0"
+						disabled
+						value={orgDetails?.recovery_phone_number}
+						className="w-full h-full border-l-2 p-4 bg-transparent outline-0 disabled:text-slate-500"
 					/>
 				</div>
 				<FormInput
 					name="address"
 					label="organization address"
-					minLength={5}
-					maxLength={50}
 					placeholder="Where is your organization located"
+					value={orgDetails?.organisation_address}
+					props={{ disabled: true }}
 				/>
 				<FormInput
-					name="org-url"
+					name="website url"
 					label="organization URL"
-					minLength={5}
-					maxLength={100}
 					placeholder="www.example.com"
-					required={false}
+					value={orgDetails?.organisation_url}
+					props={{ disabled: true }}
 				/>
 			</form>
 		</ProfileWrapper>

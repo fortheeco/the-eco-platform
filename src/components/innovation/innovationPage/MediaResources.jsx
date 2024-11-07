@@ -1,34 +1,32 @@
 import { useState } from 'react'
-import { createPortal } from 'react-dom'
-import testImage from '../../../assets/jackets.jpg'
+// import api from '../../../api/axios'
+import { getImgUrl } from '../../../helpers/get-img-url'
 import Overlay from '../../utils/Overlay'
 
-const mediaImages = [testImage]
-
-export default function MediaResources() {
+export default function MediaResources({ media }) {
 	return (
 		<section className="w-full bg-[#FBFBFB] border-4 border-nav/5 p-6 md:p-8 rounded-md my-10">
 			<h4 className="text-2xl font-bold capitalize">
 				Media & Promotional Resources
 			</h4>
 			<div className="w-full min-h-[5rem] my-6">
-				{mediaImages.length == 0 ? (
+				{media.length == 0 ? (
 					<small>no images added...</small>
 				) : (
-					<DisplayImages />
+					<DisplayImages media={media} />
 				)}
 			</div>
 		</section>
 	)
 }
 
-function DisplayImages() {
+function DisplayImages({ media = [] }) {
 	const [showOverlay, setOverlay] = useState(false)
 
 	function toggleOverlay() {
 		setOverlay(true)
-		console.log('showing overlay')
 	}
+
 	function hideOverlay(e) {
 		// e.stopImmediatePropagation()
 		setOverlay(false)
@@ -36,23 +34,19 @@ function DisplayImages() {
 
 	return (
 		<div className="w-full flex justify-start gap-4 relative">
-			<img
-				src={mediaImages[0]}
-				onClick={toggleOverlay}
-				alt=""
-				className="w-1/4 aspect-square object-fill object-center cursor-pointer"
-			/>
-			{mediaImages[1] && (
+			{media.map((img) => (
 				<img
-					src={mediaImages[1]}
+					key={img.file}
+					src={getImgUrl(img.file)}
 					onClick={toggleOverlay}
 					alt=""
-					className="w-1/4 aspect-square object-fill object-center cursor-pointer"
+					className="w-1/4 aspect-square object-fill object-center cursor-pointer bg-ecoLightGreen"
 				/>
-			)}
+			))}
+
 			{showOverlay && (
 				<Overlay hideOverlay={hideOverlay}>
-					{mediaImages.map((img) => (
+					{media.map((img) => (
 						<img
 							src={img}
 							key={img}
