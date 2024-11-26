@@ -25,7 +25,7 @@ export const ProjectHome = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [viewProjectDetails, setViewProjectDetails] = useState(false);
 
-  const [viewaddProject, setViewAddProject] = useState(true);
+  const [viewaddProject, setViewAddProject] = useState(false);
 
   const [loadingFetch, setLoadingFetch] = useState(false);
 
@@ -42,7 +42,7 @@ export const ProjectHome = () => {
     <div className="h-full w-full ">
       {viewaddProject ? (
         <>
-          <AddProject />
+          <AddProject setViewAddProject={setViewAddProject} />
         </>
       ) : (
         <>
@@ -60,7 +60,12 @@ export const ProjectHome = () => {
             )}
             <div className=" w-full flex justify-end  items-center gap-6">
               <IoSearch className="font-bold text-[18px]" />
-              <p className="bg-ecoGreen text-sm text-white px-6 py-2 rounded-lg cursor-pointer w-fit">
+              <p
+                className="bg-ecoGreen text-sm text-white px-6 py-2 rounded-lg cursor-pointer w-fit"
+                onClick={() => {
+                  setViewAddProject(true);
+                }}
+              >
                 Echo project
               </p>
             </div>

@@ -15,8 +15,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaRegCalendarDays } from "react-icons/fa6";
 import api from "../../../../api/axios";
+import ProjectSkills from "../../../Routes/projectSkills";
 
-export const AddProject = () => {
+export const AddProject = (props) => {
   const [category, setCategory] = useState("Environment");
   const [sdggoals, setSdgGoals] = useState(SdgGoals);
   const [opengoal, setOpenGoal] = useState(false);
@@ -24,6 +25,7 @@ export const AddProject = () => {
   const [goal, setGoal] = useState({});
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [skills, setSkills] = useState([]);
 
   const [data, setData] = useState({
     projectTitle: "",
@@ -35,12 +37,21 @@ export const AddProject = () => {
     startDate: "",
     duration: "",
     payment_type: "",
+    amountPerPerson: 200,
   });
 
   const datePickerRef = useRef(null);
 
   const handleOpenGoals = () => {
     setOpenGoal(!opengoal);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   useEffect(() => {
@@ -65,13 +76,13 @@ export const AddProject = () => {
       location: data.location,
       eco_category: category,
       unsd_goals: [goal?.name],
-      // number_of_people_required: data.number_of_people_required,
-      // required_skills: [{}],
-      // task_start_date: data.startDate,
-      // duration_in_weeks: -9223372036854776000,
-      // payment_type: "fixed",
-      // amount_per_person: "^-?\\(?:\\.\\)?$",
-      // status: "currently_on",
+      number_of_people_required: data.number_of_people_required,
+      required_skills: skills,
+      task_start_date: selectedDate,
+      duration_in_weeks: data.duration,
+      payment_type: data.payment_type,
+      amount_per_person: data.amountPerPerson,
+      status: "currently_on",
     };
 
     try {
@@ -85,14 +96,26 @@ export const AddProject = () => {
       setLoading(false);
     }
   };
-
+  console.log(data);
+  console.log(skills);
   switch (step) {
     case 1:
       return (
         <div>
           <div className=" mx-auto p-8  md:w-[50%] xlg:w-[50%] rounded-[18px] z-10">
+            <p className="text-[#041E0E] font-[500] mb-4 text-center">
+              Add Project
+            </p>
             <div className="w-full mb-6 flex justify-between items-center">
-              <p className="text-[#041E0E] font-[500]">Add Project</p>
+              <p
+                className="text-ecoGreen font-[500] text-[13px] flex items-center gap-2  cursor-pointer"
+                onClick={() => {
+                  props.setViewAddProject(false);
+                }}
+              >
+                <FaArrowLeftLong />
+                Go Back
+              </p>
               <p className="text-[#606060] text-[12px]">Step 1/2</p>
             </div>{" "}
             <div>
@@ -100,8 +123,11 @@ export const AddProject = () => {
                 Project Title
               </p>
               <input
+                name="projectTitle"
                 placeholder="Type your project title"
                 className="w-full  outline-none text-sm border-[0.5px] border-black px-2 py-4 rounded-md mt-2 "
+                value={data.projectTitle}
+                onChange={handleChange}
               />
             </div>
             <div>
@@ -109,8 +135,11 @@ export const AddProject = () => {
                 Project Sponsor
               </p>
               <input
-                placeholder="Type your project title"
-                className="w-full  outline-none text-sm border-[0.5px] border-black px-2 py-4 rounded-md mt-2 "
+                name="projectSponsor"
+                placeholder="Type your project sponsor"
+                className="w-full outline-none text-sm border-[0.5px] border-black px-2 py-4 rounded-md mt-2"
+                value={data.projectSponsor}
+                onChange={handleChange}
               />
             </div>
             {/*  */}
@@ -230,12 +259,14 @@ export const AddProject = () => {
                 Project Description
               </p>
               <textarea
-                name="text"
                 id=""
                 cols="10"
                 rows="6"
+                name="projectDesc"
                 placeholder="Tell us about your project"
-                className="w-full p-4 mt-2 bg-inputBg border border-[#263238] rounded-[12px] outline-none text-sm"
+                className="w-full outline-none text-sm border-[0.5px] border-black px-2 py-4 rounded-md mt-2"
+                value={data.projectDesc}
+                onChange={handleChange}
               ></textarea>
 
               <p className="mb-2 mt-4 text-[#505050] text-[14px] font-[500]">
@@ -245,6 +276,9 @@ export const AddProject = () => {
                 <input
                   placeholder="Location (City, State)"
                   className="w-full h-10 outline-none text-sm bg-inputBg"
+                  name="location"
+                  value={data.location}
+                  onChange={handleChange}
                 />
                 {/* <div className="bg-ecoGreen p-2 rounded-full">
               <MdLocationOn className="text-white" />
@@ -252,13 +286,33 @@ export const AddProject = () => {
               </div>
 
               {/* <Link to={"/signup"}> */}
-              <div
-                onClick={() => {
-                  setStep(2);
-                }}
-                className="bg-ecoGreen w-[40%] mx-auto text-white text-sm  p-4 text-center rounded-[12px] mt-4"
-              >
-                Proceed
+              <div className="mx-auto w-full flex justify-center">
+                <button
+                  type="button"
+                  disabled={
+                    !data.location ||
+                    !data.projectDesc ||
+                    !goal ||
+                    !data.projectSponsor ||
+                    !data.projectTitle
+                      ? true
+                      : false
+                  }
+                  onClick={() => {
+                    setStep(2);
+                  }}
+                  className={`${
+                    !data.location ||
+                    !data.projectDesc ||
+                    !goal ||
+                    !data.projectSponsor ||
+                    !data.projectTitle
+                      ? "bg-gray-500 w-[40%]  text-white text-sm cursor-not-allowed  p-4 text-center rounded-[12px] mt-4"
+                      : "bg-ecoGreen w-[40%]  text-white text-sm cursor-pointer  p-4 text-center rounded-[12px] mt-4"
+                  }`}
+                >
+                  Proceed
+                </button>
               </div>
 
               <p className="text-[#474747] text-[10px] mt-6 text-center">
@@ -293,6 +347,9 @@ export const AddProject = () => {
               <input
                 placeholder="2"
                 className="w-full  outline-none text-sm border-[0.5px] border-black px-2 py-4 rounded-md mt-2 "
+                name="number_of_people_required"
+                value={data.number_of_people_required || ""}
+                onChange={handleChange}
               />
             </div>
             {/*  */}
@@ -300,10 +357,8 @@ export const AddProject = () => {
               <p className="text-[#505050] text-[14px] font-[500] mt-4">
                 Project Skills
               </p>
-              <input
-                placeholder="Project Skills"
-                className="w-full  outline-none text-sm border-[0.5px] border-black px-2 py-4 rounded-md mt-2 "
-              />
+
+              <ProjectSkills skills={skills} setSkills={setSkills} />
             </div>
             {/*  */}
             <div className="w-full flex items-center gap-4 mt-5">
@@ -330,6 +385,9 @@ export const AddProject = () => {
                 <input
                   placeholder="12 weeks"
                   className="w-full  outline-none text-sm border-[0.5px] border-black px-2 py-4 rounded-md mt-1 "
+                  name="duration"
+                  value={data.duration}
+                  onChange={handleChange}
                 />
               </div>
 
@@ -338,26 +396,29 @@ export const AddProject = () => {
               )} */}
             </div>
             <div>
-              <div className="w-full text-[#505050] text-[14px] mt-4 font-[500]">
+              {/* <div className="w-full text-[#505050] text-[14px] mt-4 font-[500]">
                 Specific requirements
                 <input
                   placeholder="e.g Participants must have a mobile phone"
                   className="w-full  outline-none text-sm border-[0.5px] border-black px-2 py-4 rounded-md mt-1 "
                 />
-              </div>
+              </div> */}
 
               <div className="w-full text-[#505050] text-[14px] mt-4 font-[500]">
                 Amount Per person
                 <input
                   placeholder="N 12,000"
                   className="w-full  outline-none text-sm border-[0.5px] border-black px-2 py-4 rounded-md mt-1 "
+                  name="amountPerPerson"
+                  value={data.amountPerPerson}
+                  onChange={handleChange}
                 />
               </div>
 
               {/* <Link to={"/signup"}> */}
               <div
                 onClick={() => {
-                  setStep(2);
+                  handlePostProject();
                 }}
                 className="text-ecoGreen w-[40%] mx-auto bg-white border border-ecoGreen text-sm  p-4 text-center rounded-[12px] mt-4"
               >

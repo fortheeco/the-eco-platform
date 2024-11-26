@@ -8,7 +8,6 @@ export const ProjectDetail = (props) => {
     (state) => state.projects.projectDetails
   );
 
-  console.log(myprojectsdetails);
   return (
     <div className="w-full px-2 pt-4">
       <div className="border border-[#979797] p-4 rounded-[12px] ">
@@ -52,12 +51,14 @@ export const ProjectDetail = (props) => {
         </div>
 
         <p className="text-sm font-[500] mt-6 md:hidden">
-          {myprojectsdetails?.unsd_goals[0]}
+          {myprojectsdetails.unsd_goals ? myprojectsdetails.unsd_goals[0] : ""}
         </p>
         <div className="border-b-2 border-inputBorder pb-4">
           <div className="mt-6 flex  justify-between w-full ">
             <p className="text-sm font-[500] hidden md:block">
-              {myprojectsdetails?.unsd_goals[0]}
+              {myprojectsdetails.unsd_goals
+                ? myprojectsdetails.unsd_goals[0]
+                : ""}
             </p>
 
             <div className="flex gap-4">
@@ -129,11 +130,11 @@ export const ProjectDetail = (props) => {
 
         <div className="mt-6 flex gap-2 justify-center">
           <p className="bg-ecoGreen text-sm text-white px-6 py-2 rounded-lg cursor-pointer">
-            Apply to project
+            View Project Board
           </p>
-          <p className="text-ecoGreen text-sm bg-white border border-ecoGreen px-6 py-2 rounded-lg cursor-pointer">
+          {/* <p className="text-ecoGreen text-sm bg-white border border-ecoGreen px-6 py-2 rounded-lg cursor-pointer">
             Connect with sponsor
-          </p>
+          </p> */}
         </div>
       </div>
     </div>
