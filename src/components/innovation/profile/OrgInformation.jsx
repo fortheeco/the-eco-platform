@@ -22,7 +22,9 @@ export default function OrgInformation() {
 		}
 		getOrgDetails()
 
-		return () => controller.abort('request ended abruptly')
+		return () => {
+			controller.abort('request ended abruptly')
+		}
 	}, [])
 
 	async function handleSubmit(e) {

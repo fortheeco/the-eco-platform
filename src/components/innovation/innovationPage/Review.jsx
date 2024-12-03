@@ -47,19 +47,21 @@ export default function Reviews({ id, name }) {
 					signal: controller.signal,
 				})
 				setReviews(res.data.data)
-				// console.log(res.data)
+				console.log('reviews: ', res.data)
 			} catch (err) {
 				console.error(err)
 			}
 		}
 		getReviews()
 
-		return () => controller.abort('request ended abruptly')
+		return () => {
+			controller.abort('request ended abruptly')
+		}
 		// rerender whenever the user interacts with the add-review modal
 	}, [showModal])
 
 	return (
-		<section className="w-full flex flex-col min-h-[10rem] my-8">
+		<section className="w-full flex flex-col min-h-[10rem] my-8 overflow-x-hidden">
 			<h5 className="text-xl font-semibold capitalize md:text-2xl">
 				innovation review
 			</h5>
@@ -99,13 +101,13 @@ function ReviewCard({ review }) {
 		<div className="w-full bg-[#FBFBFB] border-4 border-nav/5 p-6 md:p-8 rounded-md">
 			<div className="w-full flex gap-4 items-center justify-start mb-4">
 				<img
-					src={review?.avatar || imageFromWord(review.name)}
+					src={review?.sender.image || imageFromWord(review.sender.full_name)}
 					alt=""
 					className="w-10 aspect-square object-fill object-center bg-ecoBlue text-white font-bold text-2xl rounded-full sm:w-12 md:w-16 md:text-4xl inline-block"
 				/>
 				<div className="inline-block mr-auto">
 					<h4 className="text-xl font-semibold md:text-2xl capitalize">
-						{review.name}
+						{review.sender.full_name}
 					</h4>
 					<div className="flex">
 						{[...Array(review.score)].map((_, index) => (

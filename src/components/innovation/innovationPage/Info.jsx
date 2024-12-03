@@ -1,30 +1,35 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { PiMapPinArea } from 'react-icons/pi'
 import api from '../../../api/axios'
 import webIcon from '../../../assets/innovation/web-icon-black.svg'
 // import { useFetch } from '../../../hooks/useFetch'
 
 export default function Info({ innovation }) {
-	const [orgDetails, setOrgDetails] = useState(null)
+	const cachedInnovation = useMemo(() => innovation)
+	const [orgDetails, setOrgDetails] = useState([])
 
 	useEffect(() => {
 		const controller = new AbortController()
 
 		async function getOrgDetails() {
+			const id = innovation?.organisation
 			try {
-				const res = await api.get('organisation/details', {
+				// https://theeco.pythonanywhere.com/api/organisation/get-organisation/{id}
+				const res = await api.get(`organisation/get-organisation/${id}`, {
 					signal: controller.signal,
 				})
-				setOrgDetails(res.data.data)
-				// console.log(res.data)
+				setOrgDetails(res.data)
+				// console.log('org details: ', res.data)
 			} catch (err) {
 				console.error(err)
 			}
 		}
 		getOrgDetails()
 
-		return () => controller.abort('request ended abruptly')
-	}, [])
+		return () => {
+			controller.abort('request ended abruptly')
+		}
+	}, [cachedInnovation])
 
 	return (
 		<>
@@ -82,7 +87,7 @@ export default function Info({ innovation }) {
 					</h5>
 					<div className="flex w-full gap-10">
 						<div className="w-fit flex flex-col gap-4 mr-8 capitalize">
-							<h6 className="text-xl font-semibold">
+							<h6 className="text-xl font-semibold whitespace-nowrap">
 								{orgDetails?.first_contact_person}
 							</h6>
 							<p>{orgDetails?.job_title}</p>

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { getImgUrl } from '../../../helpers/get-img-url'
 import Overlay from '../../utils/Overlay'
 
-export default function MediaResources({ media }) {
+export default function MediaResources({ media = [] }) {
 	return (
 		<section className="w-full bg-[#FBFBFB] border-4 border-nav/5 p-6 md:p-8 rounded-md my-10">
 			<h4 className="text-2xl font-bold capitalize">
@@ -20,7 +20,7 @@ export default function MediaResources({ media }) {
 	)
 }
 
-function DisplayImages({ media = [] }) {
+function DisplayImages({ media }) {
 	const [showOverlay, setOverlay] = useState(false)
 
 	function toggleOverlay() {

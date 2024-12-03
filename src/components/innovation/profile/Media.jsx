@@ -26,7 +26,9 @@ export default function Media() {
 		}
 		getInnovations()
 
-		return () => controller.abort('request ended abruptly')
+		return () => {
+			controller.abort('request ended abruptly')
+		}
 	}, [])
 
 	return (

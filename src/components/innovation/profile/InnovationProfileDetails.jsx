@@ -66,7 +66,9 @@ export default function InnovationProfileDetails() {
 		}
 		getInnovations()
 
-		return () => controller.abort('request ended abruptly')
+		return () => {
+			controller.abort('request ended abruptly')
+		}
 	}, [])
 
 	async function handleSubmit(e) {

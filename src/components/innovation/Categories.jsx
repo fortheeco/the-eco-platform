@@ -45,7 +45,9 @@ export default function Categories() {
 		}
 		getInnovations()
 
-		return () => controller.abort('request ended abruptly')
+		return () => {
+			controller.abort('request ended abruptly')
+		}
 	}, [])
 
 	return (
@@ -145,7 +147,7 @@ const Card = ({ innovation, isGrid }) => {
 	return (
 		<Link
 			to={`${innovation.id}`}
-			state={innovation}
+			// state={innovation}
 			className={`bg-dimWhite rounded-md shadow-md p-2 flex gap-2 ${
 				isGrid
 					? 'w-full flex-col xs:w-60'

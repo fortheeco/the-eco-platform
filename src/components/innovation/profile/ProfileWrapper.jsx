@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { FaStar } from 'react-icons/fa6'
-import { NavLink, useParams } from 'react-router-dom'
+import { IoIosArrowDown } from 'react-icons/io'
+import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import api from '../../../api/axios'
 import editIcon from '../../../assets/SVG/edit-2.svg'
@@ -13,13 +14,7 @@ import { UploadModal } from '../../utils/UploadModal'
 export default function ProfileWrapper({ children }) {
 	const [showProfileModal, setShowProfileModal] = useState(false)
 	const [showLogoModal, setShowLogoModal] = useState(false)
-	// const {
-	// 	data,
-	// 	error: isError,
-	// 	isPending: fetching,
-	// } = useFetch('organisation/all-innovations')
 	const { id } = useParams()
-	// const innovation = data[id]
 	const [isPending, setIsPending] = useState(false)
 	const [error, setError] = useState(null)
 	const [innovation, setInnovation] = useState([])
@@ -31,12 +26,12 @@ export default function ProfileWrapper({ children }) {
 	useEffect(() => {
 		const controller = new AbortController()
 
-		async function getInnovations() {
+		async function getInnovation() {
 			try {
-				const res = await api.get('organisation/all-innovations', {
+				const res = await api.get(`organisation/get-innovation/${id}`, {
 					signal: controller.signal,
 				})
-				setInnovation(res.data.data[id])
+				setInnovation(res.data.data)
 				setState((prev) => ({
 					...prev,
 					profile: getImgUrl(innovation.profile_image),
@@ -47,9 +42,11 @@ export default function ProfileWrapper({ children }) {
 				console.error(err)
 			}
 		}
-		getInnovations()
+		getInnovation()
 
-		return () => controller.abort('request ended abruptly')
+		return () => {
+			controller.abort('request ended abruptly')
+		}
 	}, [])
 
 	async function uploadProfile() {
@@ -106,7 +103,7 @@ export default function ProfileWrapper({ children }) {
 						{images.profile && (
 							<img
 								src={images.profile}
-								alt="innovation header image"
+								alt=""
 								className="w-full h-full object-fill object-center"
 							/>
 						)}
@@ -127,7 +124,8 @@ export default function ProfileWrapper({ children }) {
 							{images.logo && (
 								<img
 									src={images.logo}
-									alt="innovation icon"
+									alt=""
+									title={`${innovation?.innovation_name}'s logo`}
 									className="w-full aspect-square object-fill object-center rounded-full"
 								/>
 							)}
@@ -156,23 +154,11 @@ export default function ProfileWrapper({ children }) {
 						<p className="text-base ml-20">{innovation.liked_by} likes</p>
 					</div>
 				</div>
-				<nav className="w-full max-w-screen-md flex items-center justify-start mt-16 mb-8 gap-5 md:gap-12 border-b-2">
-					{navLinks.map((link) => (
-						<NavLink
-							key={link.url}
-							to={`/innovation/${id}/profile/${link.url}`}
-							className={({ isActive }) =>
-								`${
-									isActive
-										? 'border-black text-black font-normal border-b-2'
-										: 'border-0 text-[#606060] font-light'
-								} capitalize text-lg w-fit inline-block`
-							}
-						>
-							{link.text}
-						</NavLink>
-					))}
-				</nav>
+				<>
+					<MobileMenu links={navLinks} id={id} />
+					<DesktopNav links={navLinks} id={id} />
+				</>
+
 				<section className="w-full block max-w-screen-sm">{children}</section>
 			</article>
 			{showProfileModal && (
@@ -199,31 +185,68 @@ export default function ProfileWrapper({ children }) {
 	)
 }
 
-// function UploadModal({ setState, setShowModal, name, submit }) {
-// 	return (
-// 		<Overlay>
-// 			<section className="w-full max-w-screen-ss flex flex-col gap-6 p-8 sm:p-20 bg-white text-black rounded-md shadow-md">
-// 				<Dropzone name={name} setState={setState} maxFiles={1} />
-// 				<div className="w-full flex gap-10 items-center justify-center">
-// 					<button
-// 						type="button"
-// 						className="bg-slate-300 inline-block px-10 py-4 capitalize rounded-md hover:bg-slate-400 transition-colors"
-// 						onClick={() => setShowModal(false)}
-// 					>
-// 						cancel
-// 					</button>
-// 					<button
-// 						type="button"
-// 						className="bg-ecoGreen inline-block px-10 py-4 capitalize rounded-md text-white hover:bg-ecoBlue transition-colors"
-// 						onClick={submit}
-// 					>
-// 						save
-// 					</button>
-// 				</div>
-// 			</section>
-// 		</Overlay>
-// 	)
-// }
+function MobileMenu({ links = [], id }) {
+	const [active, setActive] = useState(links[0])
+	const [showNav, setShowNav] = useState(false)
+	const navigate = useNavigate()
+
+	// to={`/innovation/${id}/profile/${link.url}`}
+
+	function toggleNav() {
+		setShowNav((prev) => !prev)
+	}
+	// IoIosArrowDown
+
+	return (
+		<div
+			onClick={toggleNav}
+			className="w-full max-w-screen-md border-2 p-2 rounded-sm flex justify-between items-center mt-16 mb-8 gap-2 sm:hidden"
+		>
+			<nav className="w-full flex flex-col gap-2 bg-white">
+				{links.map((link) => (
+					<NavLink
+						key={link.url}
+						to={`/innovation/${id}/profile/${link.url}`}
+						className={({ isActive }) =>
+							`${
+								isActive
+									? 'inline-block text-black font-normal'
+									: showNav
+									? 'border-0 text-[#606060] font-light inline-block bg-white'
+									: 'hidden'
+							} capitalize text-lg w-fit inline-block`
+						}
+					>
+						{link.text}
+					</NavLink>
+				))}
+			</nav>
+			<IoIosArrowDown className={showNav ? 'hidden' : 'inline-block'} />
+		</div>
+	)
+}
+
+function DesktopNav({ links, id }) {
+	return (
+		<nav className="hidden w-full max-w-screen-md sm:flex items-center justify-start mt-16 mb-8 gap-5 md:gap-12 border-b-2">
+			{links.map((link) => (
+				<NavLink
+					key={link.url}
+					to={`/innovation/${id}/profile/${link.url}`}
+					className={({ isActive }) =>
+						`${
+							isActive
+								? 'border-black text-black font-normal border-b-2'
+								: 'border-0 text-[#606060] font-light'
+						} capitalize text-lg w-fit inline-block`
+					}
+				>
+					{link.text}
+				</NavLink>
+			))}
+		</nav>
+	)
+}
 
 const navLinks = [
 	{ text: 'organization information', url: 'information' },

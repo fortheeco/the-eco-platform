@@ -23,6 +23,7 @@ const initialState = {
 	website_url: '',
 	attachments: [],
 	innovation_location: '',
+	launch_date: new Date(),
 }
 
 export default function InnovationDetails() {
@@ -64,6 +65,9 @@ export default function InnovationDetails() {
 	// TODO test/complete this
 	async function handleSubmit(e) {
 		e.preventDefault()
+		let year = new Date(date).toDateString()
+		setFormData((prev) => ({ ...prev, launch_date: year }))
+
 		if (documents.length === 0) {
 			toast.error('Supporting document(s) are required!')
 			return
@@ -78,6 +82,8 @@ export default function InnovationDetails() {
 		Array.from(documents).map((file, index) => {
 			formToSubmit.append(`attachments[${index}]`, file)
 		})
+
+		console.log('form: ', formData)
 
 		setIsPending(true)
 		setError(null)
@@ -295,7 +301,7 @@ export default function InnovationDetails() {
 				/>
 				<label className="w-full block">
 					<span className="text-lg capitalize my-4 inline-block">
-						supporting documents
+						Upload Screenshots or Promotional Material
 					</span>
 
 					<Dropzone setState={setDocuments} maxFiles={5} />
