@@ -25,9 +25,9 @@ export default function UploadData() {
           tincidunt. Eget phasellus tempor proin mi.
         </p>
 
-        <div className="flex items-center justify-center gap-6 mt-[2rem]">
-          <div className="border border-[#979797] w-full ss:w-[70%] sm:w-[50%] rounded-md py-2 px-4 flex items-center gap-2 justify-between">
-            <p className="font-light w-80 md:text-[14px] text-[11px]">
+        <div className="sm:flex flex-row items-center justify-center gap-6 mt-[2rem]">
+          <div className="border border-[#979797] w-full ss:w-[70%]  sm:w-[50%] rounded-md py-2 px-4 flex items-center gap-2 justify-between">
+            <p className="font-light w-80 md:text-[14px]  text-[11px]">
               Upload data set for analysis
             </p>
             <input
@@ -38,8 +38,8 @@ export default function UploadData() {
             />
             <IoSearch />
           </div>
-          <div className="text-white w-36 h-10 text-center bg-ecoGreen p-2 rounded-md font-light text-[14px] cursor-pointer hidden sm:block">
-            Upload Data
+          <div className="text-white mt-4 w-36 h-10 text-center bg-ecoGreen p-2 rounded-md font-light text-[12px] cursor-pointer justify-self-center sm:text-[14px]">
+            <button>Upload Data</button>
           </div>
         </div>
 

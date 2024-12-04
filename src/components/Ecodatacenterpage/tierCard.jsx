@@ -1,18 +1,14 @@
 import React from "react";
-import { TierMemeberships } from "../data";
 
 export const TierCard = ({
   title,
-  title_bg,
   Price,
   Access,
-  iconUrl,
   UploadCapability,
   Bgcolor,
   head2,
   text_color,
   head2_bg,
-  price_text,
 }) => {
   return (
     <div

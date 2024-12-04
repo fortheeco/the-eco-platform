@@ -23,14 +23,14 @@ export default function TieredMembership({}) {
         </div>
       </div>
 
-      <div className="w-full justify-center flex  mt-8">
-        <div className=" mt-4 ">
+      <div className="w-full justify-center sm:flex flex-row mt-8">
+        <div className=" mt-4 justify-self-center ">
           <h1 className="border rounded-lg bg-[#D8F6E4] w-32  text-center">
             Account <p>Tiers</p>
           </h1>
 
-          <ul className="mt-4">
-            <li className="pt-14">Price</li>
+          <ul className="mt-4 text-center">
+            <li className="pt-14 ">Price</li>
             <li className="py-12">Access</li>
             <li className="py-8">Upload Capability</li>
           </ul>
