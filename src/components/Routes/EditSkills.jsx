@@ -15,7 +15,7 @@ export default function EditSkills() {
 	const [newSkill, setNewSkill] = useState('')
 	const navigate = useNavigate()
 
-	function handleAddSkill() {
+	async function handleAddSkill() {
 		if (newSkill.trim() === '') {
 			toast.info('Skill cannot be empty.')
 			return
@@ -32,10 +32,21 @@ export default function EditSkills() {
 
 		const newSkillObject = {
 			name: newSkill,
+			action: 'add',
 		}
 
-		setSkills([...skills, newSkillObject])
-		setNewSkill('')
+		try {
+			setIsPending(true)
+			await api.patch('update_skills/', [newSkillObject])
+
+			setSkills([...skills, newSkillObject])
+			setNewSkill('')
+		} catch (err) {
+			console.error(err)
+			toast.error(err?.message || 'something went wrong!')
+		} finally {
+			setIsPending(false)
+		}
 	}
 
 	function handleKeyDown(e) {
@@ -44,33 +55,28 @@ export default function EditSkills() {
 		}
 	}
 
-	function handleRemoveSkill(name) {
-		const updatedSkills = skills.filter((skill) => skill.name !== name)
-		setSkills(updatedSkills)
-	}
-
-	async function handleSubmit(e) {
-		e.preventDefault()
-		setError(null)
-		setIsPending(true)
+	async function handleRemoveSkill(name) {
+		const data = [{ name: name, action: 'remove' }]
 		try {
-			await api.patch('update_skills/', skills)
+			setIsPending(true)
+			await api.patch('update_skills/', data)
 
-			toast.success('Skills added successfully!')
-
-			setTimeout(() => {
-				navigate('/')
-			}, 2000)
-			setError(null)
+			const updatedSkills = skills.filter((skill) => skill.name !== name)
+			setSkills(updatedSkills)
 		} catch (err) {
-			let logErr =
-				err?.response?.data?.detail ||
-				'Something went wrong... please refresh and try again'
-			setError(logErr)
 			console.error(err)
+			toast.error(err?.message || 'something went wrong!')
 		} finally {
 			setIsPending(false)
 		}
+	}
+
+	function handleSubmit(e) {
+		e.preventDefault()
+
+		setTimeout(() => {
+			navigate('/')
+		}, 2000)
 	}
 
 	useEffect(() => {
@@ -103,7 +109,7 @@ export default function EditSkills() {
 							autoFocus
 							aria-description="add a new skillset"
 							placeholder="Add skillset"
-							className="bg-[#DADADA] rounded-md h-10 p-4 outline-0 w-full border-0"
+							className="bg-[#DADADA] rounded-md h-10 p-4 outline-0 w-full border-0 autofill:bg-dimWhite"
 						/>
 					</label>
 					<ul className="w-full flex flex-wrap gap-4">
@@ -116,6 +122,7 @@ export default function EditSkills() {
 								<img
 									src={removeIcon}
 									title={`Remove ${skill.name}`}
+									disabled={isPending}
 									onClick={() => handleRemoveSkill(skill.name)}
 									className="cursor-pointer h-full w-auto object-contain"
 								/>

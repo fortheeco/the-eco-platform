@@ -1,11 +1,35 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import sideImg from '../../../assets/signup/innovation-bulb.svg'
 import { PrimaryBtn } from '../../utils/Button'
+import SignupSteps from '../SignupSteps'
 import SplitLayout from '../SplitLayout'
 
 export default function Terms() {
+	const checkboxInitialState = new Array(terms.length).fill(false)
+	const [checkboxState, setCheckboxState] = useState(checkboxInitialState)
+	const [isPending, setIsPending] = useState(false)
+	const [error, setError] = useState(null)
+	const navigate = useNavigate()
+
+	function toggleCheckbox(itemIndex) {
+		const updatedState = checkboxState.map((item, index) =>
+			// invert checkbox state (true/false)
+			index === itemIndex ? !item : item
+		)
+		setCheckboxState(updatedState)
+	}
+
+	const isDisabled = checkboxState.some((input) => !Boolean(input)) || isPending
+
 	async function handleSubmit(e) {
 		e.preventDefault()
-		console.log('form submitted')
+
+		setIsPending(true)
+		setError(null)
+		setTimeout(() => {
+			navigate('/signup/innovation/payment')
+		}, 2000)
 	}
 
 	return (
@@ -22,11 +46,13 @@ export default function Terms() {
 				className="w-full flex flex-col gap-4 lg:gap-8"
 			>
 				<div className="flex flex-col w-full gap-y-6">
-					{terms.map((item) => (
-						<label key={item} className="w-fit flex items-center gap-2">
+					{terms.map((item, index) => (
+						<label key={index} className="w-fit flex items-center gap-2">
 							<input
 								type="checkbox"
 								name={item}
+								checked={checkboxState[index]}
+								onChange={() => toggleCheckbox(index)}
 								id={item.replace(/\s+/g, '-')}
 								value={item}
 								className="w-4 h-4"
@@ -35,12 +61,17 @@ export default function Terms() {
 						</label>
 					))}
 				</div>
-				<button
+				{/* <button
 					type="button"
 					className="text-ecoGreen font-bold  self-start capitalize"
 				>
 					captcha verification
-				</button>
+				</button> */}
+				{error && (
+					<small className="text-center text-rose-500 font-nunito text-lg font-semibold inline-block w-full max-w-screen-sm mx-auto mt-2">
+						{error}
+					</small>
+				)}
 
 				<div className="w-full flex gap-4 mt-40 mb-10 justify-between items-center">
 					<button
@@ -50,9 +81,17 @@ export default function Terms() {
 					>
 						back
 					</button>
-					<PrimaryBtn type="submit" content="save & continue" />
+					<PrimaryBtn
+						type="submit"
+						props={{ disabled: isDisabled }}
+						variant={
+							'disabled:bg-ecoGreen/30 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none'
+						}
+						content={isPending ? 'loading...' : 'save & continue'}
+					/>
 				</div>
 			</form>
+			<SignupSteps length={4} activeStep={1} />
 		</SplitLayout>
 	)
 }

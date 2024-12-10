@@ -1,14 +1,53 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import api from '../../../api/axios'
+import { formatResError } from '../../../helpers/FormatErrorMessage'
 import { PrimaryBtn } from '../../utils/Button'
 import { Dropzone } from '../../utils/Dropzone'
+import SignupSteps from '../SignupSteps'
 import SplitLayout from '../SplitLayout'
 
+const initialState = {
+	first_document: null,
+	second_document: null,
+	third_document: null,
+}
 export default function OrgVerification() {
-	const [doc, setDoc] = useState(null)
+	const [documents, setDoc] = useState(initialState)
+	const [isPending, setIsPending] = useState(false)
+	const [error, setError] = useState(null)
+	const navigate = useNavigate()
+	const isDisabled =
+		Object.values(documents).some((doc) => !Boolean(doc)) || isPending
+
 	async function handleSubmit(e) {
 		e.preventDefault()
-		console.log('form submitted')
+
+		setIsPending(true)
+		setError(null)
+		// https://theeco.pythonanywhere.com/api/organisation/upload-verification-documents
+		await api
+			.post('organisation/upload-verification-documents', documents, {
+				headers: { 'Content-Type': 'multipart/form-data' },
+			})
+			.then((res) => {
+				setError(null)
+				toast.success(res.data?.message)
+				console.log(res)
+				setTimeout(() => {
+					navigate('/signup/organization/area-of-focus')
+				}, 2000)
+			})
+			.catch((err) => {
+				console.error(err)
+				let logErr = formatResError(err)
+				setError(logErr)
+			})
+			.finally(() => {
+				setIsPending(false)
+			})
+		return
 	}
 
 	return (
@@ -38,15 +77,22 @@ export default function OrgVerification() {
 				<h4 className="font-semibold capitalize mt-4 text-lg">
 					supporting document
 				</h4>
-				<Dropzone setState={setDoc} />
+				<Dropzone setState={setDoc} name={'first_document'} />
 				<h4 className="font-semibold capitalize mt-4 text-lg">
 					supporting document
 				</h4>
-				<Dropzone setState={setDoc} />
+				<Dropzone setState={setDoc} name={'second_document'} />
 				<h4 className="font-semibold capitalize mt-4 text-lg">
 					supporting document
 				</h4>
-				<Dropzone setState={setDoc} />
+				<Dropzone setState={setDoc} name={'third_document'} />
+
+				{error && (
+					<small className="text-center text-rose-500 font-nunito text-lg font-semibold inline-block w-full max-w-screen-sm mx-auto mt-2">
+						{error}
+					</small>
+				)}
+
 				<div className="w-full flex gap-4 mt-32 mb-10 justify-center sm:justify-between items-center">
 					<button
 						type="button"
@@ -55,9 +101,17 @@ export default function OrgVerification() {
 					>
 						back
 					</button>
-					<PrimaryBtn type="submit" content="save & continue" />
+					<PrimaryBtn
+						type="submit"
+						props={{ disabled: isDisabled }}
+						variant={
+							'disabled:bg-ecoGreen/30 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none'
+						}
+						content={isPending ? 'loading...' : 'save & continue'}
+					/>
 				</div>
 			</form>
+			<SignupSteps length={6} activeStep={4} />
 		</SplitLayout>
 	)
 }

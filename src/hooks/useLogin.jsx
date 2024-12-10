@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie'
-// import { jwtDecode } from 'jwt-decode'
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import axios from '../api/axios'
@@ -29,18 +28,14 @@ export default function useLogin() {
 				user,
 				token,
 			})
-			//   console.log(user, token);
-			// let decoded = jwtDecode(token)
 			Cookies.set('token', token, { expires: 7 })
-			// localStorage.setItem('user', JSON.stringify(response.data.user))
-			// document.cookie('token', response.data.token)
 			setError(null)
 			setIsPending(false)
-			if (user.skills.length === 0) {
-				navigate('/signup/user/skillset', { replace: true })
-			} else {
-				navigate('/your-Eco', { replace: true })
-			}
+			// if (user.skills.length === 0) {
+			// 	navigate('/signup/user/skillset', { replace: true })
+			// } else {
+			// }
+			navigate(from, { replace: true })
 		} catch (err) {
 			console.error(err)
 			// check if error is due to invalid credentials, else it's a network error

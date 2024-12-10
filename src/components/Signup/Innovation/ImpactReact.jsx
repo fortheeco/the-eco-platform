@@ -1,12 +1,82 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import api from '../../../api/axios'
 import sideImg from '../../../assets/signup/innovation-bulb.svg'
 import { PrimaryBtn } from '../../utils/Button'
 import { FormInput } from '../../utils/FormInput'
+import SignupSteps from '../SignupSteps'
 import SplitLayout from '../SplitLayout'
 
+const initialState = {
+	current_adoption: '',
+	sdg_goals_targeted: [],
+	funding_and_support_received: '',
+	geographic_area_of_operation_one: '',
+	geographic_area_of_operation_two: '',
+	// secondary_area_of_focus: [],
+}
+
 export default function ImpactAndReact() {
+	const checkboxInitialState = new Array(SDGArray.length).fill(false)
+	const [formData, setFormData] = useState(initialState)
+	const [checkboxState, setCheckboxState] = useState(checkboxInitialState)
+	const [isPending, setIsPending] = useState(false)
+	const [error, setError] = useState(null)
+	const navigate = useNavigate()
+
+	const isDisabled =
+		Object.values(formData).some((input) => !Boolean(input)) || isPending
+
+	function handleChange(e) {
+		const { name, value } = e.target
+		setFormData((prev) => ({ ...prev, [name]: value }))
+	}
+
+	function stringFromCheckbox(itemIndex) {
+		const updatedState = checkboxState.map((item, index) =>
+			// invert checkbox state (true/false)
+			index === itemIndex ? !item : item
+		)
+
+		// create new array from checkbox values
+		let arrValues = []
+		updatedState.filter((item, index) => {
+			if (item === true) {
+				arrValues.push(SDGArray[index])
+			}
+		})
+		// set state
+		setFormData((prev) => ({ ...prev, sdg_goals_targeted: arrValues }))
+		setCheckboxState(updatedState)
+	}
+
 	async function handleSubmit(e) {
 		e.preventDefault()
-		console.log('form submitted')
+		setIsPending(true)
+		setError(null)
+		// https://theeco.pythonanywhere.com/api/organisation/innovation-impact
+		try {
+			const res = await api.post('organisation/innovation-impact', formData)
+
+			console.log(res)
+			toast.success(res.data?.message)
+			setTimeout(() => {
+				navigate('/signup/innovation/terms')
+			}, 2000)
+			setError(null)
+			setIsPending(false)
+		} catch (err) {
+			console.error(err)
+			let logErr =
+				err?.response.data.error ||
+				err?.response.data.detail ||
+				err?.message ||
+				'Oops... Something went wrong! Please try again'
+			// toast.error(logErr)
+			setError(logErr)
+			setIsPending(false)
+		}
 	}
 
 	return (
@@ -26,6 +96,9 @@ export default function ImpactAndReact() {
 					<span className="text-lg capitalize">current adoption</span>
 					<textarea
 						required
+						value={formData.current_adoption}
+						name="current_adoption"
+						onChange={handleChange}
 						minLength={9}
 						maxLength={200}
 						placeholder="Describe the current adoption and impact of your innovation,
@@ -38,11 +111,13 @@ export default function ImpactAndReact() {
 						sustainable development goals (SDGs) targeted
 					</legend>
 					<div className="flex w-full gap-x-5 gap-y-6 flex-wrap">
-						{SDGArray.map((item) => (
-							<label key={item} className="w-fit flex items-center gap-2">
+						{SDGArray.map((item, index) => (
+							<label key={index} className="w-fit flex items-center gap-2">
 								<input
 									type="checkbox"
-									name={item}
+									name="sdg_goals_targeted"
+									checked={checkboxState[index]}
+									onChange={() => stringFromCheckbox(index)}
 									id={item.replace(/\s+/g, '-')}
 									value={item}
 									className="w-4 h-4"
@@ -59,6 +134,9 @@ export default function ImpactAndReact() {
 					</span>
 					<textarea
 						required
+						name="funding_and_support_received"
+						value={formData.funding_and_support_received}
+						onChange={handleChange}
 						minLength={9}
 						maxLength={200}
 						placeholder="Describe any funding or support received for this innovation,
@@ -67,7 +145,7 @@ export default function ImpactAndReact() {
 					/>
 				</label>
 
-				<fieldset className="w-full">
+				{/* <fieldset className="w-full">
 					<legend className="mb-2 inline-block capitalize text-lg font-semibold text-nav/70">
 						secondary areas of focus
 					</legend>
@@ -85,26 +163,35 @@ export default function ImpactAndReact() {
 							</label>
 						))}
 					</div>
-				</fieldset>
+				</fieldset> */}
 				<fieldset className="w-full">
 					<legend className="mb-2 inline-block capitalize text-lg font-semibold text-nav/70">
 						geographic area of operation
 					</legend>
 					<FormInput
-						name="location"
+						name="geographic_area_of_operation_one"
+						value={formData.geographic_area_of_operation_one}
+						handleChange={handleChange}
 						placeholder="Enter location 1"
 						minLength={5}
 						maxLength={100}
 					/>
 					<label className="w-full block">
 						<input
-							name="location"
+							name="geographic_area_of_operation_two"
+							value={formData.geographic_area_of_operation_two}
+							onChange={handleChange}
 							type="text"
 							placeholder="Enter location 2 (optional)"
 							className="flex mt-3 px-4 h-12 gap-3 bg-nav/5 rounded-md outline-0 border-0 w-full pr-2 focus-within:border-b-2 focus-within:border-ecoGreen transition-all duration-200"
 						/>
 					</label>
 				</fieldset>
+				{error && (
+					<small className="text-center text-rose-500 font-nunito text-lg font-semibold inline-block w-full max-w-screen-sm mx-auto mt-2">
+						{error}
+					</small>
+				)}
 
 				<div className="w-full flex gap-4 mt-32 mb-10 justify-between items-center">
 					<button
@@ -114,23 +201,31 @@ export default function ImpactAndReact() {
 					>
 						back
 					</button>
-					<PrimaryBtn type="submit" content="save & continue" />
+					<PrimaryBtn
+						type="submit"
+						props={{ disabled: isDisabled }}
+						variant={
+							'disabled:bg-ecoGreen/30 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none'
+						}
+						content={isPending ? 'loading...' : 'save & continue'}
+					/>
 				</div>
 			</form>
+			<SignupSteps length={4} activeStep={3} />
 		</SplitLayout>
 	)
 }
 
-const focusArray = [
-	'environmental sustainability',
-	'community development',
-	'quality education',
-	'economic development',
-	'education',
-	'health',
-	'social services',
-	'others',
-]
+// const focusArray = [
+// 	'environmental sustainability',
+// 	'community development',
+// 	'quality education',
+// 	'economic development',
+// 	'education',
+// 	'health',
+// 	'social services',
+// 	'others',
+// ]
 
 const SDGArray = [
 	'no poverty',

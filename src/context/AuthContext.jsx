@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie'
 import { createContext, useEffect, useReducer, useState } from 'react'
+import { toast } from 'react-toastify'
 import api from '../api/axios'
 
 export const AuthContext = createContext()
@@ -33,7 +34,7 @@ export function AuthContextProvider({ children }) {
 			let currentUser
 
 			try {
-				const res = await api.get('edit-profile/', { timeout: 5000 })
+				const res = await api.get('edit-profile/', { timeout: 6000 })
 				currentUser = res?.data
 				if (currentUser) {
 					const token = Cookies.get('token')
@@ -41,8 +42,18 @@ export function AuthContextProvider({ children }) {
 				}
 			} catch (err) {
 				console.error(err)
+				// if it's a network error, do nothing
+				if (err?.message == 'Network Error') {
+					toast.error('Please check your internet and try again', {
+						position: 'top-center',
+						hideProgressBar: true,
+					})
+					return
+				}
+
 				currentUser = null
 				dispatch({ type: 'LOGOUT' })
+				Cookies.remove('token')
 			} finally {
 				setAuthIsReady(true)
 			}

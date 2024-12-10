@@ -12,7 +12,6 @@ import { LandingPage } from './components/Home/LandingPage.jsx'
 import { PalsIndex } from './components/Pals/index.jsx'
 import EditSkills from './components/Routes/EditSkills.jsx'
 import ForgotPassword from './components/Routes/ForgotPassword.jsx'
-import Innovation from './components/Routes/Innovation.jsx'
 import NotFound from './components/Routes/NotFound.jsx'
 import ResetPassword from './components/Routes/ResetPassword.jsx'
 import { SignIn } from './components/Routes/SignIn.jsx'
@@ -39,10 +38,17 @@ import Individual from './components/Signup/User/Individual.jsx'
 import Skillsets from './components/Signup/User/Skillset.jsx'
 import UserDetails from './components/Signup/User/UserDetails.jsx'
 import VerifyEmail from './components/Signup/VerifyEmail.jsx'
+import InnovationPage from './components/innovation/index.jsx'
+import InnovationProfile from './components/innovation/innovationPage/index.jsx'
 import { useAuthContext } from './hooks/useAuthContext.jsx'
 import ErrorElement from './utils/ErrorElement.jsx'
 import ProtectedRoute from './utils/ProtectedRoute.jsx'
 // import ProtectedRoute from "./utils/ProtectedRoute.jsx";
+import InnovationImpact from './components/innovation/profile/ImpactAndReach.jsx'
+import InnovationProfileDetails from './components/innovation/profile/InnovationProfileDetails.jsx'
+import Media from './components/innovation/profile/Media.jsx'
+import OrgInformation from './components/innovation/profile/OrgInformation.jsx'
+import InnovationSettings from './components/innovation/profile/index.jsx'
 
 const App = () => {
 	const { authIsReady } = useAuthContext()
@@ -55,7 +61,22 @@ const App = () => {
 					<Route index element={<LandingPage />} />
 
 					<Route path="pals" element={<PalsIndex />} />
-					<Route path="innovation" element={<Innovation />} />
+					<Route path="innovation">
+						<Route index element={<InnovationPage />} />
+						{/* individual innovation */}
+						<Route path=":id" element={<ProtectedRoute />}>
+							<Route index element={<InnovationProfile />} />
+							{/* <Route element={<ProtectedRoute />}> */}
+							{/* innovation settings */}
+							<Route path="profile" element={<InnovationSettings />}>
+								<Route path="information" element={<OrgInformation />} />
+								<Route path="details" element={<InnovationProfileDetails />} />
+								<Route path="impact-and-reach" element={<InnovationImpact />} />
+								<Route path="media" element={<Media />} />
+							</Route>
+							{/* </Route> */}
+						</Route>
+					</Route>
 
 					<Route path="login" element={<SignIn />} />
 					<Route path="iforgot" element={<ForgotPassword />} />
@@ -99,9 +120,9 @@ const App = () => {
 								element={<CollabInterest />}
 							/>
 						</Route>
-						<Route path="innovation">
+						<Route path="innovation" element={<ProtectedRoute />}>
 							<Route index element={<InnovationHub />} />
-							<Route path="information" element={<OrgInfo />} />
+							{/* <Route path="information" element={<OrgInfo />} /> */}
 							<Route path="details" element={<InnovationDetails />} />
 							<Route path="impact-and-reach" element={<ImpactAndReact />} />
 							<Route path="terms" element={<Terms />} />
