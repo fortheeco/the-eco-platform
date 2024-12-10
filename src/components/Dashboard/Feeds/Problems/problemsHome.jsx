@@ -103,8 +103,6 @@ export const ProblemsHome = () => {
     }
   };
 
-  console.log(selectedFiles);
-
   return (
     <div className="  h-full flex flex-col sm:flex-row w-full gap-10">
       <div className="  h-[80svh] overflow-y-auto w-full  sm:w-[80%]">

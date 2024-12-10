@@ -1,15 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { MdLocationOn } from "react-icons/md";
 import sdgIcon from "../../../../assets/new-landing/sdg.svg";
 import { AiFillPicture } from "react-icons/ai";
-import { SdgGoals, EcoCategory } from "../../../data";
+import {
+  SdgGoals,
+  EcoCategory,
+  EnvironmentSdgGoals,
+  CommunitySdgGoals,
+  OrgSdgGoals,
+} from "../../../data";
 import Globe from "../../../../assets/dashboard/profile/globe.svg";
 import "../../../../index.css";
 
 export const PostProblems = (props) => {
   const [opengoal, setOpenGoal] = useState(false);
   const [opencategory, setOpenCategory] = useState(false);
+  const [sdggoals, setSdgGoals] = useState(SdgGoals);
+
+  useEffect(() => {
+    if (props.category.name == "Environment") {
+      setSdgGoals(EnvironmentSdgGoals);
+    }
+    if (props.category.name == "Community") {
+      setSdgGoals(CommunitySdgGoals);
+    }
+    if (props.category.name == "Organization") {
+      setSdgGoals(OrgSdgGoals);
+    }
+  }, [props.category.name]);
 
   const handleOpenGoals = () => {
     setOpenGoal(!opengoal);
@@ -198,12 +217,12 @@ export const PostProblems = (props) => {
 
             {opengoal ? (
               <div className="absolute w-[12rem] overflow-y-auto h-[17rem] bg-inputBg right-2 mt-[20rem] p-2 rounded-sm border border-inputBorder">
-                {SdgGoals.map((goal, index) => (
+                {sdggoals?.map((goal, index) => (
                   <p
                     key={index}
                     className="py-2 text-sm font-[500] hover:bg-white hover:pl-2"
                     onClick={() => {
-                      props.setGoal(SdgGoals[index]);
+                      props.setGoal(sdggoals[index]);
                     }}
                   >
                     {goal.name}
