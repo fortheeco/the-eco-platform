@@ -1,12 +1,115 @@
+import { useState } from 'react'
+import DatePicker from 'react-multi-date-picker'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import api from '../../../api/axios'
 import sideImg from '../../../assets/signup/innovation-bulb.svg'
+import { formatResError } from '../../../helpers/FormatErrorMessage'
 import { PrimaryBtn } from '../../utils/Button'
+import { Dropzone } from '../../utils/Dropzone'
 import { FormInput } from '../../utils/FormInput'
+import SignupSteps from '../SignupSteps'
 import SplitLayout from '../SplitLayout'
 
+// launch_date: new Date(),
+const initialState = {
+	innovation_name: '',
+	type_of_innovation: '',
+	innovation_type: '',
+	area_of_innovation: '',
+	description: '',
+	category: '',
+	target_user: '',
+	website_url: '',
+	attachments: [],
+	innovation_location: '',
+	launch_date: new Date(),
+}
+
 export default function InnovationDetails() {
+	const checkboxInitialState = new Array(areaOfFocus.length).fill(false)
+	const [formData, setFormData] = useState(initialState)
+	const [documents, setDocuments] = useState([])
+	const [date, setDate] = useState(initialState.launch_date)
+	const [checkboxState, setCheckboxState] = useState(checkboxInitialState)
+	const [isPending, setIsPending] = useState(false)
+	const [error, setError] = useState(null)
+	const navigate = useNavigate()
+
+	const isDisabled =
+		Object.values(formData).some((input) => !Boolean(input)) || isPending
+
+	function handleChange(e) {
+		const { name, value } = e.target
+		setFormData((prev) => ({ ...prev, [name]: value }))
+	}
+
+	function stringFromCheckbox(itemIndex) {
+		const updatedState = checkboxState.map((item, index) =>
+			// invert checkbox state (true/false)
+			index === itemIndex ? !item : item
+		)
+
+		// create new array from checkbox values
+		let arrValues = []
+		updatedState.filter((item, index) => {
+			if (item === true) {
+				arrValues.push(areaOfFocus[index])
+			}
+		})
+		let categoryString = arrValues.join(',')
+		// set state
+		setFormData((prev) => ({ ...prev, category: categoryString }))
+		setCheckboxState(updatedState)
+	}
+	// TODO test/complete this
 	async function handleSubmit(e) {
 		e.preventDefault()
-		console.log('form submitted')
+		let year = new Date(date).toDateString()
+		setFormData((prev) => ({ ...prev, launch_date: year }))
+
+		if (documents.length === 0) {
+			toast.error('Supporting document(s) are required!')
+			return
+		}
+
+		const formToSubmit = new FormData()
+		// append form fields to formData
+		for (const key in formData) {
+			formToSubmit.append(key, formData[key])
+		}
+
+		Array.from(documents).map((file, index) => {
+			formToSubmit.append(`attachments[${index}]`, file)
+		})
+
+		console.log('form: ', formData)
+
+		setIsPending(true)
+		setError(null)
+
+		try {
+			const res = await api.post(
+				'organisation/innovation-details',
+				formToSubmit,
+				{
+					headers: { 'Content-Type': 'multipart/form-data' },
+				}
+			)
+
+			setIsPending(false)
+			setError(null)
+			toast.success(res.data?.message)
+			setTimeout(() => {
+				navigate('/signup/organization/impact-and-reach')
+			}, 2000)
+		} catch (err) {
+			console.error(err)
+			let logErr = formatResError(err)
+			setError(logErr)
+			setIsPending(false)
+		}
+		return
 	}
 
 	return (
@@ -25,6 +128,9 @@ export default function InnovationDetails() {
 			>
 				<FormInput
 					label="innovation name"
+					value={formData.innovation_name}
+					handleChange={handleChange}
+					name="innovation_name"
 					minLength={6}
 					maxLength={30}
 					placeholder="Enter your innovation name"
@@ -33,7 +139,9 @@ export default function InnovationDetails() {
 				<label className="block w-full">
 					<span className="text-lg capitalize">type of innovation</span>
 					<select
-						name="org-type"
+						name="type_of_innovation"
+						value={formData.type_of_innovation}
+						onChange={handleChange}
 						className="flex mt-3 p-2 gap-3 bg-nav/5 rounded-md input-parent transition-all duration-200 outline-0 border-0 w-full pr-2"
 						required
 					>
@@ -50,25 +158,28 @@ export default function InnovationDetails() {
 					</select>
 				</label>
 				<label className="block w-full">
-					<span className="text-lg capitalize">innovation type</span>
+					<span className="text-lg capitalize">innovation sector</span>
 					<select
-						name="org-type"
+						name="innovation_type"
+						value={formData.innovation_type}
+						onChange={handleChange}
 						className="flex mt-3 p-2 gap-3 bg-nav/5 rounded-md input-parent transition-all duration-200 outline-0 border-0 w-full pr-2"
 						required
 					>
-						<option value="">Select innovation type</option>
-						<option className="capitalize" value="online">
-							online
-						</option>
-						<option className="capitalize" value="physical">
-							physical
-						</option>
+						<option value="">Select innovation sector</option>
+						{innovSector.map((sector) => (
+							<option key={sector} className="capitalize" value={sector}>
+								{sector}
+							</option>
+						))}
 					</select>
 				</label>
 				<label className="block w-full">
 					<span className="text-lg capitalize">area of innovation</span>
 					<select
-						name="org-type"
+						name="area_of_innovation"
+						value={formData.area_of_innovation}
+						onChange={handleChange}
 						className="flex mt-3 p-2 gap-3 bg-nav/5 rounded-md input-parent transition-all duration-200 outline-0 border-0 w-full pr-2"
 						required
 					>
@@ -89,8 +200,11 @@ export default function InnovationDetails() {
 					<span className="text-lg capitalize">description</span>
 					<textarea
 						required
+						value={formData.description}
+						onChange={handleChange}
+						name="description"
 						minLength={9}
-						maxLength={200}
+						// maxLength={200}
 						placeholder="Provide a detailed description of your innovation, including its
                         purpose, features, and benefits"
 						className="outline-0 border-0 w-full resize-none flex mt-3 px-4 h-20 gap-3 bg-nav/5 rounded-md"
@@ -98,13 +212,15 @@ export default function InnovationDetails() {
 				</label>
 				<fieldset className="w-full">
 					<legend className="mb-2 inline-block capitalize text-lg font-semibold text-nav/70">
-						innovation category
+						area of focus
 					</legend>
 					<div className="flex w-full gap-x-5 gap-y-6 flex-wrap">
-						{category.map((item) => (
+						{areaOfFocus.map((item, index) => (
 							<label key={item} className="w-fit flex items-center gap-2">
 								<input
 									type="checkbox"
+									checked={checkboxState[index]}
+									onChange={() => stringFromCheckbox(index)}
 									name={item}
 									id={item.replace(/\s+/g, '-')}
 									value={item}
@@ -116,9 +232,32 @@ export default function InnovationDetails() {
 					</div>
 				</fieldset>
 				<label className="block w-full">
+					<span className="text-lg capitalize">technological category</span>
+					<select
+						name="category"
+						value={formData.category}
+						onChange={handleChange}
+						className="flex mt-3 p-2 gap-3 bg-nav/5 rounded-md input-parent transition-all duration-200 outline-0 border-0 w-full pr-2"
+						required
+					>
+						<option value="">Select technological category</option>
+						{techCategory.map((item) => (
+							<option
+								className="capitalize"
+								value={item}
+								key={item.replace(/\s+/g, '')}
+							>
+								{item}
+							</option>
+						))}
+					</select>
+				</label>
+				<label className="block w-full">
 					<span className="text-lg capitalize">target user</span>
 					<select
-						name="org-type"
+						name="target_user"
+						value={formData.target_user}
+						onChange={handleChange}
 						className="flex mt-3 p-2 gap-3 bg-nav/5 rounded-md input-parent transition-all duration-200 outline-0 border-0 w-full pr-2"
 						required
 					>
@@ -134,24 +273,45 @@ export default function InnovationDetails() {
 						))}
 					</select>
 				</label>
-				<label className="w-full block">
+				<label className="w-full flex flex-col">
 					<span className="text-lg capitalize">launch date</span>
-					<input
-						type="date"
-						placeholder="DD/MM/YY"
-						required
-						className="flex mt-3 px-4 h-12 gap-3 bg-nav/5 rounded-md outline-0 border-0 w-full pr-2 focus-within:border-b-2 focus-within:border-ecoGreen transition-all duration-200"
+					<DatePicker
+						value={date}
+						onChange={setDate}
+						format="DD-MM-YYYY"
+						placeholder="DD-MM-YYYY"
+						name="launch_date"
+						minDate={formData.launch_date}
+						inputClass="block mt-3 px-4 h-12 bg-nav/5 rounded-md outline-0 border-0 w-full pr-2 focus-within:border-b-2 focus-within:border-ecoGreen transition-all duration-200"
 					/>
 				</label>
-				<FormInput label="website or demo URL" placeholder="www.website.com" />
-				<FormInput name="location" label="innovation location" placeholder="" />
 				<FormInput
-					name="image"
-					label="upload screenshots or promotional material"
-					type="file"
-					props={{ accept: 'image/*' }}
-					placeholder="click to upload"
+					value={formData.website_url}
+					handleChange={handleChange}
+					name="website_url"
+					label="website or demo URL"
+					placeholder="www.website.com"
 				/>
+				<FormInput
+					name="innovation_location"
+					value={formData.innovation_location}
+					handleChange={handleChange}
+					label="innovation location"
+					placeholder=""
+				/>
+				<label className="w-full block">
+					<span className="text-lg capitalize my-4 inline-block">
+						Upload Screenshots or Promotional Material
+					</span>
+
+					<Dropzone setState={setDocuments} maxFiles={5} />
+				</label>
+
+				{error && (
+					<small className="text-center text-rose-500 font-nunito text-lg font-semibold inline-block w-full max-w-screen-sm mx-auto mt-2">
+						{error}
+					</small>
+				)}
 
 				<div className="w-full flex gap-4 mt-32 mb-10 justify-between items-center">
 					<button
@@ -161,21 +321,41 @@ export default function InnovationDetails() {
 					>
 						back
 					</button>
-					<PrimaryBtn type="submit" content="save & continue" />
+					<PrimaryBtn
+						type="submit"
+						props={{ disabled: isDisabled }}
+						variant={
+							'disabled:bg-ecoGreen/30 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none'
+						}
+						content={isPending ? 'loading...' : 'save & continue'}
+					/>
 				</div>
 			</form>
-			{/* </article> */}
+			<SignupSteps length={4} activeStep={2} />
 		</SplitLayout>
 	)
 }
 
-const innovType = ['product', 'service', 'rsearch']
+const innovType = ['product', 'service', 'research']
+const innovSector = [
+	'information technology',
+	'financials',
+	'health care',
+	'Consumer discretionary',
+	'Communication services',
+	'Industrials',
+	'Consumer staples',
+	'Energy',
+	'Utilities',
+	'Materials',
+	'Real estate.',
+]
 
 const innovArea = ['energy', 'media', 'data', 'digital', 'design']
 
 const targetUser = ['individual', 'business', 'public']
 
-const category = [
+const areaOfFocus = [
 	'environmental sustainability',
 	'community development',
 	'quality education',
@@ -184,4 +364,17 @@ const category = [
 	'health',
 	'social services',
 	'others',
+]
+
+const techCategory = [
+	'EduTech',
+	'FInTech',
+	'Insuretech',
+	'Health Tech',
+	'AI (Artificial Intelligence)',
+	'Cleantech',
+	'Biotech',
+	'Govtech',
+	'Martech',
+	'Proptech',
 ]

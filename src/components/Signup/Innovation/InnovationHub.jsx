@@ -1,22 +1,18 @@
-import { useState } from 'react'
-import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5'
-import { Link } from 'react-router-dom'
 import sideImg from '../../../assets/signup/innovation-bulb.svg'
-import { PrimaryBtn } from '../../utils/Button'
+import OrgSignup from '../OrgSignup'
 import SplitLayout from '../SplitLayout'
 
 export default function InnovationHub() {
-	const [showPswd, setShowPswd] = useState(false)
-
-	async function handleSubmit(e) {
-		e.preventDefault()
-		console.log('form submitted')
-	}
-
 	return (
 		<SplitLayout img={sideImg} heading={'welcome to ECO Innovation Hub'}>
-			{/* <article className="w-full bg-slate-200"> */}
-			<div className="w-full flex justify-between items-center mb-20">
+			<OrgSignup />
+		</SplitLayout>
+	)
+}
+
+{
+	/* <>
+<div className="w-full flex justify-between items-center mb-20">
 				<p>Awesome!!, Account type set 👍🏿</p>
 				<Link to={'/signup'} className="text-ecoGreen capitalize font-semibold">
 					go back
@@ -84,7 +80,6 @@ export default function InnovationHub() {
 					<PrimaryBtn type="submit" content="save & continue" />
 				</div>
 			</form>
-			{/* </article> */}
-		</SplitLayout>
-	)
+			
+</> */
 }

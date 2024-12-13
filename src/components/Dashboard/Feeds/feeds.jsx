@@ -12,7 +12,7 @@ export const FeedsHome = () => {
       <div className="h-[8rem]"></div>
 
       <div className={` h-full w-full ${styles.paddingX} `}>
-        {/* <div className=" border-b px-10 sm:px-0 border-b-[#979797] flex justify-between sm:justify-center gap-[20%] static">
+        <div className=" border-b px-10 sm:px-0 border-b-[#979797] flex justify-between sm:justify-center gap-[20%] static">
           <p
             onClick={() => {
               setFeedsPage("Projects");
@@ -37,7 +37,7 @@ export const FeedsHome = () => {
           >
             Problems
           </p>
-        </div> */}
+        </div>
 
         {feedspage === "Problems" ? <ProblemsHome /> : <ProjectHome />}
       </div>

@@ -1,8 +1,14 @@
-// import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import api from '../../../api/axios'
 import sideImg from '../../../assets/signup/innovation-bulb.svg'
 import { PrimaryBtn } from '../../utils/Button'
 import { FormInput } from '../../utils/FormInput'
+import SignupSteps from '../SignupSteps'
 import SplitLayout from '../SplitLayout'
+
+const initialState = {}
 
 export default function OrgInfo() {
 	async function handleSubmit(e) {
@@ -118,6 +124,7 @@ export default function OrgInfo() {
 					<PrimaryBtn type="submit" content="save & continue" />
 				</div>
 			</form>
+			<SignupSteps length={6} activeStep={3} />
 			{/* </article> */}
 		</SplitLayout>
 	)
