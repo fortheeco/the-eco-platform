@@ -1,0 +1,64 @@
+.globe-bg {
+	background-color: rgba(255, 255, 255, 0.7);
+}
+
+@media screen and (min-width: 1200px) {
+	.globe-bg {
+		background-color: rgba(29, 181, 89, 0.02);
+		position: relative;
+		overflow: hidden;
+	}
+
+	/* Place everything in the container above the pseudo element */
+	.globe-bg * {
+		z-index: 2;
+	}
+
+	.globe-bg::after {
+		overflow: hidden;
+		content: url('../../assets/signup/bg-globe.png');
+		opacity: 0.4;
+		object-fit: contain;
+		right: -40%;
+		bottom: -40%;
+		display: block;
+		width: 60rem;
+		position: absolute;
+		z-index: 1;
+	}
+}
+
+.bg-container {
+	background-color: rgba(29, 181, 89, 0.06);
+	background-blend-mode: lighten;
+	border-radius: 0.5rem;
+	border-top: 4px solid #1db559;
+	position: relative;
+	overflow-x: hidden;
+}
+
+/* Place everything in the container above the pseudo element */
+.bg-container * {
+	z-index: 2;
+}
+
+.bg-container::before {
+	content: url('../../assets/landingpage/fadedglobe.svg');
+	opacity: 0.4;
+	object-fit: contain;
+	object-position: left;
+	right: 50%;
+	transform: translateX(30%);
+	display: block;
+	width: 100%;
+	position: absolute;
+	z-index: 1;
+}
+
+.input-parent:has(:focus-within) {
+	border-bottom: 3px solid #1db559;
+}
+
+.input-error {
+	border-bottom: 3px solid #e63946;
+}
