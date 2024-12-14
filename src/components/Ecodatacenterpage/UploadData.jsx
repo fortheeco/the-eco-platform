@@ -7,7 +7,7 @@ export default function UploadData() {
   const [searchInput, setSearchInput] = useState("");
   const [searchbyemail, setSearchbyemail] = useState("");
   return (
-    <div className="w-[100%] relative mb-36 font-nunito">
+    <div className="w-[100%] relative mt-[13rem]  sm:mt-[10rem] mb-36 font-nunito">
       {/* Image with absolute positioning */}
       <img
         src={ecoupload}
@@ -25,9 +25,9 @@ export default function UploadData() {
           tincidunt. Eget phasellus tempor proin mi.
         </p>
 
-        <div className="sm:flex flex-row items-center justify-center gap-6 mt-[2rem]">
-          <div className="border border-[#979797] w-full ss:w-[70%]  sm:w-[50%] rounded-md py-2 px-4 flex items-center gap-2 justify-between">
-            <p className="font-light w-80 md:text-[14px]  text-[11px]">
+        <div className="flex ml-4 items-center justify-center gap-6 mt-[2rem] ">
+          <div className="border border-[#979797] w-[70%]  sm:w-[60%] rounded-md py-2 px-4 flex items-center gap-2 justify-between">
+            <p className="text-[#474747] font-medium  w-[100%] text-xs sm:text-sm  ">
               Upload data set for analysis
             </p>
             <input
@@ -36,18 +36,18 @@ export default function UploadData() {
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
             />
-            <IoSearch />
+            <IoSearch className="hidden sm:block" />
           </div>
-          <div className="text-white mt-4 w-36 h-10 text-center bg-ecoGreen p-2 rounded-md font-light text-[12px] cursor-pointer justify-self-center sm:text-[14px]">
-            <button>Upload Data</button>
+          <div className="flex justify-center text-white w-[78px] h-10 sm:w-[128px]   bg-ecoGreen p-1 sm:p-3 rounded-lg sm:rounded-md font-light text-[12px] cursor-pointer  sm:text-sm">
+            <button className="sm-mb-3 w-full">Upload Data</button>
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-6 mt-[2rem]">
-          <div className="w-60 h-10 text-center p-2 rounded-md font-light text-[14px] cursor-pointer hidden sm:block">
+        <div className="sm:flex items-center justify-center gap-6 mt-[2rem]">
+          <div className="w-60 font-nunito text-[#00473E] font-semibold  h-10 text-center p-2 rounded-md  text-[14px] cursor-pointer ">
             Enter email adress for results
           </div>
-          <div className="border border-[#979797] ss:w-[70%] sm:w-[25%] rounded-md py-2 px-2 flex items-center gap-2 justify-between">
+          <div className="border border-[#AACEC9] sm:border-[#979797]  justify-self-center w-[88%] ss:w-[70%] sm:w-[25%] rounded-md py-2 px-2 flex items-center gap-2 justify-between">
             <input
               placeholder="  Enter your email Adress"
               className="w-[65%] lg:w-[75%] outline-none"

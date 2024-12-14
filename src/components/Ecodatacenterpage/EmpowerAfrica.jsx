@@ -13,8 +13,9 @@ export default function EmpowerAfrica() {
         Aliquam tellus hac commodo nunc sapien ultrices cum pharetra tincidunt.
         Eget phasellus tempor proin mi.
       </p>
-      <div class="grid grid-cols-4 justify-items-center gap-4 mt-10">
-        <div className="w-[70%]">
+
+      <div class="sm:flex w-[100%] justify-self-center justify-items-center gap-4 mt-10">
+        <div className="w-[50%] sm:pl-10">
           <img
             src={webdevsvg}
             alt="webdev"
@@ -33,7 +34,7 @@ export default function EmpowerAfrica() {
             <li className="pt-2">Amongst more others</li>
           </ul>
         </div>
-        <div className="w-[70%]">
+        <div className="w-[50%] mt-8">
           <img
             src={appsvg}
             alt="app"
@@ -52,7 +53,7 @@ export default function EmpowerAfrica() {
             <li className="pt-2">And more</li>
           </ul>
         </div>
-        <div className="w-[70%]">
+        <div className="w-[50%] mt-8">
           <img
             src={datasciencesvg}
             alt="datascience"
@@ -73,7 +74,7 @@ export default function EmpowerAfrica() {
             <li className="pt-2">And more</li>
           </ul>
         </div>
-        <div className="w-[70%]">
+        <div className="w-[50%] mt-8">
           <img
             src={uiuxsvg}
             alt="uiux"

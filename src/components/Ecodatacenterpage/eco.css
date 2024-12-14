@@ -1,27 +1,11 @@
-/* Styling for the infinite scroll effect */
-.infinite-scroll {
-  display: flex;
-  animation: infinite-scroll 250s linear infinite alternate-reverse; /* Alternate reverse to keep speed consistent */
+/* Hide scrollbar but still allow scrolling */
+.no-scrollbar {
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  scrollbar-width: none; /* For Firefox */
 }
 
-@keyframes infinite-scroll {
-  0% {
-    transform: translateX(0); /* Start at the first set */
-  }
-  50% {
-    transform: translateX(
-      -100%
-    ); /* Scroll to the left by 100% of the container width */
-  }
-  100% {
-    transform: translateX(0); /* Return to the original position */
-  }
-}
-
-/* Prevent items from shrinking */
-.infinite-scroll li {
-  flex-shrink: 0;
-  transition: transform 0.3s ease; /* Optional smooth hover effects */
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Hide the scrollbar in Webkit browsers (Chrome, Safari, etc.) */
 }
 
 /* Optional hover scaling effect for images */

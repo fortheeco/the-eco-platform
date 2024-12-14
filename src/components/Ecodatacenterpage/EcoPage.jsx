@@ -9,6 +9,7 @@ import WhoAreWe from "./WhoAreWe";
 import Collaborate from "./Collaborate";
 import EmpowerAfrica from "./EmpowerAfrica";
 import EcoFooter from "./eco-footer";
+import Ecostorybigscreen from "./ecostorybigscreen";
 
 export const EcoPage = () => {
   return (
