@@ -7,6 +7,7 @@ import africasvg from "../../assets/SVG/africasvg.svg";
 import europesvg from "../../assets/SVG/europe.svg";
 import antarticasvg from "../../assets/SVG/antartica.svg";
 import { Community } from "../Home/community";
+import Hovercard from "./hovercard";
 
 const Carousel = () => {
   const carouselRef = useRef(null);
@@ -19,12 +20,10 @@ const Carousel = () => {
     setIsHovered(false); // Set the hover state to false when pointer leaves
   };
 
-  const Handlethus = () => {
-    return <Community />;
-  };
-
   return (
-    <div className="w-full relative mt-[8rem]">
+    <div
+      className={`w-full relative mt-[8rem] ${isHovered ? "mb-20" : "mb-0"}`}
+    >
       {/* Heading */}
       <h1 className="text-center font-nunito text-base md:text-5xl">
         ECO Data Center
@@ -52,10 +51,15 @@ const Carousel = () => {
               alt="Asia"
               className="w-24 sm:w-48 sm object-contain   mb-2"
             />
-            {isHovered && <Community />}
+
             {/* ill come back to fix this  */}
             <p>Asia</p>
             <small>coming soon</small>
+            {isHovered && (
+              <>
+                <Hovercard />
+              </>
+            )}
           </li>
           <li className="inline-block text-center">
             <img
