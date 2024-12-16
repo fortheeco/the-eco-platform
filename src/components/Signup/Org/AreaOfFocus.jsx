@@ -1,11 +1,97 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import api from '../../../api/axios'
+import { formatResError } from '../../../helpers/FormatErrorMessage'
 import { PrimaryBtn } from '../../utils/Button'
 import { FormInput } from '../../utils/FormInput'
+import SignupSteps from '../SignupSteps'
 import SplitLayout from '../SplitLayout'
 
+const initialState = {
+	primary_area_of_focus: '',
+	secondary_area_of_focus: '',
+	sdg_goals_targeted: '',
+	geographical_area_of_operation_one: '',
+	geographical_area_of_operation_two: '',
+}
+
 export default function AreaOfFocus() {
+	const checkboxInitialState = {
+		focus: new Array(DATA.focus.length).fill(false),
+		Sdg: new Array(DATA.Sdg.length).fill(false),
+	}
+	const [formData, setFormData] = useState(initialState)
+	const [checkboxState, setCheckboxState] = useState(checkboxInitialState)
+	const [checkboxValues, setCheckboxValues] = useState({ focus: [], Sdg: [] })
+	const [isPending, setIsPending] = useState(false)
+	const [error, setError] = useState(null)
+
+	function arrayFromCheckbox(arrayName, itemIndex) {
+		const updatedState = checkboxState[arrayName].map((item, index) =>
+			// invert checkbox state (true/false)
+			index === itemIndex ? !item : item
+		)
+
+		// create new array from checkbox values
+		let arrValues = []
+		updatedState.filter((item, index) => {
+			if (item === true) {
+				arrValues.push(DATA[arrayName][index])
+			}
+		})
+		// set state
+		setCheckboxValues((prev) => ({ ...prev, [arrayName]: arrValues }))
+		setCheckboxState((prev) => ({ ...prev, [arrayName]: updatedState }))
+	}
+
+	const navigate = useNavigate()
+
+	function handleChange(e) {
+		const { name, value } = e.target
+		setFormData((prev) => ({ ...prev, [name]: value }))
+	}
+
 	async function handleSubmit(e) {
 		e.preventDefault()
-		console.log('form submitted')
+
+		setFormData((prev) => ({
+			...prev,
+			secondary_area_of_focus: checkboxValues.focus,
+			sdg_goals_targeted: checkboxValues.Sdg,
+		}))
+
+		if (formData.secondary_area_of_focus.length === 0) {
+			toast.info('please select at least one Secondary Area of Focus')
+			return
+		}
+		if (formData.sdg_goals_targeted.length === 0) {
+			toast.info('please select at least one SDG Goals Targeted')
+			return
+		}
+
+		setIsPending(true)
+		setError(null)
+
+		await api
+			.post('organisation/areas_of_focus', formData)
+			.then((res) => {
+				setError(null)
+				toast.success(res.data?.message)
+				console.log(res)
+				setTimeout(() => {
+					navigate('/signup/organization/collaboration-interest')
+				}, 2000)
+			})
+			.catch((err) => {
+				console.error(err)
+				let logErr = formatResError(err)
+				setError(logErr)
+			})
+			.finally(() => {
+				setIsPending(false)
+			})
+		return
 	}
 
 	return (
@@ -25,11 +111,14 @@ export default function AreaOfFocus() {
 				<label className="block w-full">
 					<span className="text-lg capitalize">primary area of focus</span>
 					<select
-						name="org-type"
+						name="primary_area_of_focus"
+						value={formData.primary_area_of_focus}
+						onChange={handleChange}
+						required
 						className="flex mt-3 p-2 gap-3 bg-nav/5 rounded-md input-parent transition-all duration-200 outline-0 border-0 w-full"
 					>
 						<option value="">Select area of focus</option>
-						{focusArray.map((item) => (
+						{DATA.focus.map((item) => (
 							<option
 								className="capitalize"
 								value={item}
@@ -45,13 +134,15 @@ export default function AreaOfFocus() {
 						secondary areas of focus
 					</legend>
 					<div className="flex w-full gap-x-5 gap-y-6 flex-wrap">
-						{focusArray.map((item) => (
+						{DATA.focus.map((item, index) => (
 							<label key={item} className="w-fit flex items-center gap-2">
 								<input
 									type="checkbox"
 									name={item}
 									id={item.replace(/\s+/g, '-')}
 									value={item}
+									checked={checkboxState.focus[index]}
+									onChange={() => arrayFromCheckbox('focus', index)}
 									className="w-4 h-4"
 								/>
 								<span className="inline-block capitalize">{item}</span>
@@ -64,14 +155,18 @@ export default function AreaOfFocus() {
 						geographic area of operation
 					</legend>
 					<FormInput
-						name="name"
+						name="geographical_area_of_operation_one"
 						placeholder="Enter location 1"
+						value={formData.geographical_area_of_operation_one}
+						handleChange={handleChange}
 						minLength={5}
 						maxLength={100}
 					/>
 					<label className="w-full block">
 						<input
-							name="location"
+							name="geographical_area_of_operation_two"
+							onChange={handleChange}
+							value={formData.geographical_area_of_operation_two}
 							type="text"
 							placeholder="Enter location 2 (optional)"
 							className="flex mt-3 px-4 h-12 gap-3 bg-nav/5 rounded-md outline-0 border-0 w-full pr-2 focus-within:border-b-2 focus-within:border-ecoGreen transition-all duration-200"
@@ -83,13 +178,15 @@ export default function AreaOfFocus() {
 						sustainable development goals (SDGs) targeted
 					</legend>
 					<div className="flex w-full gap-x-5 gap-y-6 flex-wrap">
-						{SDGArray.map((item) => (
+						{DATA.Sdg.map((item, index) => (
 							<label key={item} className="w-fit flex items-center gap-2">
 								<input
 									type="checkbox"
 									name={item}
 									id={item.replace(/\s+/g, '-')}
 									value={item}
+									checked={checkboxState.Sdg[index]}
+									onChange={() => arrayFromCheckbox('Sdg', index)}
 									className="w-4 h-4"
 								/>
 								<span className="inline-block capitalize">{item}</span>
@@ -97,6 +194,12 @@ export default function AreaOfFocus() {
 						))}
 					</div>
 				</fieldset>
+
+				{error && (
+					<small className="text-center text-rose-500 font-nunito text-lg font-semibold inline-block w-full max-w-screen-sm mx-auto mt-2">
+						{error}
+					</small>
+				)}
 
 				<div className="w-full flex gap-4 mt-32 mb-10 justify-center sm:justify-between items-center">
 					<button
@@ -106,40 +209,47 @@ export default function AreaOfFocus() {
 					>
 						back
 					</button>
-					<PrimaryBtn type="submit" content="save & continue" />
+					<PrimaryBtn
+						type="submit"
+						props={{ disabled: isPending }}
+						variant={
+							'disabled:bg-ecoGreen/30 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none'
+						}
+						content={isPending ? 'loading...' : 'save & continue'}
+					/>
 				</div>
 			</form>
-			{/* </article> */}
+			<SignupSteps length={6} activeStep={5} />
 		</SplitLayout>
 	)
 }
 
-// const contactInputs = [{}]
-const focusArray = [
-	'environmental sustainability',
-	'community development',
-	'quality education',
-	'economic development',
-	'education',
-	'health',
-	'social services',
-	'others',
-]
-
-const SDGArray = [
-	'no poverty',
-	'zero hunger',
-	'quality education',
-	'good health and well-being',
-	'gender equality',
-	'clean water and sanitation',
-	'affordable and clean energy',
-	'decent work and economic growth',
-	'reduced inequality',
-	'industry innovation, and infrastructure',
-	'climate action',
-	'responsible consumption and production',
-	'life on land',
-	'peace and justice strong institutions',
-	'partnership to achieve the goals',
-]
+const DATA = {
+	focus: [
+		'environmental sustainability',
+		'community development',
+		'quality education',
+		'economic development',
+		'education',
+		'health',
+		'social services',
+		'others',
+	],
+	Sdg: [
+		'no poverty',
+		'zero hunger',
+		'quality education',
+		'good health and well-being',
+		'gender equality',
+		'clean water and sanitation',
+		'affordable and clean energy',
+		'decent work and economic growth',
+		'reduced inequality',
+		'industry innovation, and infrastructure',
+		'climate action',
+		'responsible consumption and production',
+		'life on land',
+		'peace and justice strong institutions',
+		'partnership to achieve the goals',
+	],
+}

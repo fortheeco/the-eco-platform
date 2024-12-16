@@ -24,48 +24,47 @@ export default function VerifyEmail() {
 		if (!isComplete) {
 			toast.error('Invalid OTP')
 			return
-		} else {
-			await axios
-				.post('verify_email/', {
-					message_id: messageId,
-					otp_code: otp.join(''),
-				})
-				.then((response) => {
-					toast.success(response.data?.message)
-					setIsPending(false)
-					setError(null)
-					navigate('/signup/user/details', {
-						state: { formData },
-						replace: true,
-					})
-				})
-				.catch((err) => {
-					let logErr =
-						err?.response.data?.message ||
-						'Oops... Something went wrong! Please try again'
+		}
+		try {
+			setIsPending(true)
+			setError(null)
+			const res = await axios.post('verify_email/', {
+				message_id: messageId,
+				otp_code: otp.join(''),
+			})
+			toast.success(res.data?.message)
+			setIsPending(false)
+			setError(null)
+			navigate('/signup/user/details', {
+				state: { formData },
+				replace: true,
+			})
+		} catch (err) {
+			let logErr =
+				err?.response.data?.message ||
+				'Oops... Something went wrong! Please try again'
 
-					setIsPending(false)
-					setError(logErr)
-				})
+			setIsPending(false)
+			setError(logErr)
 		}
 	}
 
 	async function resendOTP() {
-		await axios
-			.post('/signup/', { email: formData.email })
-			.then((response) => {
-				setIsPending(false)
-				setError(null)
-				setMessageId(response.data.message_id)
-			})
-			.catch((err) => {
-				console.error(err)
-				setIsPending(false)
-				setError(err)
-			})
-			.finally(() => {
-				setIsDisabled(true)
-			})
+		try {
+			await axios
+				.post('/signup/', { email: formData.email })
+				.then((response) => {
+					setIsPending(false)
+					setError(null)
+					setMessageId(response.data.message_id)
+				})
+		} catch (err) {
+			console.error(err)
+			setIsPending(false)
+			setError(err)
+		} finally {
+			setIsDisabled(true)
+		}
 	}
 
 	// Redirect the user back to the beginning if there's no record of the user

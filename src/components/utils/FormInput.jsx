@@ -53,7 +53,7 @@ export const FormInput = ({
 				placeholder={placeholder}
 				required={required}
 				{...props}
-				className="flex mt-3 px-4 h-12 gap-3 bg-nav/5 rounded-md outline-0 border-0 w-full pr-2 focus-within:border-b-2 focus-within:border-ecoGreen transition-all duration-200"
+				className="flex mt-3 px-4 h-12 gap-3 bg-nav/5 rounded-md outline-0 border-0 w-full pr-2 focus-within:border-b-2 focus-within:border-ecoGreen transition-all duration-200 disabled:text-slate-500"
 			/>
 		</label>
 	)

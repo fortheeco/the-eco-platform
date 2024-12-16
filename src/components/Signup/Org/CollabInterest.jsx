@@ -1,12 +1,131 @@
-// import { Link } from 'react-router-dom'
+import Cookies from 'js-cookie'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import api from '../../../api/axios'
+import { useAuthContext } from '../../../hooks/useAuthContext'
 import { PrimaryBtn } from '../../utils/Button'
-import { FormInput } from '../../utils/FormInput'
 import SplitLayout from '../SplitLayout'
 
+const initialState = {
+	intended_collaborators: '',
+	interested_project_description: '',
+	offered_resources: '',
+	needed_resources: '',
+}
+
 export default function CollabInterest() {
+	const checkboxInitialState = {
+		collab: new Array(collabArray.length).fill(false),
+		offered: new Array(resourcesArray.length).fill(false),
+		needed: new Array(resourcesArray.length).fill(false),
+	}
+	const [checkboxState, setCheckboxState] = useState(checkboxInitialState)
+	const [checkboxValues, setCheckboxValues] = useState({
+		collab: '',
+		offered: '',
+		needed: '',
+	})
+	const [formData, setFormData] = useState(initialState)
+	const [ecoTermsCheckbox, toggleTermsCheckbox] = useState(false)
+	const [privacyCheckbox, togglePrivacy] = useState(false)
+	const { dispatch } = useAuthContext()
+
+	const [isPending, setIsPending] = useState(false)
+	const [error, setError] = useState(null)
+	const navigate = useNavigate()
+
+	function toggleCheckbox(dispatchFn) {
+		dispatchFn((prev) => !prev)
+
+		// debug
+		setFormData((prev) => ({
+			...prev,
+			intended_collaborators: checkboxValues.collab,
+			offered_resources: checkboxValues.offered,
+			needed_resources: checkboxValues.needed,
+		}))
+	}
+	function handleChange(e) {
+		const { name, value } = e.target
+		setFormData((prev) => ({ ...prev, [name]: value }))
+	}
+
+	function stringFromCheckbox(stateName, itemIndex, arr) {
+		const updatedState = checkboxState[stateName].map((item, index) =>
+			index === itemIndex ? !item : item
+		)
+
+		let arrayValues = []
+		updatedState.filter((item, index) => {
+			if (item === true) {
+				arrayValues.push(arr[index])
+			}
+		})
+
+		// set state
+		setCheckboxValues((prev) => ({
+			...prev,
+			[stateName]: arrayValues.join(','),
+		}))
+		setCheckboxState((prev) => ({ ...prev, [stateName]: updatedState }))
+	}
+
+	const isDisabled =
+		[
+			ecoTermsCheckbox,
+			privacyCheckbox,
+			formData.interested_project_description,
+		].some((value) => !Boolean(value)) || isPending
+
 	async function handleSubmit(e) {
 		e.preventDefault()
-		console.log('form submitted')
+
+		setFormData((prev) => ({
+			...prev,
+			intended_collaborators: checkboxValues.collab,
+			offered_resources: checkboxValues.offered,
+			needed_resources: checkboxValues.needed,
+		}))
+
+		setIsPending(true)
+		setError(null)
+		// submit data
+		const res = await api.post('organisation/collaboration_details', formData)
+
+		setError(null)
+		toast.success(res.data?.message)
+		// get current user/org access token
+		const token = Cookies.get('token')
+		// get current logged in org account details
+		api
+			.get('organisation/get_organisation_details')
+			.then((response) => {
+				console.log(response)
+
+				dispatch({
+					type: 'LOGIN',
+					user: response.data,
+					token,
+				})
+				setTimeout(() => {
+					navigate('/profile')
+				}, 2000)
+			})
+
+			.catch((err) => {
+				console.error(err)
+				let logErr =
+					err?.response.data.detail ||
+					err?.message ||
+					'Oops... Something went wrong! Please try again'
+				// toast.error(logErr)
+				setError(logErr)
+			})
+			.finally(() => {
+				setIsPending(false)
+			})
+		return
 	}
 
 	return (
@@ -26,11 +145,18 @@ export default function CollabInterest() {
 				<fieldset className="w-full">
 					<legend>What type of collaborators are you looking for?</legend>
 					<div className="flex w-full mt-4 gap-x-5 gap-y-6 flex-wrap">
-						{collabArray.map((item) => (
-							<label key={item} className="w-fit flex items-center gap-2">
+						{collabArray.map((item, index) => (
+							<label
+								key={item}
+								className="w-fit flex items-center cursor-pointer gap-2"
+							>
 								<input
 									type="checkbox"
 									name={item}
+									checked={checkboxState.collab[index]}
+									onChange={() =>
+										stringFromCheckbox('collab', index, collabArray)
+									}
 									id={item.replace(/\s+/g, '-')}
 									value={item}
 									className="w-4 h-4"
@@ -46,7 +172,11 @@ export default function CollabInterest() {
 						Describe the types of projects you're interested in
 					</label>
 					<textarea
-						name="location"
+						name="interested_project_description"
+						value={formData.interested_project_description}
+						onChange={handleChange}
+						required
+						minLength={10}
 						type="text"
 						placeholder="Provide a brief overview of your organization, its goals, and key
 							activities"
@@ -58,11 +188,18 @@ export default function CollabInterest() {
 						Resources you can offer
 					</legend>
 					<div className="flex w-full gap-x-5 gap-y-6 flex-wrap">
-						{resourcesArray.map((item) => (
-							<label key={item} className="w-fit flex items-center gap-2">
+						{resourcesArray.map((item, index) => (
+							<label
+								key={item}
+								className="w-fit flex items-center cursor-pointer gap-2"
+							>
 								<input
 									type="checkbox"
 									name={item}
+									checked={checkboxState.offered[index]}
+									onChange={() =>
+										stringFromCheckbox('offered', index, resourcesArray)
+									}
 									id={item.replace(/\s+/g, '-')}
 									value={item}
 									className="w-4 h-4"
@@ -77,11 +214,18 @@ export default function CollabInterest() {
 						Resources you need
 					</legend>
 					<div className="flex w-full gap-x-5 gap-y-6 flex-wrap">
-						{resourcesArray.map((item) => (
-							<label key={item} className="w-fit flex items-center gap-2">
+						{resourcesArray.map((item, index) => (
+							<label
+								key={item}
+								className="w-fit flex items-center cursor-pointer gap-2"
+							>
 								<input
 									type="checkbox"
 									name={item}
+									checked={checkboxState.needed[index]}
+									onChange={() =>
+										stringFromCheckbox('needed', index, resourcesArray)
+									}
 									id={item.replace(/\s+/g, '-')}
 									value={item}
 									className="w-4 h-4"
@@ -93,23 +237,40 @@ export default function CollabInterest() {
 				</fieldset>
 
 				<div className="w-full flex flex-col gap-5 mt-6">
-					<label className="w-fit flex items-center gap-2">
-						<input type="checkbox" name="eco-terms" className="w-4 h-4" />
+					<label className="w-fit flex items-center cursor-pointer gap-2">
+						<input
+							type="checkbox"
+							name="eco-terms"
+							checked={ecoTermsCheckbox}
+							onChange={() => toggleCheckbox(toggleTermsCheckbox)}
+							className="w-4 h-4"
+						/>
 						<span className="inline-block ">
 							Agree to ECO Terms and Conditions
 						</span>
 					</label>
-					<label className="w-fit flex items-center gap-2">
-						<input type="checkbox" name="eco-privacy" className="w-4 h-4" />
+					<label className="w-fit flex items-center cursor-pointer gap-2">
+						<input
+							type="checkbox"
+							checked={privacyCheckbox}
+							onChange={() => toggleCheckbox(togglePrivacy)}
+							name="eco-privacy"
+							className="w-4 h-4"
+						/>
 						<span className="inline-block ">Agree to Privacy Policy</span>
 					</label>
-					<button
+					{/* <button
 						type="button"
 						className="text-ecoGreen font-bold  self-start capitalize"
 					>
 						captcha verification
-					</button>
+					</button> */}
 				</div>
+				{error && (
+					<small className="text-center text-rose-500 font-nunito text-lg font-semibold inline-block w-full max-w-screen-sm mx-auto mt-2">
+						{error}
+					</small>
+				)}
 
 				<div className="w-full flex gap-4 mt-32 mb-10 justify-center sm:justify-between items-center">
 					<button
@@ -119,7 +280,14 @@ export default function CollabInterest() {
 					>
 						back
 					</button>
-					<PrimaryBtn type="submit" content="save & continue" />
+					<PrimaryBtn
+						type="submit"
+						props={{ disabled: isDisabled }}
+						variant={
+							'disabled:bg-ecoGreen/30 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none'
+						}
+						content={isPending ? 'loading...' : 'save & continue'}
+					/>
 				</div>
 			</form>
 			{/* </article> */}
