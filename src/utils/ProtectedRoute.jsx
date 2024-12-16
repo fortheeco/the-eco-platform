@@ -1,5 +1,5 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { toast } from 'react-toastify'
+// import { toast } from 'react-toastify'
 import { useAuthContext } from '../hooks/useAuthContext'
 
 export default function ProtectedRoute() {
@@ -15,7 +15,6 @@ export default function ProtectedRoute() {
 				state={{ from: location }}
 				replace={true}
 			/>
-			{toast.error('please login first')}
 		</>
 	)
 }

@@ -6,6 +6,7 @@ export function useFetch(url) {
 	const [data, setData] = useState(null)
 	const [error, setError] = useState(null)
 	const [isPending, setIsPending] = useState(false)
+	const [isCancelled, setIsCancelled] = useState(false)
 
 	useEffect(() => {
 		const controller = new AbortController()
@@ -17,18 +18,27 @@ export function useFetch(url) {
 				const res = await api.get(url, {
 					signal: controller.signal,
 				})
-				setData(res.data.data)
-				setIsPending(false)
-				console.log(res.data)
+				if (!isCancelled) {
+					setData(res.data.data)
+				}
+				// setIsPending(false)
+				// console.log(res.data)
 			} catch (err) {
-				console.error(err)
-				let logError = formatResError(err)
-				setError(logError)
+				if (!isCancelled) {
+					console.error(err)
+					let logError = formatResError(err)
+					setError(logError)
+				}
+			} finally {
+				setIsPending(false)
 			}
 		}
 		getInnovations()
 
-		return () => controller.abort('request ended abruptly')
+		return () => {
+			setIsCancelled(true)
+			controller.abort('request ended abruptly')
+		}
 	}, [])
 
 	return { data, error, isPending }

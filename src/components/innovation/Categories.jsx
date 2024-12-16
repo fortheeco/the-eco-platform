@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import api from '../../api/axios'
 import gridIcon from '../../assets/SVG/grid-icon.svg'
 import listIcon from '../../assets/SVG/list-icon.svg'
+import loadingIcon from '../../assets/SVG/nav-logo.svg'
+import { formatResError } from '../../helpers/FormatErrorMessage'
 import { getImgUrl } from '../../helpers/get-img-url'
 import { layout } from '../../style'
 
@@ -12,6 +14,8 @@ export default function Categories() {
 	const [showCat, setShowCat] = useState(true)
 	const [searchInput, setSearchInput] = useState('')
 	const [innovations, setInnovations] = useState([])
+	const [isPending, setIsPending] = useState(false)
+	const [error, setError] = useState(null)
 	const [selectedCategory, setSelectedCategory] = useState('all')
 	const innovationData =
 		selectedCategory === 'all'
@@ -34,13 +38,19 @@ export default function Categories() {
 
 		async function getInnovations() {
 			try {
+				setIsPending(true)
+				setError(null)
 				const res = await api.get('organisation/all-innovations', {
 					signal: controller.signal,
 				})
 				setInnovations(res.data.data)
-				console.log(res.data)
+				// console.log(res.data)
 			} catch (err) {
 				console.error(err)
+				const fetchError = formatResError(err)
+				setError(fetchError)
+			} finally {
+				setIsPending(false)
 			}
 		}
 		getInnovations()
@@ -127,7 +137,24 @@ export default function Categories() {
 					</button>
 				</div>
 				<ul className="w-full flex justify-center sm:justify-start flex-wrap gap-x-20 gap-y-12 items-start">
-					{cardList.length !== 0 ? (
+					{isPending && (
+						<div className="w-full h-40 flex items-center justify-center p-20 bg-dimWhite">
+							<img
+								src={loadingIcon}
+								alt="loading"
+								className="inline-block w-32 aspect-square object-contain animate-pulse transition-all duration-300"
+							/>
+						</div>
+					)}
+					{error && (
+						<p
+							className="text-red w-full text-center font-semibold text-lg my-5"
+							aria-live="assertive"
+						>
+							{error}
+						</p>
+					)}
+					{cardList && cardList.length !== 0 ? (
 						cardList.map((card) => (
 							<Card key={card.id} isGrid={isGrid} innovation={card} />
 						))

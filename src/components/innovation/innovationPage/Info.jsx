@@ -1,38 +1,55 @@
 import { useEffect, useMemo, useState } from 'react'
 import { PiMapPinArea } from 'react-icons/pi'
-import api from '../../../api/axios'
+// import api from '../../../api/axios'
 import webIcon from '../../../assets/innovation/web-icon-black.svg'
-// import { useFetch } from '../../../hooks/useFetch'
+import loadingIcon from '../../../assets/SVG/nav-logo.svg'
+import { useFetch } from '../../../hooks/useFetch'
 
 export default function Info({ innovation }) {
 	const cachedInnovation = useMemo(() => innovation)
-	const [orgDetails, setOrgDetails] = useState([])
+	const id = cachedInnovation?.organisation
+	const {
+		data: orgDetails,
+		error,
+		isPending: isLoading,
+	} = useFetch(`organisation/get-organisation/${id}`)
+	// const [orgDetails, setOrgDetails] = useState([])
 
-	useEffect(() => {
-		const controller = new AbortController()
+	// useEffect(() => {
+	// 	const controller = new AbortController()
 
-		async function getOrgDetails() {
-			const id = innovation?.organisation
-			try {
-				// https://theeco.pythonanywhere.com/api/organisation/get-organisation/{id}
-				const res = await api.get(`organisation/get-organisation/${id}`, {
-					signal: controller.signal,
-				})
-				setOrgDetails(res.data)
-				// console.log('org details: ', res.data)
-			} catch (err) {
-				console.error(err)
-			}
-		}
-		getOrgDetails()
+	// 	async function getOrgDetails() {
+	// 		const id = innovation?.organisation
+	// 		try {
+	// 			// https://theeco.pythonanywhere.com/api/organisation/get-organisation/{id}
+	// 			const res = await api.get(`organisation/get-organisation/${id}`, {
+	// 				signal: controller.signal,
+	// 			})
+	// 			setOrgDetails(res.data)
+	// 			// console.log('org details: ', res.data)
+	// 		} catch (err) {
+	// 			console.error(err)
+	// 		}
+	// 	}
+	// 	getOrgDetails()
 
-		return () => {
-			controller.abort('request ended abruptly')
-		}
-	}, [cachedInnovation])
+	// 	return () => {
+	// 		controller.abort('request ended abruptly')
+	// 	}
+	// }, [cachedInnovation])
 
 	return (
 		<>
+			{error && <small className="text-red container p-4">{error}</small>}
+			{isLoading && (
+				<div className="w-full h-72 flex flex-col items-center justify-center p-20 bg-dimWhite">
+					<img
+						src={loadingIcon}
+						alt="loading"
+						className="inline-block w-32 aspect-square object-contain animate-pulse transition-all duration-300"
+					/>
+				</div>
+			)}
 			<article className="w-full bg-[#FBFBFB] border-4 border-nav/5 p-6 md:p-8 rounded-md">
 				<h4 className="text-2xl font-bold">Impact and Reach</h4>
 				<p className="text-base leading-relaxed my-6">
