@@ -147,6 +147,11 @@ const App = () => {
 						<Route path="/your-Eco" element={<FeedsHome />} />
 						<Route path="/eco-pals" element={<ProfilePals />} />
 					</Route>
+					{/* eco data center page route */}
+					<Route>
+						<Route path="/ecopage" element={<EcoPage />} />
+					</Route>
+					{/* eco dta center page route */}
 					<Route path="*" element={<NotFound />} />
 				</Routes>
 			) : (

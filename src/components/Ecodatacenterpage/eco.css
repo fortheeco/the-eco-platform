@@ -1,0 +1,18 @@
+/* Hide scrollbar but still allow scrolling */
+.no-scrollbar {
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  scrollbar-width: none; /* For Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Hide the scrollbar in Webkit browsers (Chrome, Safari, etc.) */
+}
+
+/* Optional hover scaling effect for images */
+img {
+  transition: transform 0.3s ease;
+}
+
+img:hover {
+  transform: scale(1.1); /* Optional: scale image on hover */
+}

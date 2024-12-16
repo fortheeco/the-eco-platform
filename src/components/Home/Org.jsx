@@ -83,3 +83,34 @@ export const OrgCard = ({
     </div>
   );
 };
+// created by mujeeb Alani (OrgCard_EcoDataCenter )
+export const OrgCard_EcoDataCenter = ({
+  title,
+  imgBgColor,
+  //   imgBg,
+  text1,
+  text2,
+  bg,
+}) => {
+  return (
+    <div
+      className="w-full rounded-[20px] shadow-2xl  py-6 px-6 bg-gray-100 relative"
+      style={{ backgroundColor: imgBgColor }}
+    >
+      <img src={bg} alt="" className="absolute bottom-0 right-0 w-24" />
+      <div className="mt-2">
+        <h3 className="mt-2 font-montserrat text-sm font-semibold text-black">
+          {title}
+        </h3>
+        <ul className="list-disc">
+          <li className="mt-2 font-nunito text-sm font-medium  text-black pr-2">
+            {text1}
+          </li>
+          <li className="mt-2  font-nunito pb-3 text-sm font-medium text-black  pr-2">
+            {text2}
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
+};
